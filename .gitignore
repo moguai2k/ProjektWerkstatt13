@@ -16,3 +16,4 @@
 *.exe
 *.out
 *.app
+/Concept/Plugwise/node-plugwise

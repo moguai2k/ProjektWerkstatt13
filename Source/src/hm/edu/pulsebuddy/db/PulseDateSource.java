@@ -10,8 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class PulseDateSource
-{
-
+{ 
   private SQLiteDatabase database;
   private DbOpenHelper dbHelper;
   private String[] allColumns = { DbOpenHelper.COL_ID,

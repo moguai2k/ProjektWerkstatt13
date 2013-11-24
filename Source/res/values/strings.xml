@@ -19,6 +19,9 @@
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="unknown_service">Unknown service</string>
 
+    <!-- Location specific -->
+    <string name="latitude_longitude">%1$.8f, %2$.8f</string>
+    
     <!-- Menu items -->
     <string name="menu_connect">Connect</string>
     <string name="menu_disconnect">Disconnect</string>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Module specific strings for the PulseBuddy location part.  -->
+<resources>
+    <!-- Error strings -->
+    <string name="connection_error_code">Connection failure error code: %1$d</string>
+    <string name="connection_error_disabled">Google Play services is disabled</string>
+    <string name="connection_error_internal">An internal error occurred</string>
+    <string name="connection_error_invalid">The version of Google Play services on this device is not authentic</string>
+    <string name="connection_error_invalid_account">The specified account name is invalid</string>
+    <string name="connection_error_license_check_failed">The app is not licensed to the user</string>
+    <string name="connection_error_message">Connection failure error message: %1$s</string>
+    <string name="connection_error_misconfigured">The application is misconfigured</string>
+    <string name="connection_error_missing">Google Play services is missing</string>
+    <string name="connection_error_needs_resolution">Additional resolution is required</string>
+    <string name="connection_error_network">A network error occurred</string>
+    <string name="connection_error_outdated">Google Play services is out of date</string>
+    <string name="connection_error_sign_in_required">The user is not signed in</string>
+    <string name="connection_error_unknown">An unknown error occurred</string>
+    
+    <string name="resolved">Error resolved. Please re-try operation.</string>
+    <string name="IO_Exception_getFromLocation">IO Exception in Geocoder.getFromLocation()</string>
+    <string name="illegal_argument_exception">
+      Illegal arguments: Latitude %1$.8f Longitude %2$.8f
+    </string>
+    
+    <string name="latitude_longitude">%1$.8f, %2$.8f</string>
+    
+     <!-- Labels -->
+    <string name="latlng">Lat/Long:</string>
+    
+    <string name="get_location">Get Location</string>
+    
+    <string name="location_requested">Periodic updates requested</string>
+    <string name="location_updated">Location updated</string>
+        <string name="location_updates_stopped">Periodic updates stopped</string>
+    
+    <string name="no_resolution">Google Play services: unable to resolve connection error.</string>
+    <string name="play_services_available">Google Play services is available</string>
+    
+    <string name="start_updates">Start Updates</string>
+    <string name="stop_updates">Stop Updates</string>
+    <string name="unknown">--Unknown--</string>
+    <string name="unknown_activity_request_code">
+        Received an unknown activity request code %1$d in onActivityResult.
+    </string>
+</resources>

@@ -12,13 +12,13 @@ public final class LocationUtils
 {
 
   /* For debugging */
-  public static final String APPTAG = "LocationSample";
+  public static final String LOCTAG = "PB.Location";
 
-  // Name of shared preferences repository that stores persistent state
-  public static final String SHARED_PREFERENCES = "com.example.android.location.SHARED_PREFERENCES";
+  /* Name of shared preferences repository that stores persistent state */
+  public static final String SHARED_PREFERENCES = "hm.edu.pulsebuddy.location.SHARED_PREFERENCES";
 
-  // Key for storing the "updates requested" flag in shared preferences
-  public static final String KEY_UPDATES_REQUESTED = "com.example.android.location.KEY_UPDATES_REQUESTED";
+  /* Key for storing the "updates requested" flag in shared preferences */
+  public static final String KEY_UPDATES_REQUESTED = "hm.edu.pulsebuddy.location.KEY_UPDATES_REQUESTED";
 
   /* Define a request code to send to Google Play services This code is returned
    * in Activity.onActivityResult */
@@ -48,14 +48,13 @@ public final class LocationUtils
    * @return The latitude and longitude of the current location, or null if no
    *         location is available.
    */
-  public static String getLatLng(
-    Context context, Location currentLocation )
+  public static String getLatLng( Context context, Location currentLocation )
   {
     if ( currentLocation != null )
     {
       /* Returns the current location as a string. */
-      return context.getString( R.string.latitude_longitude, currentLocation
-          .getLatitude(), currentLocation.getLongitude() );
+      return context.getString( R.string.latitude_longitude,
+          currentLocation.getLatitude(), currentLocation.getLongitude() );
     }
     else
     {

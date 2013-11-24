@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hm.edu.pulsebuddy"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" android:installLocation="auto">
 
     <uses-sdk
         android:minSdkVersion="18"
@@ -40,8 +40,6 @@
         <activity android:name="hm.edu.pulsebuddy.ble.DeviceControlActivity"/>
         <service android:name="hm.edu.pulsebuddy.ble.BluetoothLeService" android:enabled="true"/>
         
-        <meta-data android:name="com.google.android.gms.version"
-           android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

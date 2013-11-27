@@ -3,17 +3,19 @@ package hm.edu.pulsebuddy.activity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import com.google.android.gms.location.ActivityRecognitionResult;
-import com.google.android.gms.location.DetectedActivity;
-
-import hm.edu.pulsebuddy.activity.ActivityUtils;
-
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.provider.Settings;
 import android.util.Log;
+
+import com.google.android.gms.location.ActivityRecognitionResult;
+import com.google.android.gms.location.DetectedActivity;
 
 public class ActivityRecognitionIntentService extends IntentService
 {
@@ -50,7 +52,7 @@ public class ActivityRecognitionIntentService extends IntentService
     }
     catch ( Exception e )
     {
-      Log.e( ActivityUtils.ACTTAG, getString( R.string.date_format_error ) );
+      // Log.e( ActivityUtils.ACTTAG, getString( R.string.date_format_error ) );
     }
 
     /* Format the timestamp according to the pattern, then localize the pattern */
@@ -66,7 +68,7 @@ public class ActivityRecognitionIntentService extends IntentService
           .extractResult( intent );
 
       /* Log the update */
-      logActivityRecognitionResult( result );
+      // logActivityRecognitionResult( result );
 
       /* Get the most probable activity from the list of activities in the
        * update */
@@ -77,6 +79,9 @@ public class ActivityRecognitionIntentService extends IntentService
 
       /* Get the type of activity */
       int activityType = mostProbableActivity.getType();
+      
+      Log.d( ActivityUtils.ACTTAG, "Activity type: " + getNameFromType( activityType ) );
+      Log.d( ActivityUtils.ACTTAG, "Confidence: " + confidence );
 
       /* Check to see if the repository contains a previous activity */
       if ( !prefs.contains( ActivityUtils.KEY_PREVIOUS_ACTIVITY_TYPE ) )
@@ -89,26 +94,53 @@ public class ActivityRecognitionIntentService extends IntentService
 
         // If the repository contains a type
       }
-      else if (
-      // If the current type is "moving"
-      isMoving( activityType )
-
-      &&
-
-      // The activity has changed from the previous activity
-          activityChanged( activityType )
-
-          // The confidence level for the current activity is > 50%
-          && ( confidence >= 50 ) )
+      else if ( isMoving( activityType ) )
       {
-
-        // Notify the user
         sendNotification();
       }
+
     }
   }
 
   /* PRIVATE METHODS */
+
+  /**
+   * Post a notification to the user. The notification prompts the user to click
+   * it to open the device's GPS settings
+   */
+  private void sendNotification()
+  {
+
+    // Create a notification builder that's compatible with platforms >= version
+    // 4
+    Notification.Builder builder = new Notification.Builder(
+        getApplicationContext() );
+
+    // Get the Intent that starts the Location settings panel
+    builder.setContentIntent( getContentIntent() );
+
+    // Get an instance of the Notification Manager
+    NotificationManager notifyManager = (NotificationManager) getSystemService( Context.NOTIFICATION_SERVICE );
+
+    // Build the notification and post it
+    notifyManager.notify( 0, builder.build() );
+  }
+
+  /**
+   * Get a content Intent for the notification
+   * 
+   * @return A PendingIntent that starts the device's Location Settings panel.
+   */
+  private PendingIntent getContentIntent()
+  {
+
+    // Set the Intent action to open Location Settings
+    Intent gpsIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
+
+    // Create a PendingIntent to start an Activity
+    return PendingIntent.getActivity( getApplicationContext(), 0, gpsIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT );
+  }
 
   /**
    * Determine if an activity means that the user is moving.
@@ -129,6 +161,33 @@ public class ActivityRecognitionIntentService extends IntentService
       default:
         return true;
     }
+  }
+
+  /**
+   * Map detected activity types to strings
+   * 
+   * @param activityType
+   *          The detected activity type
+   * @return A user-readable name for the type
+   */
+  private String getNameFromType( int activityType )
+  {
+    switch ( activityType )
+    {
+      case DetectedActivity.IN_VEHICLE:
+        return "in_vehicle";
+      case DetectedActivity.ON_BICYCLE:
+        return "on_bicycle";
+      case DetectedActivity.ON_FOOT:
+        return "on_foot";
+      case DetectedActivity.STILL:
+        return "still";
+      case DetectedActivity.UNKNOWN:
+        return "unknown";
+      case DetectedActivity.TILTING:
+        return "tilting";
+    }
+    return "unknown";
   }
 
 }

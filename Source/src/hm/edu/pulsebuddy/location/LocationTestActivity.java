@@ -1,5 +1,7 @@
 package hm.edu.pulsebuddy.location;
 
+import java.util.Date;
+
 import hm.edu.pulsebuddy.R;
 import android.app.Activity;
 import android.content.Context;
@@ -40,6 +42,9 @@ public class LocationTestActivity extends Activity implements LocationListener,
 
   /* UI widgets */
   private TextView uiLatLng;
+  private TextView uiTimestamp;
+  private TextView uiSpeed;
+  private TextView uiAltitude;
   private TextView uiConnectionState;
   private TextView uiConnectionStatus;
 
@@ -50,6 +55,12 @@ public class LocationTestActivity extends Activity implements LocationListener,
     setContentView( R.layout.location_test );
 
     /* Add view part */
+    uiLatLng = (TextView) findViewById( R.id.lat_lng );
+    uiTimestamp = (TextView) findViewById( R.id.timestamp );
+    uiSpeed = (TextView) findViewById( R.id.speed );
+    uiAltitude = (TextView) findViewById( R.id.altitude );
+    uiConnectionState = (TextView) findViewById( R.id.text_connection_state );
+    uiConnectionStatus = (TextView) findViewById( R.id.text_connection_status );
 
     /* Create a new global location parameters object */
     locationRequest = LocationRequest.create();
@@ -76,7 +87,6 @@ public class LocationTestActivity extends Activity implements LocationListener,
 
     /* Create a new location client, using this class to handle the callbacks. */
     locationClient = new LocationClient( this, this, this );
-
   }
 
   @Override
@@ -277,9 +287,15 @@ public class LocationTestActivity extends Activity implements LocationListener,
 
       /* Get the current location */
       Location currentLocation = locationClient.getLastLocation();
+      
+      String latLon = LocationUtils.getLatLng( this, currentLocation );
 
-      /* Display the current location in the UI */
-      uiLatLng.setText( LocationUtils.getLatLng( this, currentLocation ) );
+      /* TODO: Just test. */
+      uiLatLng.setText( latLon );
+      uiSpeed.setText( "Speed: " + currentLocation.getSpeed() );
+      uiAltitude.setText( "Altitude: " + currentLocation.getAltitude() );
+      uiTimestamp.setText( "Timestamp: " + "Timestamp: " + 
+          new Date( currentLocation.getTime() ).toString() );
     }
   }
 

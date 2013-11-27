@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <!--
         <activity
             android:name="hm.edu.pulsebuddy.ble.DeviceScanActivity"
             android:label="@string/app_name" >
@@ -30,8 +33,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!--
+        </activity>
+        -->
+
         <activity
             android:name="hm.edu.pulsebuddy.MainActivity"
             android:label="@string/app_name" >
@@ -40,12 +44,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        -->
+        </activity>
         <activity android:name="hm.edu.pulsebuddy.ble.DeviceControlActivity" />
 
         <service
             android:name="hm.edu.pulsebuddy.ble.BluetoothLeService"
+            android:enabled="true" />
+        
+        <service
+            android:name="hm.edu.pulsebuddy.activity.ActivityRecognitionIntentService"
             android:enabled="true" />
 
         <meta-data
@@ -55,6 +62,14 @@
         <activity
             android:name="hm.edu.pulsebuddy.location.LocationTestActivity"
             android:label="@string/title_activity_location_test" >
+        </activity>
+        <activity
+            android:name="hm.edu.pulsebuddy.settings.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="hm.edu.pulsebuddy.activity.ActivityTestActivity"
+            android:label="@string/title_activity_activity_test" >
         </activity>
     </application>
 

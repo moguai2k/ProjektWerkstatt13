@@ -23,5 +23,6 @@
     <string name="menu_scan">Scan</string>
     <string name="menu_stop">Stop</string>
     <string name="title_activity_location_test">LocationTestActivity</string>
+    <string name="title_activity_activity_test">ActivityTestActivity</string>
 
 </resources>

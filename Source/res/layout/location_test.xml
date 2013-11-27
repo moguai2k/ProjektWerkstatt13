@@ -47,15 +47,6 @@
         android:text="@string/start_updates" />
 
     <TextView
-        android:id="@+id/text_connection_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/label_lat_lng"
-        android:layout_marginTop="59dp"
-        android:text="@string/unknown"
-        android:textIsSelectable="true" />
-
-    <TextView
         android:id="@+id/text_connection_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,9 +60,46 @@
         android:id="@+id/get_location_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/text_connection_status"
+        android:layout_above="@+id/stop_updates"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="112dp"
         android:onClick="getLocation"
         android:text="@string/get_location" />
+
+    <TextView
+        android:id="@+id/text_connection_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/get_location_button"
+        android:layout_alignLeft="@+id/label_lat_lng"
+        android:layout_marginBottom="68dp"
+        android:layout_toLeftOf="@+id/get_location_button"
+        android:text="@string/unknown"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lat_lng"
+        android:text="Timestamp" />
+    
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/timestamp"
+        android:text="Speed" />
+    
+    <TextView
+        android:id="@+id/altitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/speed"
+        android:text="Altitude" />
+    
 
 </RelativeLayout>

@@ -9,6 +9,16 @@ public class PulseModel
   private int pulse;
   private Date dateTime;
 
+  public PulseModel()
+  {
+  }
+
+  public PulseModel( int aPulse )
+  {
+    this.pulse = aPulse;
+    this.dateTime = new Date();
+  }
+
   public long getId()
   {
     return id;

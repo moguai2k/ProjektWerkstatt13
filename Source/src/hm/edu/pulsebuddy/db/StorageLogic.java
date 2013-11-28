@@ -1,14 +1,14 @@
 package hm.edu.pulsebuddy.db;
 
-import hm.edu.pulsebuddy.settings.SettingsActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class StorageLogic
 {
+  private final static String TAG = "db.storageLogic";
+  
   private int numOfPulseValuesTillPersist = 5;
   private int pulseValueCounter;
 
@@ -17,10 +17,6 @@ public class StorageLogic
   public StorageLogic( Context context )
   {
     this.context = context;
-   
-   
-    
-    Log.d( "Test", "TEST: " + test );
   }
 
   public Boolean pulseToBeSaved()

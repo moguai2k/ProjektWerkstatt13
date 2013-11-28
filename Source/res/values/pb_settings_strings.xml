@@ -1,31 +1,15 @@
 <resources>
-
-    <string name="title_activity_settings">Settings</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact based on your message history</string>
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-    <string name="pref_pulse_values_before_save">Received Pulse values till it is saved</string>
     
-    <string name="location_test">Loction test</string> 
+    <string name="pref_pulse_values_before_save">Saving after receiving x values</string>
+    <string name="location_test">Location test</string>
     <string name="activity_test">Activity test</string>
-
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
+    <string name="title_activity_settings">Settings</string>
+    
+    <string-array name="savePulseValues">
+        <item name="1">1</item>
+        <item name="5">5</item>
+        <item name="30">10</item>
+        <item name="30">30</item>
     </string-array>
     
-    <string-array name="pref_pulse_values_before_save_values">
-        <item>1</item>
-        <item>5</item>
-        <item>10</item>
-        <item>20</item>
-    </string-array>
-
 </resources>

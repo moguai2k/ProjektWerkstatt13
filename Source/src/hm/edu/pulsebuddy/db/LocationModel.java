@@ -12,7 +12,7 @@ public class LocationModel implements Serializable
 
   private Double latitude;
   private Double longitude;
-  private Double speed;
+  private Float speed;
   private Double elevation;
   private Date timestamp;
 
@@ -36,12 +36,12 @@ public class LocationModel implements Serializable
     this.longitude = longitude;
   }
 
-  public Double getSpeed()
+  public Float getSpeed()
   {
     return speed;
   }
 
-  public void setSpeed( Double speed )
+  public void setSpeed( Float speed )
   {
     this.speed = speed;
   }
@@ -64,6 +64,14 @@ public class LocationModel implements Serializable
   public void setTimestamp( Date timestamp )
   {
     this.timestamp = timestamp;
+  }
+
+  @Override
+  public String toString()
+  {
+    return "LocationModel [latitude=" + latitude + ", longitude=" + longitude
+        + ", speed=" + speed + ", elevation=" + elevation + ", timestamp="
+        + timestamp + "]";
   }
 
 }

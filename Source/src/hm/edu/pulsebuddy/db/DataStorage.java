@@ -1,5 +1,7 @@
 package hm.edu.pulsebuddy.db;
 
+import hm.edu.pulsebuddy.location.LocationRequester;
+
 import java.util.Date;
 
 import android.content.ContentValues;
@@ -11,14 +13,19 @@ import android.util.Log;
 
 public class DataStorage
 {
+  private final static String TAG = "db.datastorage";
+  
   private SQLiteDatabase database;
   private DbOpenHelper dbHelper;  
   private StorageLogic storageLogic;
+  
+  private LocationRequester locationRequester;
 
   public DataStorage( Context context )
   {
     dbHelper = new DbOpenHelper( context );
-    storageLogic = new StorageLogic();
+    locationRequester = new LocationRequester( context );
+    storageLogic = new StorageLogic( context );
   }
 
   public void open() throws SQLException
@@ -35,21 +42,28 @@ public class DataStorage
    * Saves the pulse value.
    * 
    * @param aPulse the pulse value.
-   * @return
+   * @return true if the operation has been successful, false otherwise.
    */
-  public synchronized PulseModel savePulseValue( int aPulse )
+  public synchronized Boolean savePulseValue( int aPulse )
   {
     if ( ! storageLogic.pulseToBeSaved() )
-      return null;
+      return false;
     
+    Log.d(  TAG, "Pulse: " + aPulse );
+    
+    /*
     ContentValues values = new ContentValues();
     values.put( DbOpenHelper.PULSE_COL_PULSE, aPulse );
 
     long insertId = database.insert( DbOpenHelper.PULSE_TABLE_NAME, null,
         values );
+    */
 
-    getLocation();
+    getCurrentLocation();
     
+    return true;
+    
+    /*
     Cursor cursor = database.rawQuery( "SELECT _id AS _id,"
         + " (strftime('%s', timestamp) * 1000) AS timestamp," + " pulse"
         + " FROM pulse WHERE _id = '" + insertId + "'", new String[ 0 ] );
@@ -59,10 +73,14 @@ public class DataStorage
     PulseModel pulseM = cursorToPulseModel( cursor );
     cursor.close();
     return pulseM;
+    */
   }
   
-  private void getLocation()
+  private void getCurrentLocation()
   {
+    LocationModel l = locationRequester.getCurrentLocation();
+    
+    /*
     ContentValues values = new ContentValues();
     values.put( DbOpenHelper.LOCATION_COL_LATITUDE, "" );
     values.put( DbOpenHelper.LOCATION_COL_LONGITUDE, "" );
@@ -77,6 +95,7 @@ public class DataStorage
         + " FROM pulse WHERE _id = '" + insertId + "'", new String[ 0 ] );
 
     cursor.moveToFirst();
+    */
   }
 
   /**

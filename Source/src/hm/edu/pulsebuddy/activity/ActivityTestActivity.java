@@ -265,7 +265,8 @@ public class ActivityTestActivity extends Activity
 
     /* Cancel the PendingIntent. Even if the removal request fails, canceling
      * the PendingIntent will stop the updates. */
-    mDetectionRequester.getRequestPendingIntent().cancel();
+    if( mDetectionRequester.getRequestPendingIntent() != null )
+      mDetectionRequester.getRequestPendingIntent().cancel();
   }
 
   /**

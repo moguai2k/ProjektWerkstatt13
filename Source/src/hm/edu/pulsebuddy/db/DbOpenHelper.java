@@ -34,9 +34,9 @@ public class DbOpenHelper extends SQLiteOpenHelper
   private static final String LOCATION_TABLE_CREATE = "CREATE TABLE "
       + LOCATION_TABLE_NAME + " (" + LOCATION_COL_ID
       + " integer primary key autoincrement, " + LOCATION_COL_LATITUDE
-      + " TEXT NOT NULL, " + LOCATION_COL_LONGITUDE + " TEXT NOT NULL, "
-      + LOCATION_COL_ELEVATION + " dobule NOT NULL," + LOCATION_COL_SPEED
-      + " double NOT NULL);";
+      + " REAL NOT NULL, " + LOCATION_COL_LONGITUDE + " REAL NOT NULL, "
+      + LOCATION_COL_ELEVATION + " REAL NOT NULL," + LOCATION_COL_SPEED
+      + " REAL NOT NULL);";
 
   public DbOpenHelper( Context context )
   {

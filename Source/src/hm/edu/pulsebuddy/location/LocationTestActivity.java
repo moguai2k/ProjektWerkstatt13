@@ -26,6 +26,8 @@ public class LocationTestActivity extends Activity implements LocationListener,
     GooglePlayServicesClient.ConnectionCallbacks,
     GooglePlayServicesClient.OnConnectionFailedListener
 {
+  
+  private LocationRequester locR;
 
   /* A request to connect to Location Services */
   private LocationRequest locationRequest;
@@ -87,6 +89,8 @@ public class LocationTestActivity extends Activity implements LocationListener,
 
     /* Create a new location client, using this class to handle the callbacks. */
     locationClient = new LocationClient( this, this, this );
+    
+    locR = new LocationRequester( getApplicationContext() );
   }
 
   @Override
@@ -280,7 +284,8 @@ public class LocationTestActivity extends Activity implements LocationListener,
    */
   public void getLocation( View v )
   {
-
+    locR.getCurrentLocation();
+    
     /* If Google Play Services is available */
     if ( servicesConnected() )
     {

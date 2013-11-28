@@ -91,7 +91,7 @@ public class DeviceScanActivity extends ListActivity
   @Override
   public boolean onCreateOptionsMenu( Menu menu )
   {
-    getMenuInflater().inflate( R.menu.main, menu );
+    getMenuInflater().inflate( R.menu.scan_menu, menu );
     if ( !mScanning )
     {
       menu.findItem( R.id.menu_stop ).setVisible( false );
@@ -103,7 +103,7 @@ public class DeviceScanActivity extends ListActivity
       menu.findItem( R.id.menu_stop ).setVisible( true );
       menu.findItem( R.id.menu_scan ).setVisible( false );
       menu.findItem( R.id.menu_refresh ).setActionView(
-          R.layout.actionbar_indeterminate_progress );
+      R.layout.actionbar_indeterminate_progress );
     }
     return true;
   }

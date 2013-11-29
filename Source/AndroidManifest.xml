@@ -33,6 +33,7 @@
 	        </intent-filter>
         </activity>
         
+        <activity android:name=".graph.TestGraph" android:screenOrientation="portrait"/>
         <activity android:name=".misc.Help" android:screenOrientation="portrait"/>
         <activity android:name=".misc.About" android:screenOrientation="portrait"/>
         <activity android:name=".misc.Settings" android:screenOrientation="portrait"/>

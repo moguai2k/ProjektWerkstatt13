@@ -1,9 +1,14 @@
 package hm.edu.pulsebuddy;
 
+import com.androidplot.util.Redrawer;
+import com.androidplot.xy.XYPlot;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
+import hm.edu.pulsebuddy.graph.TestGraph;
 import hm.edu.pulsebuddy.misc.*;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,12 +25,23 @@ public class MainActivity extends Activity
     private LayoutInflater inflater;
     private View layout;
     private TextView toastText;
+    
+    private TestGraph graph;
+    private Redrawer redrawer = null;
 	
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.activity_main );
+    
+    graph = new TestGraph();
+    XYPlot aprHistoryPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
+    graph.setAprHistoryPlot(aprHistoryPlot);
+    SensorManager sensorMgr = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
+    graph.setSensorMgr(sensorMgr);
+    graph.setRedrawer(redrawer);
+    graph.graphIt();
   }
 
   @Override
@@ -71,6 +87,27 @@ public class MainActivity extends Activity
             default:
         }
   }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(redrawer!=null)
+        	redrawer.start();
+    }
+
+    @Override
+    public void onPause() {
+        if(redrawer!=null)
+        	redrawer.pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        if(redrawer!=null)
+        	redrawer.finish();
+        super.onDestroy();
+    }
     
     // Custom toast aka alert box
     private void customToast(String text) {

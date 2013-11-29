@@ -3,7 +3,7 @@ package hm.edu.pulsebuddy;
 import com.androidplot.util.Redrawer;
 import com.androidplot.xy.XYPlot;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
-import hm.edu.pulsebuddy.graph.TestGraph;
+import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.*;
 import android.app.Activity;
 import android.content.Context;
@@ -21,12 +21,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
-    // Inflater for custom-toasts
     private LayoutInflater inflater;
     private View layout;
     private TextView toastText;
-    
-    private TestGraph graph;
     private Redrawer redrawer = null;
 	
   @Override
@@ -34,15 +31,12 @@ public class MainActivity extends Activity
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.activity_main );
-    
-    graph = new TestGraph();
     XYPlot aprHistoryPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
-    graph.setAprHistoryPlot(aprHistoryPlot);
     SensorManager sensorMgr = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
-    graph.setSensorMgr(sensorMgr);
-    graph.setRedrawer(redrawer);
-    graph.graphIt();
+    TextView tv = (TextView) findViewById(R.id.currentPulse);
+    new PulsePlot(aprHistoryPlot, sensorMgr, tv, redrawer);
   }
+ 
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.widget.TextView;
 
 import com.androidplot.Plot;
 import com.androidplot.util.Redrawer;
@@ -15,21 +16,32 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-public class TestGraph implements SensorEventListener
+public class PulsePlot implements SensorEventListener
 {
     private SensorManager sensorMgr = null;
 	private Sensor orSensor = null;
 	private Redrawer redrawer;
-    private static final int HISTORY_SIZE = 300;
+    private static final int HISTORY_SIZE = 200;
     private XYPlot aprHistoryPlot = null;
     private SimpleXYSeries rollHistorySeries = null;
+    private int pulse = 0;
+    private TextView tv = null;
+    
+    public PulsePlot(XYPlot aprHistoryPlot, SensorManager sensorMgr, TextView tv, Redrawer redrawer) {
+    	this.aprHistoryPlot = aprHistoryPlot;
+    	this.sensorMgr = sensorMgr;
+    	this.tv = tv;
+    	this.redrawer = redrawer;   	
+    	
+    	graphIt();
+    }
 
 	@SuppressWarnings("deprecation")
 	public void graphIt() {
         rollHistorySeries = new SimpleXYSeries("Puls");
         rollHistorySeries.useImplicitXVals();
 
-        aprHistoryPlot.setRangeBoundaries(-75, 250, BoundaryMode.FIXED);
+        aprHistoryPlot.setRangeBoundaries(0, 240, BoundaryMode.FIXED);
         aprHistoryPlot.setDomainBoundaries(0, HISTORY_SIZE, BoundaryMode.FIXED);
         aprHistoryPlot.addSeries(rollHistorySeries,
                 new LineAndPointFormatter(
@@ -69,35 +81,12 @@ public class TestGraph implements SensorEventListener
         }
 
 		Random random = new Random();
-        rollHistorySeries.addLast(null, random.nextInt(200));
+		pulse = random.nextInt(200);
+        rollHistorySeries.addLast(null, pulse);
+        tv.setText( Integer.toString(pulse) );
     }
-
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
-    
-    public SensorManager getSensorMgr() {
-		return sensorMgr;
-	}
-
-	public void setSensorMgr(SensorManager sensorMgr) {
-		this.sensorMgr = sensorMgr;
-	}
-	
-    public XYPlot getAprHistoryPlot() {
-		return aprHistoryPlot;
-	}
-
-	public void setAprHistoryPlot(XYPlot aprHistoryPlot) {
-		this.aprHistoryPlot = aprHistoryPlot;
-	}
-	
-    public Redrawer getRedrawer() {
-		return redrawer;
-	}
-
-	public void setRedrawer(Redrawer redrawer) {
-		this.redrawer = redrawer;
-	}
 }

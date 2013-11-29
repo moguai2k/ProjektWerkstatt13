@@ -9,6 +9,7 @@ public class StorageLogic
 {
   private final static String TAG = "db.storageLogic";
   
+  /* TODO-tof: Move this to the settings. */
   private int numOfPulseValuesTillPersist = 5;
   private int pulseValueCounter;
 
@@ -31,7 +32,11 @@ public class StorageLogic
       this.pulseValueCounter = 0;
       return true;
     }
-
+  }
+  
+  public Boolean locationToBeSaved()
+  {
+    return true;
   }
 
 }

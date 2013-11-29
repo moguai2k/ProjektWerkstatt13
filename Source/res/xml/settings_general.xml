@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="pref_key_general_settings"
+        android:title="@string/pref_key_general_title" >
+        <ListPreference
+            android:defaultValue="10"
+            android:entries="@array/savePulseValues"
+            android:entryValues="@array/savePulseValues"
+            android:key="prefPulseSave"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_pulse_values_before_save" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="pref_key_test_settings"
+        android:title="@string/pref_key_test_title" >
+
+        <!-- Only test activity -->
+        <Preference android:title="@string/location_test" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="hm.edu.pulsebuddy.location.LocationTestActivity"
+                android:targetPackage="hm.edu.pulsebuddy" />
+        </Preference>
+
+        <!-- Only test activity -->
+        <Preference android:title="@string/activity_test" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="hm.edu.pulsebuddy.activity.ActivityTestActivity"
+                android:targetPackage="hm.edu.pulsebuddy" />
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

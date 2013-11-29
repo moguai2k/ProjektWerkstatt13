@@ -16,6 +16,7 @@
 
 package hm.edu.pulsebuddy.ble;
 
+import hm.edu.pulsebuddy.db.DataManager;
 import hm.edu.pulsebuddy.db.DataStorage;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class BluetoothLeService extends Service
   public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID
       .fromString( SampleGattAttributes.HEART_RATE_MEASUREMENT );
 
-  DataStorage dataStorage = null;
+  DataStorage datasource = DataManager.getStorageInstance( getApplicationContext() );
 
   // Implements callback methods for GATT events that the app cares about. For
   // example,
@@ -168,10 +169,10 @@ public class BluetoothLeService extends Service
 
       Log.d( TAG, String.format( "Received heart rate: %d", heartRate ) );
 
-      if ( dataStorage != null )
+      if ( datasource != null )
       {
         Log.d( TAG, "Adding pulse to DB" );
-        dataStorage.savePulseValue( heartRate );
+        datasource.savePulseValue( heartRate );
       }
 
       intent.putExtra( EXTRA_DATA, String.valueOf( heartRate ) );
@@ -230,11 +231,7 @@ public class BluetoothLeService extends Service
   public boolean initialize()
   {
 
-    if ( dataStorage == null )
-    {
-      dataStorage = new DataStorage( getApplicationContext() );
-      dataStorage.open();
-    }
+    datasource.open();
 
     // For API level 18 and above, get a reference to BluetoothAdapter through
     // BluetoothManager.
@@ -335,10 +332,6 @@ public class BluetoothLeService extends Service
     {
       return;
     }
-    if ( dataStorage == null )
-      return;
-    
-    dataStorage.close();
     mBluetoothGatt.close();
     mBluetoothGatt = null;
   }

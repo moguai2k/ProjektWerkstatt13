@@ -6,7 +6,7 @@ import java.util.Date;
 public class LocationModel implements Serializable
 {
   /**
-   * Unique UID
+   * UID
    */
   private static final long serialVersionUID = -3240980473307685029L;
 

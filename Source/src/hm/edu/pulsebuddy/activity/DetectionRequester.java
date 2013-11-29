@@ -50,7 +50,6 @@ public class DetectionRequester implements ConnectionCallbacks,
     // Initialize the globals to null
     mActivityRecognitionPendingIntent = null;
     mActivityRecognitionClient = null;
-
   }
 
   /**

@@ -22,7 +22,11 @@
     <string name="menu_disconnect">Disconnect</string>
     <string name="menu_scan">Scan</string>
     <string name="menu_stop">Stop</string>
-    <string name="title_activity_location_test">LocationTestActivity</string>
-    <string name="title_activity_activity_test">ActivityTestActivity</string>
+    <string name="about">Team</string>
+    <string name="help">Hilfe</string>
+    <string name="settings">Einstellungen</string>
+    <string name="home">Startseite</string>
+    <string name="sm">Sport Mode</string>
+    <string name="dm">Day Mode</string>
 
 </resources>

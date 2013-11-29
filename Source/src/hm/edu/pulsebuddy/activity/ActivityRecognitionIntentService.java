@@ -9,8 +9,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -19,17 +17,13 @@ import com.google.android.gms.location.DetectedActivity;
 
 public class ActivityRecognitionIntentService extends IntentService
 {
+  private static final String TAG = "activity.recognitionService";
+  
   /* Formats the timestamp in the log */
   private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSSZ";
 
-  /* Delimits the timestamp from the log info */
-  private static final String LOG_DELIMITER = ";;";
-
   /* A date formatter */
   private SimpleDateFormat dateFormat;
-
-  /* Store the app's shared preferences repository */
-  private SharedPreferences prefs;
 
   public ActivityRecognitionIntentService()
   {
@@ -42,9 +36,6 @@ public class ActivityRecognitionIntentService extends IntentService
   @Override
   protected void onHandleIntent( Intent intent )
   {
-    prefs = getApplicationContext().getSharedPreferences(
-        ActivityUtils.SHARED_PREFERENCES, Context.MODE_PRIVATE );
-
     /* Get a date formatter, and catch errors in the returned timestamp */
     try
     {
@@ -67,9 +58,6 @@ public class ActivityRecognitionIntentService extends IntentService
       ActivityRecognitionResult result = ActivityRecognitionResult
           .extractResult( intent );
 
-      /* Log the update */
-      // logActivityRecognitionResult( result );
-
       /* Get the most probable activity from the list of activities in the
        * update */
       DetectedActivity mostProbableActivity = result.getMostProbableActivity();
@@ -80,24 +68,8 @@ public class ActivityRecognitionIntentService extends IntentService
       /* Get the type of activity */
       int activityType = mostProbableActivity.getType();
       
-      Log.d( ActivityUtils.ACTTAG, "Activity type: " + getNameFromType( activityType ) );
-      Log.d( ActivityUtils.ACTTAG, "Confidence: " + confidence );
-
-      /* Check to see if the repository contains a previous activity */
-      if ( !prefs.contains( ActivityUtils.KEY_PREVIOUS_ACTIVITY_TYPE ) )
-      {
-
-        /* This is the first type an activity has been detected. Store the type */
-        Editor editor = prefs.edit();
-        editor.putInt( ActivityUtils.KEY_PREVIOUS_ACTIVITY_TYPE, activityType );
-        editor.commit();
-
-        // If the repository contains a type
-      }
-      else if ( isMoving( activityType ) )
-      {
-        sendNotification();
-      }
+      Log.d( TAG, "Activity type: " + getNameFromType( activityType ) );
+      Log.d( TAG, "Confidence: " + confidence );
 
     }
   }

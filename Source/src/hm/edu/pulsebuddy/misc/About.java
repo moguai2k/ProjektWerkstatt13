@@ -33,7 +33,7 @@ public class About extends Activity {
 					startActivity(new Intent(this, MainActivity.class));
 					return true;
 				case R.id.settings:
-					startActivity(new Intent(this, Settings.class));
+					startActivity(new Intent(this, SettingsActivity.class));
 					return true;
 				case R.id.about:
 					startActivity(new Intent(this, About.class));

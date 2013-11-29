@@ -36,7 +36,7 @@
         <activity android:name=".graph.TestGraph" android:screenOrientation="portrait"/>
         <activity android:name=".misc.Help" android:screenOrientation="portrait"/>
         <activity android:name=".misc.About" android:screenOrientation="portrait"/>
-        <activity android:name=".misc.Settings" android:screenOrientation="portrait"/>
+        <activity android:name=".misc.SettingsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ble.DeviceScanActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ble.DeviceControlActivity" android:screenOrientation="portrait"/>
         <service android:name=".ble.BluetoothLeService" android:enabled="true"/>

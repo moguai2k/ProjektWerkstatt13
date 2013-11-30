@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.location;
 
-import hm.edu.pulsebuddy.db.LocationModel;
+import hm.edu.pulsebuddy.model.LocationModel;
 
 import java.util.Date;
 

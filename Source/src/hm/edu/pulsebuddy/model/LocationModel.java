@@ -1,4 +1,4 @@
-package hm.edu.pulsebuddy.db;
+package hm.edu.pulsebuddy.model;
 
 import java.io.Serializable;
 import java.util.Date;

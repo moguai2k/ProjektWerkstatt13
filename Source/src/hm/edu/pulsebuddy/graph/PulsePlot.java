@@ -3,7 +3,7 @@ package hm.edu.pulsebuddy.graph;
 import hm.edu.pulsebuddy.db.DataManager;
 import hm.edu.pulsebuddy.db.DataStorage;
 import hm.edu.pulsebuddy.db.PulseChangedListener;
-import hm.edu.pulsebuddy.db.PulseModel;
+import hm.edu.pulsebuddy.model.PulseModel;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;

@@ -1,5 +1,13 @@
 package hm.edu.pulsebuddy.activity;
 
+import hm.edu.pulsebuddy.db.ActivityChangedListener;
+import hm.edu.pulsebuddy.model.ActivityModel;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,8 +38,10 @@ public class ActivityRequester implements ConnectionCallbacks,
   private BroadcastReceiver receiver;
 
   private int detectionIntervalMillis = 30000;
-  
+
   private Boolean isConnected = false;
+
+  private List<ActivityChangedListener> _listeners = new ArrayList<ActivityChangedListener>();
 
   /**
    * Constructor
@@ -54,9 +64,13 @@ public class ActivityRequester implements ConnectionCallbacks,
       @Override
       public void onReceive( Context context, Intent intent )
       {
-        String v = "Activity :" + intent.getStringExtra( "Activity" ) + " "
-            + "Confidence : " + intent.getExtras().getInt( "Confidence" ) + "n";
-        Log.d( TAG, v );
+        Serializable ser = intent.getExtras().getSerializable(
+            "hm.edu.pulsebuddy.model.ActivityModel" );
+
+        ActivityModel activity = (ActivityModel) ser;
+
+        Log.d( TAG, activity.toString() );
+        notifyActivityChanged( activity );
       }
     };
 
@@ -69,15 +83,18 @@ public class ActivityRequester implements ConnectionCallbacks,
   {
     if ( servicesConnected() && isConnected )
     {
-      Intent intent = new Intent( context, ActivityRecognitionIntentService.class );
+      Log.d( TAG, "Starting updates" );
+      
+      Intent intent = new Intent( context,
+          ActivityRecognitionIntentService.class );
 
       pIntent = PendingIntent.getService( context, 0, intent,
           PendingIntent.FLAG_UPDATE_CURRENT );
 
       activityClient.requestActivityUpdates( detectionIntervalMillis, pIntent );
-    }   
+    }
   }
-  
+
   public void stopUpdates()
   {
     if ( isConnected )
@@ -85,8 +102,16 @@ public class ActivityRequester implements ConnectionCallbacks,
       activityClient.removeActivityUpdates( pIntent );
     }
   }
-  
-  
+
+  private synchronized void notifyActivityChanged( ActivityModel aActivity )
+  {
+    Iterator<ActivityChangedListener> i = _listeners.iterator();
+    while ( i.hasNext() )
+    {
+      ( (ActivityChangedListener) i.next() )
+          .handleActivityChangedEvent( aActivity );
+    }
+  }
 
   /**
    * Verify that Google Play services is available before making a request.
@@ -119,6 +144,7 @@ public class ActivityRequester implements ConnectionCallbacks,
   public void onConnected( Bundle connectionHint )
   {
     isConnected = true;
+    startUpdates();
   }
 
   @Override

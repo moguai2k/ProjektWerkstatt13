@@ -2,6 +2,8 @@ package hm.edu.pulsebuddy.db;
 
 import hm.edu.pulsebuddy.activity.ActivityRequester;
 import hm.edu.pulsebuddy.location.LocationRequester;
+import hm.edu.pulsebuddy.model.LocationModel;
+import hm.edu.pulsebuddy.model.PulseModel;
 
 import java.util.ArrayList;
 import java.util.Date;

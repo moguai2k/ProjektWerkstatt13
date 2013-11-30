@@ -1,5 +1,6 @@
 package hm.edu.pulsebuddy.activity;
 
+import hm.edu.pulsebuddy.model.ActivityModel;
 import android.app.IntentService;
 import android.content.Intent;
 
@@ -38,12 +39,14 @@ public class ActivityRecognitionIntentService extends IntentService
       int confidence = mostProbableActivity.getConfidence();
 
       /* Get the type of activity */
-      int activityType = mostProbableActivity.getType();  
+      int activityType = mostProbableActivity.getType();
+
+      ActivityModel activity = new ActivityModel( mapTypes( activityType ),
+          confidence );
 
       Intent i = new Intent(
           "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" );
-      i.putExtra( "Activity", getNameFromType( activityType ) );
-      i.putExtra( "Confidence", confidence );
+      i.putExtra( "hm.edu.pulsebuddy.model.ActivityModel", activity );
       sendBroadcast( i );
     }
   }
@@ -72,30 +75,30 @@ public class ActivityRecognitionIntentService extends IntentService
   }
 
   /**
-   * Map detected activity types to strings
+   * Map detected activity types to activity model types.
    * 
    * @param activityType
    *          The detected activity type
-   * @return A user-readable name for the type
+   * @return A activity model type
    */
-  private String getNameFromType( int activityType )
+  private ActivityModel.Type mapTypes( int activityType )
   {
     switch ( activityType )
     {
       case DetectedActivity.IN_VEHICLE:
-        return "in_vehicle";
+        return ActivityModel.Type.IN_VEHICLE;
       case DetectedActivity.ON_BICYCLE:
-        return "on_bicycle";
+        return ActivityModel.Type.ON_BICYCLE;
       case DetectedActivity.ON_FOOT:
-        return "on_foot";
+        return ActivityModel.Type.ON_FOOT;
       case DetectedActivity.STILL:
-        return "still";
+        return ActivityModel.Type.STILL;
       case DetectedActivity.UNKNOWN:
-        return "unknown";
+        return ActivityModel.Type.UNKNOWN;
       case DetectedActivity.TILTING:
-        return "tilting";
+        return ActivityModel.Type.TILTING;
     }
-    return "unknown";
+    return null;
   }
 
 }

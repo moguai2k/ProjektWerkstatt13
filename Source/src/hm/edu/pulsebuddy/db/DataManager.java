@@ -8,9 +8,8 @@ public class DataManager
 
   private DataManager()
   {
-
   }
-  
+
   public static DataStorage getStorageInstance( Context context )
   {
     if ( _instance == null )
@@ -19,7 +18,7 @@ public class DataManager
     }
     return _instance;
   }
-  
+
   public static DataStorage getStorageInstance()
   {
     if ( _instance != null )

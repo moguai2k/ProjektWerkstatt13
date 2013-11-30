@@ -1,29 +1,15 @@
 package hm.edu.pulsebuddy.activity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
-import android.util.Log;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
 
 public class ActivityRecognitionIntentService extends IntentService
 {
+  @SuppressWarnings( "unused" )
   private static final String TAG = "activity.recognitionService";
-  
-  /* Formats the timestamp in the log */
-  private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSSZ";
-
-  /* A date formatter */
-  private SimpleDateFormat dateFormat;
 
   public ActivityRecognitionIntentService()
   {
@@ -36,20 +22,6 @@ public class ActivityRecognitionIntentService extends IntentService
   @Override
   protected void onHandleIntent( Intent intent )
   {
-    /* Get a date formatter, and catch errors in the returned timestamp */
-    try
-    {
-      dateFormat = (SimpleDateFormat) DateFormat.getDateTimeInstance();
-    }
-    catch ( Exception e )
-    {
-      // Log.e( ActivityUtils.ACTTAG, getString( R.string.date_format_error ) );
-    }
-
-    /* Format the timestamp according to the pattern, then localize the pattern */
-    dateFormat.applyPattern( DATE_FORMAT_PATTERN );
-    dateFormat.applyLocalizedPattern( dateFormat.toLocalizedPattern() );
-
     /* If the intent contains an update */
     if ( ActivityRecognitionResult.hasResult( intent ) )
     {
@@ -66,53 +38,17 @@ public class ActivityRecognitionIntentService extends IntentService
       int confidence = mostProbableActivity.getConfidence();
 
       /* Get the type of activity */
-      int activityType = mostProbableActivity.getType();
-      
-      Log.d( TAG, "Activity type: " + getNameFromType( activityType ) );
-      Log.d( TAG, "Confidence: " + confidence );
+      int activityType = mostProbableActivity.getType();  
 
+      Intent i = new Intent(
+          "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" );
+      i.putExtra( "Activity", getNameFromType( activityType ) );
+      i.putExtra( "Confidence", confidence );
+      sendBroadcast( i );
     }
   }
 
   /* PRIVATE METHODS */
-
-  /**
-   * Post a notification to the user. The notification prompts the user to click
-   * it to open the device's GPS settings
-   */
-  private void sendNotification()
-  {
-
-    // Create a notification builder that's compatible with platforms >= version
-    // 4
-    Notification.Builder builder = new Notification.Builder(
-        getApplicationContext() );
-
-    // Get the Intent that starts the Location settings panel
-    builder.setContentIntent( getContentIntent() );
-
-    // Get an instance of the Notification Manager
-    NotificationManager notifyManager = (NotificationManager) getSystemService( Context.NOTIFICATION_SERVICE );
-
-    // Build the notification and post it
-    notifyManager.notify( 0, builder.build() );
-  }
-
-  /**
-   * Get a content Intent for the notification
-   * 
-   * @return A PendingIntent that starts the device's Location Settings panel.
-   */
-  private PendingIntent getContentIntent()
-  {
-
-    // Set the Intent action to open Location Settings
-    Intent gpsIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
-
-    // Create a PendingIntent to start an Activity
-    return PendingIntent.getActivity( getApplicationContext(), 0, gpsIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT );
-  }
 
   /**
    * Determine if an activity means that the user is moving.

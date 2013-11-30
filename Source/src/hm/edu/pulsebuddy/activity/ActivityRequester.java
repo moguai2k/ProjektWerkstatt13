@@ -19,15 +19,19 @@ public class ActivityRequester implements ConnectionCallbacks,
 {
   private static final String TAG = "activity.activityRequester";
 
+  private Context context;
+
   /* The Google Play Services Activity Client */
   private ActivityRecognitionClient activityClient;
 
+  /* The current pending intent */
   private PendingIntent pIntent;
+
   private BroadcastReceiver receiver;
 
   private int detectionIntervalMillis = 30000;
-
-  private Context context;
+  
+  private Boolean isConnected = false;
 
   /**
    * Constructor
@@ -44,7 +48,45 @@ public class ActivityRequester implements ConnectionCallbacks,
     activityClient = new ActivityRecognitionClient( this.context, this, this );
 
     activityClient.connect();
+
+    receiver = new BroadcastReceiver()
+    {
+      @Override
+      public void onReceive( Context context, Intent intent )
+      {
+        String v = "Activity :" + intent.getStringExtra( "Activity" ) + " "
+            + "Confidence : " + intent.getExtras().getInt( "Confidence" ) + "n";
+        Log.d( TAG, v );
+      }
+    };
+
+    IntentFilter filter = new IntentFilter();
+    filter.addAction( "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" );
+    context.registerReceiver( receiver, filter );
   }
+
+  public void startUpdates()
+  {
+    if ( servicesConnected() && isConnected )
+    {
+      Intent intent = new Intent( context, ActivityRecognitionIntentService.class );
+
+      pIntent = PendingIntent.getService( context, 0, intent,
+          PendingIntent.FLAG_UPDATE_CURRENT );
+
+      activityClient.requestActivityUpdates( detectionIntervalMillis, pIntent );
+    }   
+  }
+  
+  public void stopUpdates()
+  {
+    if ( isConnected )
+    {
+      activityClient.removeActivityUpdates( pIntent );
+    }
+  }
+  
+  
 
   /**
    * Verify that Google Play services is available before making a request.
@@ -76,19 +118,13 @@ public class ActivityRequester implements ConnectionCallbacks,
   @Override
   public void onConnected( Bundle connectionHint )
   {
-    Intent intent = new Intent( context, ActivityRecognitionIntentService.class );
-
-    PendingIntent callbackIntent = PendingIntent.getService( context, 0,
-        intent, PendingIntent.FLAG_UPDATE_CURRENT );
-
-    activityClient.requestActivityUpdates( 0, callbackIntent );
-
-    // activityClient.disconnect();
+    isConnected = true;
   }
 
   @Override
   public void onDisconnected()
   {
     Log.e( TAG, "Disconnected" );
+    isConnected = false;
   }
 }

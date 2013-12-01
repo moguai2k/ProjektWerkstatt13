@@ -99,10 +99,15 @@ public class ActivityRequester implements ConnectionCallbacks,
   {
     if ( isConnected )
     {
+      Log.d( TAG, "Stopping updated" );
       activityClient.removeActivityUpdates( pIntent );
     }
   }
 
+  /**
+   * 
+   * @param aActivity the activity to be notified
+   */
   private synchronized void notifyActivityChanged( ActivityModel aActivity )
   {
     Iterator<ActivityChangedListener> i = _listeners.iterator();

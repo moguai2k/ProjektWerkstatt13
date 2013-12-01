@@ -8,7 +8,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class StorageLogic implements OnPreferenceChangeListener
+public class StorageLogic implements OnSharedPreferenceChangeListener
 {
   private final static String TAG = "db.storageLogic";
 
@@ -21,6 +21,11 @@ public class StorageLogic implements OnPreferenceChangeListener
   public StorageLogic( Context context )
   {
     this.context = context;
+
+    SharedPreferences settings = PreferenceManager
+        .getDefaultSharedPreferences( context );
+    Log.d( TAG, settings.getString( "prefPulseSave", "5" ) );
+    settings.registerOnSharedPreferenceChangeListener( this );
   }
 
   public Boolean pulseToBeSaved()
@@ -43,12 +48,15 @@ public class StorageLogic implements OnPreferenceChangeListener
   }
 
   @Override
-  public boolean onPreferenceChange( Preference preference, Object newValue )
+  public void onSharedPreferenceChanged( SharedPreferences sharedPreferences,
+      String key )
   {
-    Log.d( TAG, "KEY: " + newValue );
-    
-    return true;
-
+    if ( key.equals( "prefPulseSave" ) )
+    {
+      Log.d( TAG, "Changing number of pulse values till save "
+          + sharedPreferences.getString( key, "" ) );
+      this.numOfPulseValuesTillPersist = Integer.parseInt( sharedPreferences
+          .getString( key, "" ) );
+    }
   }
-
 }

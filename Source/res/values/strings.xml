@@ -32,5 +32,12 @@
     
     <string name="sm">Sport Mode</string>
     <string name="dm">Day Mode</string>
-
+    
+     <!--  BMI -->
+    <string name="bmiSUnder">Starkes Untergewicht</string>
+    <string name="bmiUnder">Untergewicht</string>
+    <string name="bmiNormal">Normalgewicht</string>
+    <string name="bmiOver">Übergewicht</string>
+    <string name="bmiSOver">Adipositas</string>
+    <string name="bmiObese">Starkes Adipositas</string>
 </resources>

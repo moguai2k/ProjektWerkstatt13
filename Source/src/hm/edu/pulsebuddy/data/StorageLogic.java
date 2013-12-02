@@ -1,4 +1,6 @@
-package hm.edu.pulsebuddy.db;
+package hm.edu.pulsebuddy.data;
+
+import com.google.android.gms.internal.ao;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,16 +11,19 @@ import android.util.Log;
 public class StorageLogic implements OnSharedPreferenceChangeListener
 {
   private final static String TAG = "db.storageLogic";
-  
+
   private int numOfPulseValuesTillPersist;
+  private int pulseOffsetToSave;
   private int pulseValueCounter;
+
+  private int lastPulseValue;
 
   private Context context;
 
   public StorageLogic( Context context )
   {
     this.context = context;
-    
+
     /* Preferences */
     SharedPreferences settings = PreferenceManager
         .getDefaultSharedPreferences( this.context );
@@ -29,11 +34,17 @@ public class StorageLogic implements OnSharedPreferenceChangeListener
 
   /**
    * 
-   * @return true if the pulse has to be saved, fals otherwise.
+   * @return true if the pulse has to be saved, false otherwise.
    */
-  public Boolean pulseToBeSaved()
+  public Boolean pulseToBeSaved( int aPulseValue )
   {
-    if ( this.pulseValueCounter < numOfPulseValuesTillPersist )
+    if ( aPulseValue - this.lastPulseValue >= pulseOffsetToSave
+        || aPulseValue - this.lastPulseValue <= -pulseOffsetToSave )
+    {
+      this.lastPulseValue = aPulseValue;
+      return true;
+    }
+    else if ( this.pulseValueCounter < numOfPulseValuesTillPersist )
     {
       this.pulseValueCounter++;
       return false;

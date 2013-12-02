@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.activity;
 
-import hm.edu.pulsebuddy.db.ActivityChangedListener;
+import hm.edu.pulsebuddy.data.ActivityChangedListener;
 import hm.edu.pulsebuddy.model.ActivityModel;
 
 import java.io.Serializable;

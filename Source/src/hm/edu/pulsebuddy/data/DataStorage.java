@@ -1,4 +1,4 @@
-package hm.edu.pulsebuddy.db;
+package hm.edu.pulsebuddy.data;
 
 import hm.edu.pulsebuddy.activity.ActivityRequester;
 import hm.edu.pulsebuddy.location.LocationRequester;
@@ -12,17 +12,18 @@ import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class DataStorage
+public class DataStorage implements OnSharedPreferenceChangeListener
 {
   private final static String TAG = "db.dataStorage";
-
-  private final static Boolean TEST_MODE = true;
 
   private SQLiteDatabase database;
   private DbOpenHelper dbHelper;
@@ -33,7 +34,7 @@ public class DataStorage
 
   private List<PulseChangedListener> _listeners = new ArrayList<PulseChangedListener>();
 
-  private DemoPulseGenerator demoGen;
+  private DemoPulseGenerator demoGen = null;
 
   public DataStorage( Context context )
   {
@@ -44,11 +45,10 @@ public class DataStorage
 
     storageLogic = new StorageLogic( context );
 
-    if ( TEST_MODE )
-    {
-      demoGen = new DemoPulseGenerator();
-      demoGen.execute();
-    }
+    /* Preferences */
+    SharedPreferences settings = PreferenceManager
+        .getDefaultSharedPreferences( context );
+    settings.registerOnSharedPreferenceChangeListener( this );
   }
 
   public void open() throws SQLException
@@ -75,7 +75,7 @@ public class DataStorage
     /* Notify the listeners. */
     notifyPulseChanged( aPulse );
 
-    if ( !storageLogic.pulseToBeSaved() )
+    if ( !storageLogic.pulseToBeSaved( aPulse ) )
       return false;
 
     ContentValues values = new ContentValues();
@@ -190,6 +190,30 @@ public class DataStorage
     protected void onPostExecute( String result )
     {
 
+    }
+  }
+
+  @Override
+  public void onSharedPreferenceChanged( SharedPreferences sharedPreferences,
+      String key )
+  {
+    if ( key.equals( "test_mode" ) )
+    {
+      Boolean testMode = sharedPreferences.getBoolean( key, false );
+      Log.d( TAG, "Debug mode enabled " + testMode );
+      if ( ! testMode )
+      {
+        if ( demoGen != null )
+        {
+          demoGen.cancel( true );
+          demoGen = null;
+        }
+        else
+        {
+          demoGen = new DemoPulseGenerator();
+          demoGen.execute();
+        }
+      }
     }
   }
 

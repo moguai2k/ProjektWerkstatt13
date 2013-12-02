@@ -1,15 +1,14 @@
 package hm.edu.pulsebuddy.graph;
 
-import hm.edu.pulsebuddy.db.DataManager;
-import hm.edu.pulsebuddy.db.DataStorage;
-import hm.edu.pulsebuddy.db.PulseChangedListener;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.DataStorage;
+import hm.edu.pulsebuddy.data.PulseChangedListener;
 import hm.edu.pulsebuddy.model.PulseModel;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import android.graphics.Color;
-import android.hardware.SensorManager;
 import android.widget.TextView;
 
 import com.androidplot.Plot;
@@ -30,8 +29,7 @@ public class PulsePlot implements PulseChangedListener
 
   private DataStorage ds = null;
 
-  public PulsePlot( XYPlot aprHistoryPlot, SensorManager sensorMgr,
-      TextView tv, Redrawer redrawer )
+  public PulsePlot( XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer )
   {
     this.aprHistoryPlot = aprHistoryPlot;
     this.tv = tv;

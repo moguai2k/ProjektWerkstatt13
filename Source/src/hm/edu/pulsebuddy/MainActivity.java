@@ -3,8 +3,8 @@ package hm.edu.pulsebuddy;
 import com.androidplot.util.Redrawer;
 import com.androidplot.xy.XYPlot;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
-import hm.edu.pulsebuddy.db.DataManager;
-import hm.edu.pulsebuddy.db.DataStorage;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.DataStorage;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.*;
 import android.app.Activity;
@@ -41,12 +41,10 @@ public class MainActivity extends Activity
     ds.open();
     
     XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
-    SensorManager sensorMgr = (SensorManager) getApplicationContext()
-        .getSystemService( Context.SENSOR_SERVICE );
     TextView tv = (TextView) findViewById( R.id.currentPulse );
    
-   new PulsePlot( aprHistoryPlot, sensorMgr, tv, redrawer );
-  }
+   new PulsePlot( aprHistoryPlot, tv, redrawer );
+  }  
 
   @Override
   public boolean onCreateOptionsMenu( Menu menu )

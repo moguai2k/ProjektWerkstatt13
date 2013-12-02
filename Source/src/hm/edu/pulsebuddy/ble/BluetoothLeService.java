@@ -16,8 +16,8 @@
 
 package hm.edu.pulsebuddy.ble;
 
-import hm.edu.pulsebuddy.db.DataManager;
-import hm.edu.pulsebuddy.db.DataStorage;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.DataStorage;
 
 import java.util.List;
 import java.util.UUID;

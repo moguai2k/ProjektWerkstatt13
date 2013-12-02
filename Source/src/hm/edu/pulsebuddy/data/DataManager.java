@@ -1,4 +1,4 @@
-package hm.edu.pulsebuddy.db;
+package hm.edu.pulsebuddy.data;
 
 import android.content.Context;
 

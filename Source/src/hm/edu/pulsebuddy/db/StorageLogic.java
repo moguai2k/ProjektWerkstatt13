@@ -3,17 +3,14 @@ package hm.edu.pulsebuddy.db;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class StorageLogic implements OnSharedPreferenceChangeListener
 {
   private final static String TAG = "db.storageLogic";
-
-  /* TODO-tof: Move this to the settings. */
-  private int numOfPulseValuesTillPersist = 5;
+  
+  private int numOfPulseValuesTillPersist;
   private int pulseValueCounter;
 
   private Context context;
@@ -21,13 +18,19 @@ public class StorageLogic implements OnSharedPreferenceChangeListener
   public StorageLogic( Context context )
   {
     this.context = context;
-
+    
+    /* Preferences */
     SharedPreferences settings = PreferenceManager
-        .getDefaultSharedPreferences( context );
-    Log.d( TAG, settings.getString( "prefPulseSave", "5" ) );
+        .getDefaultSharedPreferences( this.context );
+    numOfPulseValuesTillPersist = Integer.parseInt( settings.getString(
+        "prefPulseSave", "5" ) );
     settings.registerOnSharedPreferenceChangeListener( this );
   }
 
+  /**
+   * 
+   * @return true if the pulse has to be saved, fals otherwise.
+   */
   public Boolean pulseToBeSaved()
   {
     if ( this.pulseValueCounter < numOfPulseValuesTillPersist )

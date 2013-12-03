@@ -9,17 +9,12 @@ import hm.edu.pulsebuddy.model.LocationModel;
 import hm.edu.pulsebuddy.model.PulseModel;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -45,7 +40,7 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
     perst = new PerstStorage( context );
 
     activityRequester = new ActivityRequester( context );
-    //activityRequester.addActivityChangedListener( this );
+    // activityRequester.addActivityChangedListener( this );
 
     locationRequester = new LocationRequester( context );
 
@@ -77,7 +72,7 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
     success = perst.addPulseValue( aPulse );
 
     /* Do other stuff. */
-    //getCurrentLocation();
+    // getCurrentLocation();
 
     return success;
   }
@@ -89,7 +84,7 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
   {
     LocationModel l = locationRequester.getCurrentLocation();
 
-    //database.insert( DbOpenHelper.LOCATION_TABLE_NAME, null, values );
+    // database.insert( DbOpenHelper.LOCATION_TABLE_NAME, null, values );
   }
 
   public synchronized void addPulseChangedListener(

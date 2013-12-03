@@ -1,13 +1,12 @@
 package hm.edu.pulsebuddy.data;
 
-import com.google.android.gms.internal.ao;
-import com.google.android.gms.location.DetectedActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.android.gms.location.DetectedActivity;
 
 public class StorageLogic implements OnSharedPreferenceChangeListener
 {

@@ -56,6 +56,20 @@ public class ActivityRequester implements ConnectionCallbacks,
     activityClient = new ActivityRecognitionClient( this.context, this, this );
 
     activityClient.connect();
+
+    LocalBroadcastManager.getInstance( this.context ).registerReceiver(
+        messageReceiver,
+        new IntentFilter(
+            "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" ) );
+  }
+
+  /**
+   * TEST
+   */
+  public void stopRequester()
+  {
+    LocalBroadcastManager.getInstance( this.context ).unregisterReceiver(
+        messageReceiver );
   }
 
   private BroadcastReceiver messageReceiver = new BroadcastReceiver()
@@ -79,11 +93,6 @@ public class ActivityRequester implements ConnectionCallbacks,
     {
       Log.d( TAG, "Starting updates" );
 
-      LocalBroadcastManager.getInstance( this.context ).registerReceiver(
-          messageReceiver,
-          new IntentFilter(
-              "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" ) );
-      
       Intent intent = new Intent( context,
           ActivityRecognitionIntentService.class );
 
@@ -99,11 +108,7 @@ public class ActivityRequester implements ConnectionCallbacks,
     if ( isConnected )
     {
       Log.d( TAG, "Stopping updates" );
-      LocalBroadcastManager.getInstance( this.context ).unregisterReceiver(
-          messageReceiver );
-
       activityClient.removeActivityUpdates( pIntent );
-
     }
   }
 
@@ -115,12 +120,11 @@ public class ActivityRequester implements ConnectionCallbacks,
   private synchronized void notifyActivityChanged( ActivityModel aActivity )
   {
     Iterator<ActivityChangedListener> i = _listeners.iterator();
-    if ( !i.hasNext() )
-      while ( i.hasNext() )
-      {
-        ( (ActivityChangedListener) i.next() )
-            .handleActivityChangedEvent( aActivity );
-      }
+    while ( i.hasNext() )
+    {
+      ( (ActivityChangedListener) i.next() )
+          .handleActivityChangedEvent( aActivity );
+    }
   }
 
   /**
@@ -175,6 +179,7 @@ public class ActivityRequester implements ConnectionCallbacks,
   public void onConnected( Bundle connectionHint )
   {
     isConnected = true;
+    startUpdates();
   }
 
   @Override

@@ -1,7 +1,9 @@
 package hm.edu.pulsebuddy.data;
 
+import hm.edu.pulsebuddy.activity.ActivityChangedListener;
 import hm.edu.pulsebuddy.activity.ActivityRequester;
 import hm.edu.pulsebuddy.location.LocationRequester;
+import hm.edu.pulsebuddy.model.ActivityModel;
 import hm.edu.pulsebuddy.model.LocationModel;
 import hm.edu.pulsebuddy.model.PulseModel;
 
@@ -21,7 +23,8 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class DataStorage implements OnSharedPreferenceChangeListener
+public class DataStorage implements OnSharedPreferenceChangeListener,
+    ActivityChangedListener
 {
   private final static String TAG = "db.dataStorage";
 
@@ -42,6 +45,8 @@ public class DataStorage implements OnSharedPreferenceChangeListener
     dbHelper = new DbOpenHelper( context );
 
     activityRequester = new ActivityRequester( context );
+    activityRequester.addActivityChangedListener( this );
+    
     locationRequester = new LocationRequester( context );
 
     storageLogic = new StorageLogic( context );
@@ -204,7 +209,7 @@ public class DataStorage implements OnSharedPreferenceChangeListener
     {
       Boolean testMode = sharedPreferences.getBoolean( key, false );
       Log.d( TAG, "Debug mode enabled " + testMode );
-      if ( ! testMode )
+      if ( !testMode )
       {
         demoGenIsRunning = false;
       }
@@ -217,4 +222,9 @@ public class DataStorage implements OnSharedPreferenceChangeListener
     }
   }
 
+  @Override
+  public void handleActivityChangedEvent( ActivityModel aActivity )
+  {
+    Log.d( TAG, aActivity.toString() );
+  }
 }

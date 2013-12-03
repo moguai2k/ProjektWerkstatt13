@@ -1,45 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hm.edu.pulsebuddy"
+    android:installLocation="auto"
     android:versionCode="1"
-    android:versionName="1.0" android:installLocation="auto">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="18"
         android:targetSdkVersion="18" />
 
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+
     <application
-        android:debuggable="true"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:debuggable="true"
+        android:icon="@drawable/pb"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name="hm.edu.pulsebuddy.ble.DeviceScanActivity"
-                  android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-       <!--
         <activity
             android:name="hm.edu.pulsebuddy.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        -->
-        <activity android:name="hm.edu.pulsebuddy.ble.DeviceControlActivity"/>
-        <service android:name="hm.edu.pulsebuddy.ble.BluetoothLeService" android:enabled="true"/>
-        
+        <activity
+            android:name=".graph.TestGraph"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misc.Help"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misc.About"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misc.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ble.DeviceScanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ble.DeviceControlActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".ble.BluetoothLeService"
+            android:enabled="true" />
+        <service
+            android:name=".activity.ActivityRecognitionIntentService"
+            android:enabled="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

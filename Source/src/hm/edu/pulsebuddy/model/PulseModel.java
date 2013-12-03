@@ -1,13 +1,32 @@
-package hm.edu.pulsebuddy.db;
+package hm.edu.pulsebuddy.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PulseModel
+public class PulseModel implements Serializable
 {
-
+  
+  /**
+   * Unique UID
+   */
+  private static final long serialVersionUID = -4791072197178848364L;
+  
   private long id;
   private int pulse;
   private Date dateTime;
+
+  /**
+   * Default constructor.
+   */
+  public PulseModel()
+  {
+  }
+
+  public PulseModel( int aPulse )
+  {
+    this.pulse = aPulse;
+    this.dateTime = new Date();
+  }
 
   public long getId()
   {

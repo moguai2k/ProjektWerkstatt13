@@ -4,22 +4,22 @@ import android.content.Context;
 
 public class DataManager
 {
-  private static DataStorage _instance;
+  private static DataHandler _instance;
 
   private DataManager()
   {
   }
 
-  public static DataStorage getStorageInstance( Context context )
+  public static DataHandler getStorageInstance( Context context )
   {
     if ( _instance == null )
     {
-      _instance = new DataStorage( context );
+      _instance = new DataHandler( context );
     }
     return _instance;
   }
 
-  public static DataStorage getStorageInstance()
+  public static DataHandler getStorageInstance()
   {
     if ( _instance != null )
     {

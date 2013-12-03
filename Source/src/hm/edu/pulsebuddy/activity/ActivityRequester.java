@@ -38,6 +38,8 @@ public class ActivityRequester implements ConnectionCallbacks,
   private int detectionIntervalMillis = 3000;
 
   private Boolean isConnected = false;
+  
+  private LocalBroadcastManager locBroadcastManager;
 
   private List<ActivityChangedListener> _listeners = new ArrayList<ActivityChangedListener>();
 
@@ -56,11 +58,8 @@ public class ActivityRequester implements ConnectionCallbacks,
     activityClient = new ActivityRecognitionClient( this.context, this, this );
 
     activityClient.connect();
-
-    LocalBroadcastManager.getInstance( this.context ).registerReceiver(
-        messageReceiver,
-        new IntentFilter(
-            "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" ) );
+    
+    locBroadcastManager = LocalBroadcastManager.getInstance( context );
   }
 
   /**
@@ -72,6 +71,67 @@ public class ActivityRequester implements ConnectionCallbacks,
         messageReceiver );
   }
 
+  /**
+   * Add a activity changed listener.
+   * 
+   * @param listener
+   */
+  public synchronized void addActivityChangedListener(
+      ActivityChangedListener listener )
+  {
+    _listeners.add( listener );
+    
+    locBroadcastManager.registerReceiver(
+        messageReceiver,
+        new IntentFilter(
+            "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" ) );
+
+    if ( !_listeners.isEmpty() && isConnected )
+    {
+      startUpdates();
+    }
+  }
+
+  /**
+   * Remove a previously added activity listener.
+   * 
+   * @param listener
+   */
+  public synchronized void removeActivityChangedListener(
+      ActivityChangedListener listener )
+  {
+    _listeners.remove( listener );
+    if ( _listeners.isEmpty() )
+    {
+      stopUpdates();
+    }
+  }
+
+  @Override
+  public void onConnectionFailed( ConnectionResult result )
+  {
+    Log.e( TAG, "Connection failed" );
+  }
+
+  @Override
+  public void onConnected( Bundle connectionHint )
+  {
+    isConnected = true;
+    if ( _listeners.isEmpty() )
+      stopUpdates();
+    else
+      startUpdates();
+  }
+
+  @Override
+  public void onDisconnected()
+  {
+    Log.e( TAG, "Disconnected" );
+    isConnected = false;
+  }
+
+  /* PRIVATE */
+
   private BroadcastReceiver messageReceiver = new BroadcastReceiver()
   {
     @Override
@@ -81,7 +141,6 @@ public class ActivityRequester implements ConnectionCallbacks,
           "hm.edu.pulsebuddy.model.ActivityModel" );
 
       ActivityModel activity = (ActivityModel) ser;
-
       Log.d( TAG, activity.toString() );
       notifyActivityChanged( activity );
     }
@@ -107,8 +166,11 @@ public class ActivityRequester implements ConnectionCallbacks,
   {
     if ( isConnected )
     {
-      Log.d( TAG, "Stopping updates" );
-      activityClient.removeActivityUpdates( pIntent );
+      if ( pIntent != null )
+      {
+        Log.d( TAG, "Stopping updates" );
+        activityClient.removeActivityUpdates( pIntent );
+      }      
     }
   }
 
@@ -146,46 +208,5 @@ public class ActivityRequester implements ConnectionCallbacks,
     {
       return false;
     }
-  }
-
-  public synchronized void addActivityChangedListener(
-      ActivityChangedListener listener )
-  {
-    _listeners.add( listener );
-
-    if ( !_listeners.isEmpty() && isConnected )
-    {
-      startUpdates();
-    }
-  }
-
-  public synchronized void removeActivityChangedListener(
-      ActivityChangedListener listener )
-  {
-    _listeners.remove( listener );
-    if ( _listeners.isEmpty() )
-    {
-      stopUpdates();
-    }
-  }
-
-  @Override
-  public void onConnectionFailed( ConnectionResult result )
-  {
-    Log.e( TAG, "Connection failed" );
-  }
-
-  @Override
-  public void onConnected( Bundle connectionHint )
-  {
-    isConnected = true;
-    startUpdates();
-  }
-
-  @Override
-  public void onDisconnected()
-  {
-    Log.e( TAG, "Disconnected" );
-    isConnected = false;
   }
 }

@@ -2,6 +2,7 @@ package hm.edu.pulsebuddy.data;
 
 import hm.edu.pulsebuddy.activity.ActivityChangedListener;
 import hm.edu.pulsebuddy.activity.ActivityRequester;
+import hm.edu.pulsebuddy.data.perst.PerstStorage;
 import hm.edu.pulsebuddy.location.LocationRequester;
 import hm.edu.pulsebuddy.model.ActivityModel;
 import hm.edu.pulsebuddy.model.LocationModel;
@@ -23,13 +24,12 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class DataStorage implements OnSharedPreferenceChangeListener,
+public class DataHandler implements OnSharedPreferenceChangeListener,
     ActivityChangedListener
 {
-  private final static String TAG = "db.dataStorage";
+  private final static String TAG = "data.handler";
 
-  private SQLiteDatabase database;
-  private DbOpenHelper dbHelper;
+  private PerstStorage perst;
   private StorageLogic storageLogic;
 
   private LocationRequester locationRequester;
@@ -40,13 +40,13 @@ public class DataStorage implements OnSharedPreferenceChangeListener,
   private DemoPulseGenerator demoGen = null;
   private Boolean demoGenIsRunning = false;
 
-  public DataStorage( Context context )
+  public DataHandler( Context context )
   {
-    dbHelper = new DbOpenHelper( context );
+    perst = new PerstStorage( context );
 
     activityRequester = new ActivityRequester( context );
-    activityRequester.addActivityChangedListener( this );
-    
+    //activityRequester.addActivityChangedListener( this );
+
     locationRequester = new LocationRequester( context );
 
     storageLogic = new StorageLogic( context );
@@ -57,22 +57,12 @@ public class DataStorage implements OnSharedPreferenceChangeListener,
     settings.registerOnSharedPreferenceChangeListener( this );
   }
 
-  public void open() throws SQLException
-  {
-    database = dbHelper.getWritableDatabase();
-  }
-
-  public void close()
-  {
-    dbHelper.close();
-  }
-
   /**
    * Saves the pulse value.
    * 
    * @param aPulse
    *          the pulse value.
-   * @return true if the operation has been successful, false otherwise.
+   * @return true if the pulse has been saved, false otherwise.
    */
   public synchronized Boolean savePulseValue( int aPulse )
   {
@@ -84,32 +74,22 @@ public class DataStorage implements OnSharedPreferenceChangeListener,
     if ( !storageLogic.pulseToBeSaved( aPulse ) )
       return false;
 
-    ContentValues values = new ContentValues();
-    values.put( DbOpenHelper.PULSE_COL_PULSE, aPulse );
-
-    long insertId = database.insert( DbOpenHelper.PULSE_TABLE_NAME, null,
-        values );
-
-    if ( insertId != -1 )
-      success = true;
+    success = perst.addPulseValue( aPulse );
 
     /* Do other stuff. */
-    getCurrentLocation();
+    //getCurrentLocation();
 
     return success;
   }
 
+  /**
+   * Get the current location and save it in the database.
+   */
   private void getCurrentLocation()
   {
     LocationModel l = locationRequester.getCurrentLocation();
 
-    ContentValues values = new ContentValues();
-    values.put( DbOpenHelper.LOCATION_COL_LATITUDE, l.getLatitude() );
-    values.put( DbOpenHelper.LOCATION_COL_LONGITUDE, l.getLongitude() );
-    values.put( DbOpenHelper.LOCATION_COL_SPEED, l.getSpeed() );
-    values.put( DbOpenHelper.LOCATION_COL_ELEVATION, l.getElevation() );
-
-    database.insert( DbOpenHelper.LOCATION_TABLE_NAME, null, values );
+    //database.insert( DbOpenHelper.LOCATION_TABLE_NAME, null, values );
   }
 
   public synchronized void addPulseChangedListener(
@@ -122,31 +102,6 @@ public class DataStorage implements OnSharedPreferenceChangeListener,
       PulseChangedListener listener )
   {
     _listeners.remove( listener );
-  }
-
-  /**
-   * Transforms a pulse database cursor to a pulse POJO.
-   * 
-   * @param cursor
-   *          pointing to the desired pulse row.
-   * @return the PulseModel object representation.
-   */
-  private PulseModel cursorToPulseModel( Cursor cursor )
-  {
-    PulseModel pulse = new PulseModel();
-
-    pulse.setId( cursor.getLong( 0 ) );
-
-    long millis = cursor.getLong( cursor.getColumnIndexOrThrow( "timestamp" ) );
-    Date addedOn = new Date( millis );
-    pulse.setDateTime( addedOn );
-
-    pulse.setPulse( cursor.getInt( 2 ) );
-
-    Log.d( "DB output", "Pulse: " + pulse.getPulse() + ", date: "
-        + pulse.getDateTime().toString() );
-
-    return pulse;
   }
 
   /**
@@ -198,6 +153,8 @@ public class DataStorage implements OnSharedPreferenceChangeListener,
     {
       demoGen.cancel( true );
       demoGen = null;
+      /* TODO-tof: TESTING */
+      perst.printPulseStatistics();
     }
   }
 

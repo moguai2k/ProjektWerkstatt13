@@ -4,7 +4,7 @@ import com.androidplot.util.Redrawer;
 import com.androidplot.xy.XYPlot;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.data.DataManager;
-import hm.edu.pulsebuddy.data.DataStorage;
+import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.*;
 import android.app.Activity;
@@ -28,7 +28,7 @@ public class MainActivity extends Activity
   private TextView toastText;
   private Redrawer redrawer = null;
   
-  private DataStorage ds = null;
+  private DataHandler ds = null;
 
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -38,7 +38,6 @@ public class MainActivity extends Activity
     
     /* Important to be the first that is initiated.  */
     ds = DataManager.getStorageInstance( this );
-    ds.open();
     
     XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
     TextView tv = (TextView) findViewById( R.id.currentPulse );

@@ -1,7 +1,7 @@
 package hm.edu.pulsebuddy.graph;
 
 import hm.edu.pulsebuddy.data.DataManager;
-import hm.edu.pulsebuddy.data.DataStorage;
+import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.PulseChangedListener;
 import hm.edu.pulsebuddy.model.PulseModel;
 
@@ -27,7 +27,7 @@ public class PulsePlot implements PulseChangedListener
   private SimpleXYSeries rollHistorySeries = null;
   private TextView tv = null;
 
-  private DataStorage ds = null;
+  private DataHandler ds = null;
 
   public PulsePlot( XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer )
   {

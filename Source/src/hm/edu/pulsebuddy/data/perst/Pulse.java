@@ -1,37 +1,30 @@
 package hm.edu.pulsebuddy.data.perst;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import org.garret.perst.TimeSeries;
 
-public class Pulse implements TimeSeries.Tick
+public class Pulse implements TimeSeries.Tick, Serializable
 {
+  /**
+   * UID
+   */
+  private static final long serialVersionUID = 2025472028539744879L;
 
-  public static class PulseBlock extends TimeSeries.Block
-  {
-    private Pulse[] pulses;
-
-    static final int N_ELEMS_PER_BLOCK = 100;
-
-    public TimeSeries.Tick[] getTicks()
-    {
-      if ( pulses == null )
-      {
-        pulses = new Pulse[ N_ELEMS_PER_BLOCK ];
-        for ( int i = 0; i < N_ELEMS_PER_BLOCK; i++ )
-        {
-          pulses[ i ] = new Pulse();
-        }
-      }
-      return pulses;
-    }
-  }
-
-  static final int MSECS_PER_DAY = 24 * 60 * 60 * 1000;
-
-  int date;
-  int pulse;
+  public long date;
+  public int value;
 
   public long getTime()
   {
-    return (long) date * MSECS_PER_DAY;
+    return date;
   }
+
+  @Override
+  public String toString()
+  {
+    return "Pulse [date=" + new Date( date ).toString() + ", value=" + value
+        + "]";
+  }
+
 }

@@ -38,13 +38,15 @@ public class StorageLogic implements OnSharedPreferenceChangeListener
    */
   public Boolean pulseToBeSaved( int aPulseValue )
   {
+    /*
     if ( aPulseValue - this.lastPulseValue >= pulseOffsetToSave
         || aPulseValue - this.lastPulseValue <= -pulseOffsetToSave )
     {
       this.lastPulseValue = aPulseValue;
       return true;
     }
-    else if ( this.pulseValueCounter < numOfPulseValuesTillPersist )
+    */
+    if ( this.pulseValueCounter < numOfPulseValuesTillPersist )
     {
       this.pulseValueCounter++;
       return false;

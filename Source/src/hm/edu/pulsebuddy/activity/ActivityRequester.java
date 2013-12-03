@@ -1,6 +1,5 @@
 package hm.edu.pulsebuddy.activity;
 
-import hm.edu.pulsebuddy.data.ActivityChangedListener;
 import hm.edu.pulsebuddy.model.ActivityModel;
 
 import java.io.Serializable;
@@ -14,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,9 +35,7 @@ public class ActivityRequester implements ConnectionCallbacks,
   /* The current pending intent */
   private PendingIntent pIntent;
 
-  private BroadcastReceiver receiver;
-
-  private int detectionIntervalMillis = 30000;
+  private int detectionIntervalMillis = 3000;
 
   private Boolean isConnected = false;
 
@@ -58,32 +56,33 @@ public class ActivityRequester implements ConnectionCallbacks,
     activityClient = new ActivityRecognitionClient( this.context, this, this );
 
     activityClient.connect();
-
-    receiver = new BroadcastReceiver()
-    {
-      @Override
-      public void onReceive( Context context, Intent intent )
-      {
-        Serializable ser = intent.getExtras().getSerializable(
-            "hm.edu.pulsebuddy.model.ActivityModel" );
-
-        ActivityModel activity = (ActivityModel) ser;
-
-        Log.d( TAG, activity.toString() );
-        notifyActivityChanged( activity );
-      }
-    };
-
-    IntentFilter filter = new IntentFilter();
-    filter.addAction( "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" );
-    context.registerReceiver( receiver, filter );
   }
 
-  public void startUpdates()
+  private BroadcastReceiver messageReceiver = new BroadcastReceiver()
+  {
+    @Override
+    public void onReceive( Context context, Intent intent )
+    {
+      Serializable ser = intent.getExtras().getSerializable(
+          "hm.edu.pulsebuddy.model.ActivityModel" );
+
+      ActivityModel activity = (ActivityModel) ser;
+
+      Log.d( TAG, activity.toString() );
+      notifyActivityChanged( activity );
+    }
+  };
+
+  private void startUpdates()
   {
     if ( servicesConnected() && isConnected )
     {
       Log.d( TAG, "Starting updates" );
+
+      LocalBroadcastManager.getInstance( this.context ).registerReceiver(
+          messageReceiver,
+          new IntentFilter(
+              "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" ) );
       
       Intent intent = new Intent( context,
           ActivityRecognitionIntentService.class );
@@ -95,27 +94,33 @@ public class ActivityRequester implements ConnectionCallbacks,
     }
   }
 
-  public void stopUpdates()
+  private void stopUpdates()
   {
     if ( isConnected )
     {
-      Log.d( TAG, "Stopping updated" );
+      Log.d( TAG, "Stopping updates" );
+      LocalBroadcastManager.getInstance( this.context ).unregisterReceiver(
+          messageReceiver );
+
       activityClient.removeActivityUpdates( pIntent );
+
     }
   }
 
   /**
    * 
-   * @param aActivity the activity to be notified
+   * @param aActivity
+   *          the activity to be notified
    */
   private synchronized void notifyActivityChanged( ActivityModel aActivity )
   {
     Iterator<ActivityChangedListener> i = _listeners.iterator();
-    while ( i.hasNext() )
-    {
-      ( (ActivityChangedListener) i.next() )
-          .handleActivityChangedEvent( aActivity );
-    }
+    if ( !i.hasNext() )
+      while ( i.hasNext() )
+      {
+        ( (ActivityChangedListener) i.next() )
+            .handleActivityChangedEvent( aActivity );
+      }
   }
 
   /**
@@ -139,6 +144,27 @@ public class ActivityRequester implements ConnectionCallbacks,
     }
   }
 
+  public synchronized void addActivityChangedListener(
+      ActivityChangedListener listener )
+  {
+    _listeners.add( listener );
+
+    if ( !_listeners.isEmpty() && isConnected )
+    {
+      startUpdates();
+    }
+  }
+
+  public synchronized void removeActivityChangedListener(
+      ActivityChangedListener listener )
+  {
+    _listeners.remove( listener );
+    if ( _listeners.isEmpty() )
+    {
+      stopUpdates();
+    }
+  }
+
   @Override
   public void onConnectionFailed( ConnectionResult result )
   {
@@ -149,7 +175,6 @@ public class ActivityRequester implements ConnectionCallbacks,
   public void onConnected( Bundle connectionHint )
   {
     isConnected = true;
-    startUpdates();
   }
 
   @Override

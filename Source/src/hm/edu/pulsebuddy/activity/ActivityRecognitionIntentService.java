@@ -54,27 +54,6 @@ public class ActivityRecognitionIntentService extends IntentService
   /* PRIVATE METHODS */
 
   /**
-   * Determine if an activity means that the user is moving.
-   * 
-   * @param type
-   *          The type of activity the user is doing
-   * @return true if the user seems to be moving from one location to another,
-   *         otherwise false
-   */
-  private boolean isMoving( int type )
-  {
-    switch ( type )
-    {
-      case DetectedActivity.STILL:
-      case DetectedActivity.TILTING:
-      case DetectedActivity.UNKNOWN:
-        return false;
-      default:
-        return true;
-    }
-  }
-
-  /**
    * Map detected activity types to activity model types.
    * 
    * @param activityType

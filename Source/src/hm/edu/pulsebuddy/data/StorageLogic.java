@@ -1,6 +1,7 @@
 package hm.edu.pulsebuddy.data;
 
 import com.google.android.gms.internal.ao;
+import com.google.android.gms.location.DetectedActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -71,6 +72,27 @@ public class StorageLogic implements OnSharedPreferenceChangeListener
           + sharedPreferences.getString( key, "" ) );
       this.numOfPulseValuesTillPersist = Integer.parseInt( sharedPreferences
           .getString( key, "" ) );
+    }
+  }
+  
+  /**
+   * Determine if an activity means that the user is moving.
+   * 
+   * @param type
+   *          The type of activity the user is doing
+   * @return true if the user seems to be moving from one location to another,
+   *         otherwise false
+   */
+  private boolean isMoving( int type )
+  {
+    switch ( type )
+    {
+      case DetectedActivity.STILL:
+      case DetectedActivity.TILTING:
+      case DetectedActivity.UNKNOWN:
+        return false;
+      default:
+        return true;
     }
   }
 }

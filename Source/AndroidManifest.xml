@@ -60,7 +60,8 @@
             android:enabled="true" />
         <service
             android:name=".activity.ActivityRecognitionIntentService"
-            android:enabled="true" />
+            android:enabled="true"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.version"

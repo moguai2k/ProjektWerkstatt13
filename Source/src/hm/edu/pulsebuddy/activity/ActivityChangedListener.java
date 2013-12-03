@@ -1,4 +1,4 @@
-package hm.edu.pulsebuddy.data;
+package hm.edu.pulsebuddy.activity;
 
 import hm.edu.pulsebuddy.model.ActivityModel;
 

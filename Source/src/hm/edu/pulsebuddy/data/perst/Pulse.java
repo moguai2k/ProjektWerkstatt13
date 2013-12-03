@@ -1,6 +1,5 @@
 package hm.edu.pulsebuddy.data.perst;
 
-import org.garret.perst.Persistent;
 import org.garret.perst.TimeSeries;
 
 public class Pulse implements TimeSeries.Tick

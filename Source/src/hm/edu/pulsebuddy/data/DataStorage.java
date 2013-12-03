@@ -35,6 +35,7 @@ public class DataStorage implements OnSharedPreferenceChangeListener
   private List<PulseChangedListener> _listeners = new ArrayList<PulseChangedListener>();
 
   private DemoPulseGenerator demoGen = null;
+  private Boolean demoGenIsRunning = false;
 
   public DataStorage( Context context )
   {
@@ -166,7 +167,7 @@ public class DataStorage implements OnSharedPreferenceChangeListener
     @Override
     protected String doInBackground( Void... params )
     {
-      while ( true )
+      while ( demoGenIsRunning )
       {
         int pulse = 50 + (int) ( Math.random() * ( ( 210 - 50 ) + 1 ) );
         publishProgress( pulse );
@@ -179,6 +180,7 @@ public class DataStorage implements OnSharedPreferenceChangeListener
           e.printStackTrace();
         }
       }
+      return null;
     }
 
     protected void onProgressUpdate( Integer... aPulse )
@@ -189,7 +191,8 @@ public class DataStorage implements OnSharedPreferenceChangeListener
     @Override
     protected void onPostExecute( String result )
     {
-
+      demoGen.cancel( true );
+      demoGen = null;
     }
   }
 
@@ -203,16 +206,13 @@ public class DataStorage implements OnSharedPreferenceChangeListener
       Log.d( TAG, "Debug mode enabled " + testMode );
       if ( ! testMode )
       {
-        if ( demoGen != null )
-        {
-          demoGen.cancel( true );
-          demoGen = null;
-        }
-        else
-        {
-          demoGen = new DemoPulseGenerator();
-          demoGen.execute();
-        }
+        demoGenIsRunning = false;
+      }
+      else
+      {
+        demoGenIsRunning = true;
+        demoGen = new DemoPulseGenerator();
+        demoGen.execute();
       }
     }
   }

@@ -17,7 +17,7 @@ public class PerstStorage
   private static final String TAG = "perst.storage";
 
   /* Stored on the external storage (SD-Card) */
-  private static final String DB_PATH = "/perst/";
+  private static final String DB_PATH = "/pulsebuddy/";
   private static final String DB_FILE = "pulsebuddy.dbs";
 
   /* The database object. */

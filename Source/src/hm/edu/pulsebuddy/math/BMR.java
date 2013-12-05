@@ -1,15 +1,35 @@
 package hm.edu.pulsebuddy.math;
 
-public class BMR {
+public class BMR
+{
 
-    public void getBMR(double weight, double height, double BMRw, double BMRm, int age)
-    { 
-        weight = 1.0; 
-        height = 1.0; 
-        age = 20; 
+  private float BMR;
 
-        BMRw = 655 + (4.3 * weight) + (4.7 * height) - (4.7 * age); 
-        BMRm = 66 + (6.3 * weight) + (12.9 * height) - (6.8 * age); 
-   } 
-	
+  private int weight; // kg
+  private int height; // cm
+  private int age;
+  private String gender;
+
+  public BMR()
+  {
+    weight = 1; // PERST.gimmeUserWeight();
+    height = 1; // PERST.gimmeUserHeight();
+    age = 20; // PERST.gimmeUserAge();
+    calculateBRM( weight, height, age );
+  }
+
+  private float calculateBRM( int weight, int height, int age )
+  {
+    if ( gender == "m" )
+      return 66 + ( 6.3F * weight ) + ( 12.9F * height ) - ( 6.8F * age );
+    else if ( gender == "w" )
+      return 655 + ( 4.3F * weight ) + ( 4.7F * height ) - ( 4.7F * age );
+    else
+      return 0;
+  }
+
+  public float getBMR()
+  {
+    return BMR;
+  }
 }

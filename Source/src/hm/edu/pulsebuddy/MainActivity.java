@@ -1,16 +1,14 @@
 package hm.edu.pulsebuddy;
 
-import com.androidplot.util.Redrawer;
-import com.androidplot.xy.XYPlot;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
-import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.DataHandler;
+import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.graph.PulsePlot;
-import hm.edu.pulsebuddy.misc.*;
+import hm.edu.pulsebuddy.misc.About;
+import hm.edu.pulsebuddy.misc.Help;
+import hm.edu.pulsebuddy.misc.SettingsActivity;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,13 +19,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidplot.util.Redrawer;
+import com.androidplot.xy.XYPlot;
+
 public class MainActivity extends Activity
 {
   private LayoutInflater inflater;
   private View layout;
   private TextView toastText;
   private Redrawer redrawer = null;
-  
+
   private DataHandler ds = null;
 
   @Override
@@ -35,15 +36,15 @@ public class MainActivity extends Activity
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.activity_main );
-    
-    /* Important to be the first that is initiated.  */
+
+    /* Important to be the first that is initiated. */
     ds = DataManager.getStorageInstance( this );
-    
+
     XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
     TextView tv = (TextView) findViewById( R.id.currentPulse );
-   
-   new PulsePlot( aprHistoryPlot, tv, redrawer );
-  }  
+
+    new PulsePlot( aprHistoryPlot, tv, redrawer );
+  }
 
   @Override
   public boolean onCreateOptionsMenu( Menu menu )
@@ -58,9 +59,6 @@ public class MainActivity extends Activity
   {
     switch ( item.getItemId() )
     {
-      case R.id.home:
-        startActivity( new Intent( this, MainActivity.class ) );
-        return true;
       case R.id.settings:
         startActivity( new Intent( this, SettingsActivity.class ) );
         return true;

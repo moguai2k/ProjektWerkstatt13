@@ -6,6 +6,7 @@ import hm.edu.pulsebuddy.ble.DeviceControlActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ public class Help extends Activity {
 	  {
 	    super.onCreate( savedInstanceState );
 	    setContentView( R.layout.activity_misc );
+	    getActionBar().setDisplayHomeAsUpEnabled(true);
 	  }
 	  
 	  @Override
@@ -29,9 +31,9 @@ public class Help extends Activity {
 	  @Override
 		public boolean onOptionsItemSelected(MenuItem item) {
 			switch (item.getItemId()) {
-				case R.id.home:
-					startActivity(new Intent(this, MainActivity.class));
-					return true;
+        case R.id.home:
+	        NavUtils.navigateUpFromSameTask(this);
+	        return true;
 				case R.id.settings:
 					startActivity(new Intent(this, SettingsActivity.class));
 					return true;

@@ -12,19 +12,44 @@ public class Pulse implements TimeSeries.Tick, Serializable
    */
   private static final long serialVersionUID = 2025472028539744879L;
 
-  public long date;
-  public int value;
+  private long timestamp;
+  private int value;
+
+  public Pulse()
+  {
+  }
+
+  public Pulse( int aPulse )
+  {
+    this.timestamp = new Date().getTime();
+    this.value = aPulse;
+  }
+
+  public int getValue()
+  {
+    return value;
+  }
+
+  public void setValue( int value )
+  {
+    this.value = value;
+  }
 
   public long getTime()
   {
-    return date;
+    return timestamp;
+  }
+  
+  public void setTime( long aTime )
+  {
+    this.timestamp = aTime;
   }
 
   @Override
   public String toString()
   {
-    return "Pulse [date=" + new Date( date ).toString() + ", value=" + value
-        + "]";
+    return "Pulse [date=" + new Date( timestamp ).toString() + ", value="
+        + value + "]";
   }
 
 }

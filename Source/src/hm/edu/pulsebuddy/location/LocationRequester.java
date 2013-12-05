@@ -1,9 +1,6 @@
 package hm.edu.pulsebuddy.location;
 
-import hm.edu.pulsebuddy.model.LocationModel;
-
-import java.util.Date;
-
+import hm.edu.pulsebuddy.data.perst.LocationModel;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -79,7 +76,7 @@ public class LocationRequester implements LocationListener,
       l.setSpeed( currentLocation.getSpeed() );
       l.setLatitude( currentLocation.getLatitude() );
       l.setLongitude( currentLocation.getLongitude() );
-      l.setTimestamp( new Date( currentLocation.getTime() ) );
+      l.setTime( currentLocation.getTime() );
       Log.d( TAG, l.toString() );
 
       return l;

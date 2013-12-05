@@ -1,15 +1,5 @@
 <resources>
-    
-    <string name="pref_pulse_values_before_save">Saving after receiving x values</string>
-    <string name="location_test">Location test</string>
-    <string name="activity_test">Activity test</string>
+
     <string name="title_activity_settings">Settings</string>
-    
-    <string-array name="savePulseValues">
-        <item name="1">1</item>
-        <item name="5">5</item>
-        <item name="30">10</item>
-        <item name="30">30</item>
-    </string-array>
-    
+
 </resources>

@@ -1,9 +1,9 @@
 package hm.edu.pulsebuddy.graph;
 
-import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.DataHandler;
+import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.PulseChangedListener;
-import hm.edu.pulsebuddy.model.PulseModel;
+import hm.edu.pulsebuddy.data.perst.Pulse;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -68,13 +68,13 @@ public class PulsePlot implements PulseChangedListener
   }
 
   @Override
-  public void handlePulseChangedEvent( PulseModel aPulse )
+  public void handlePulseChangedEvent( Pulse aPulse )
   {
     if ( rollHistorySeries.size() > HISTORY_SIZE )
       rollHistorySeries.removeFirst();
 
-    rollHistorySeries.addLast( null, aPulse.getPulse() );
-    tv.setText( "" + aPulse.getPulse() );
+    rollHistorySeries.addLast( null, aPulse.getValue() );
+    tv.setText( "" + aPulse.getValue() );
   }
 
 }

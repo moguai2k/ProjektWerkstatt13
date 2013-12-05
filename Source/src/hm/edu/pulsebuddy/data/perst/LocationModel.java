@@ -1,20 +1,22 @@
-package hm.edu.pulsebuddy.model;
+package hm.edu.pulsebuddy.data.perst;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class LocationModel implements Serializable
+import org.garret.perst.TimeSeries;
+
+public class LocationModel implements Serializable, TimeSeries.Tick
 {
   /**
    * UID
    */
   private static final long serialVersionUID = -3240980473307685029L;
 
+  private long timestamp;
   private Double latitude;
   private Double longitude;
   private Float speed;
   private Double elevation;
-  private Date timestamp;
 
   public Double getLatitude()
   {
@@ -55,15 +57,16 @@ public class LocationModel implements Serializable
   {
     this.elevation = elevation;
   }
-
-  public Date getTimestamp()
+  
+  public void setTime( Long aTime )
   {
-    return timestamp;
+    this.timestamp = aTime;
   }
 
-  public void setTimestamp( Date timestamp )
+  @Override
+  public long getTime()
   {
-    this.timestamp = timestamp;
+    return timestamp;
   }
 
   @Override
@@ -71,7 +74,7 @@ public class LocationModel implements Serializable
   {
     return "LocationModel [latitude=" + latitude + ", longitude=" + longitude
         + ", speed=" + speed + ", elevation=" + elevation + ", timestamp="
-        + timestamp + "]";
+        + new Date( timestamp ).toString() + "]";
   }
 
 }

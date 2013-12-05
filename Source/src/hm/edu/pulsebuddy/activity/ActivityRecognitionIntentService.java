@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.activity;
 
-import hm.edu.pulsebuddy.model.ActivityModel;
+import hm.edu.pulsebuddy.data.perst.ActivityModel;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -42,8 +42,9 @@ public class ActivityRecognitionIntentService extends IntentService
       /* Get the type of activity */
       int activityType = mostProbableActivity.getType();
 
-      ActivityModel activity = new ActivityModel( mapTypes( activityType ),
-          confidence );
+      ActivityModel activity = new ActivityModel();
+      activity.setConfidence( confidence );
+      activity.setType( mapTypes( activityType ) );
 
       Intent i = new Intent(
           "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" );

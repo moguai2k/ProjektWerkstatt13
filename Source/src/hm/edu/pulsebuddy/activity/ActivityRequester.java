@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.activity;
 
-import hm.edu.pulsebuddy.model.ActivityModel;
+import hm.edu.pulsebuddy.data.perst.ActivityModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -141,7 +141,6 @@ public class ActivityRequester implements ConnectionCallbacks,
           "hm.edu.pulsebuddy.model.ActivityModel" );
 
       ActivityModel activity = (ActivityModel) ser;
-      Log.d( TAG, activity.toString() );
       notifyActivityChanged( activity );
     }
   };

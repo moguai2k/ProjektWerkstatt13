@@ -3,14 +3,6 @@
     <PreferenceCategory
         android:key="pref_key_general_settings"
         android:title="@string/pref_key_general_title" >
-        <ListPreference
-            android:defaultValue="5"
-            android:entries="@array/savePulseValues"
-            android:entryValues="@array/savePulseValues"
-            android:key="prefPulseSave"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:title="@string/pref_pulse_values_before_save" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="prefDebugging"

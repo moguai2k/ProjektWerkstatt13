@@ -2,11 +2,9 @@ package hm.edu.pulsebuddy.data;
 
 import hm.edu.pulsebuddy.activity.ActivityChangedListener;
 import hm.edu.pulsebuddy.activity.ActivityRequester;
+import hm.edu.pulsebuddy.data.perst.ActivityModel;
 import hm.edu.pulsebuddy.data.perst.PerstStorage;
-import hm.edu.pulsebuddy.location.LocationRequester;
-import hm.edu.pulsebuddy.model.ActivityModel;
-import hm.edu.pulsebuddy.model.LocationModel;
-import hm.edu.pulsebuddy.model.PulseModel;
+import hm.edu.pulsebuddy.data.perst.Pulse;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,7 +25,8 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
   private PerstStorage perst;
   private StorageLogic storageLogic;
 
-  private LocationRequester locationRequester;
+  /* Location interface */
+  private LocationInterface locI;
   private ActivityRequester activityRequester;
 
   private List<PulseChangedListener> _listeners = new ArrayList<PulseChangedListener>();
@@ -39,10 +38,12 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
   {
     perst = new PerstStorage( context );
 
-    activityRequester = new ActivityRequester( context );
-    // activityRequester.addActivityChangedListener( this );
+    /* Create the location interface */
+    locI = new LocationInterface( context, perst );
+    locI.startLocationFetcher();
 
-    locationRequester = new LocationRequester( context );
+    activityRequester = new ActivityRequester( context );
+    activityRequester.addActivityChangedListener( this );
 
     storageLogic = new StorageLogic( context );
 
@@ -71,20 +72,7 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
 
     success = perst.addPulseValue( aPulse );
 
-    /* Do other stuff. */
-    // getCurrentLocation();
-
     return success;
-  }
-
-  /**
-   * Get the current location and save it in the database.
-   */
-  private void getCurrentLocation()
-  {
-    LocationModel l = locationRequester.getCurrentLocation();
-
-    // database.insert( DbOpenHelper.LOCATION_TABLE_NAME, null, values );
   }
 
   public synchronized void addPulseChangedListener(
@@ -106,7 +94,7 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
    */
   private synchronized void notifyPulseChanged( int aPulse )
   {
-    PulseModel p = new PulseModel( aPulse );
+    Pulse p = new Pulse( aPulse );
     Iterator<PulseChangedListener> i = _listeners.iterator();
     while ( i.hasNext() )
     {
@@ -150,6 +138,7 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
       demoGen = null;
       /* TODO-tof: TESTING */
       perst.printPulseStatistics();
+      perst.exportXml();
     }
   }
 
@@ -177,6 +166,9 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
   @Override
   public void handleActivityChangedEvent( ActivityModel aActivity )
   {
-    Log.d( TAG, aActivity.toString() );
+    if ( storageLogic.activityToBeSaved( aActivity ) )
+    {
+      perst.addActivity( aActivity );
+    }
   }
 }

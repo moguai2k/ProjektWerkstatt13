@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.activity;
 
-import hm.edu.pulsebuddy.model.ActivityModel;
+import hm.edu.pulsebuddy.data.perst.ActivityModel;
 
 public interface ActivityChangedListener
 {

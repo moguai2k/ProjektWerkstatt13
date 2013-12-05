@@ -1,7 +1,10 @@
 package hm.edu.pulsebuddy.data.perst;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -63,15 +66,55 @@ public class PerstStorage
     }
   }
 
+  /**
+   * Synchronized method to add a pulse value to the database.
+   * 
+   * @param aPulseValue
+   *          the pulse value
+   * @return true on success, false otherwise.
+   */
   public synchronized Boolean addPulseValue( int aPulseValue )
   {
     Pulse pulse = new Pulse();
-    pulse.date = new Date().getTime();
-    pulse.value = aPulseValue;
+    pulse.setTime( new Date().getTime() );
+    pulse.setValue( aPulseValue );
 
     Boolean success = root.pulses.add( pulse );
+    /* TODO-tof: necessary for every pulse value? */
     db.commit();
     Log.d( TAG, "Saved pulse " + success );
+
+    return success;
+  }
+
+  /**
+   * Synchronized method to add a location to the database.
+   * 
+   * @param aLocation
+   *          the location to be saved.
+   * @return true on success, false otherwise.
+   */
+  public synchronized Boolean addLocation( LocationModel aLocation )
+  {
+    Boolean success = root.locations.add( aLocation );
+    db.commit();
+    Log.d( TAG, "Saved location " + success );
+
+    return success;
+  }
+
+  /**
+   * Synchronized method to add an activity to the database.
+   * 
+   * @param aActivity
+   *          the activity to be saved.
+   * @return true on success, false otherwise.
+   */
+  public synchronized Boolean addActivity( ActivityModel aActivity )
+  {
+    Boolean success = root.activities.add( aActivity );
+    db.commit();
+    Log.d( TAG, "Saved activty " + success );
 
     return success;
   }
@@ -89,5 +132,28 @@ public class PerstStorage
       Log.d( TAG, pulse.toString() );
     }
     Log.d( TAG, "Number of pulse values in DB: " + i );
+  }
+
+  /**
+   * Generates a XML file of the database.
+   */
+  public void exportXml()
+  {
+    Long start = System.currentTimeMillis();
+    String exportPath = Environment.getExternalStorageDirectory()
+        .getAbsolutePath() + DB_PATH + "dbExport.xml";
+    Writer writer;
+    try
+    {
+      writer = new BufferedWriter( new FileWriter( exportPath ) );
+      db.exportXML( writer );
+      writer.close();
+    }
+    catch ( IOException e )
+    {
+      Log.e( TAG, "Error writing export XML" );
+    }
+    Log.i( TAG, "Elapsed time for XML export "
+        + ( System.currentTimeMillis() - start ) + " milliseconds" );
   }
 }

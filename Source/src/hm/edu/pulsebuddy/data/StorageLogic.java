@@ -1,35 +1,29 @@
 package hm.edu.pulsebuddy.data;
 
+import hm.edu.pulsebuddy.data.perst.ActivityModel;
+import hm.edu.pulsebuddy.data.perst.ActivityModel.Type;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.google.android.gms.location.DetectedActivity;
 
-public class StorageLogic implements OnSharedPreferenceChangeListener
+public class StorageLogic
 {
   private final static String TAG = "db.storageLogic";
 
-  private int numOfPulseValuesTillPersist;
-  private int pulseOffsetToSave;
-  private int pulseValueCounter;
+  /* The application context. */
+  private Context context;
 
+  /* Pulse part. */
+  private int pulseOffsetToSave = 5;
   private int lastPulseValue;
 
-  private Context context;
+  /* Activity part */
+  private ActivityModel.Type lastActivityType = Type.UNKNOWN;
+  private final static int MIN_CONFIDENCE = 50;
 
   public StorageLogic( Context context )
   {
     this.context = context;
-
-    /* Preferences */
-    SharedPreferences settings = PreferenceManager
-        .getDefaultSharedPreferences( this.context );
-    numOfPulseValuesTillPersist = Integer.parseInt( settings.getString(
-        "prefPulseSave", "5" ) );
-    settings.registerOnSharedPreferenceChangeListener( this );
   }
 
   /**
@@ -38,62 +32,36 @@ public class StorageLogic implements OnSharedPreferenceChangeListener
    */
   public Boolean pulseToBeSaved( int aPulseValue )
   {
-    /*
-    if ( aPulseValue - this.lastPulseValue >= pulseOffsetToSave
-        || aPulseValue - this.lastPulseValue <= -pulseOffsetToSave )
+    if ( ( aPulseValue - this.lastPulseValue ) >= pulseOffsetToSave
+        || ( aPulseValue - this.lastPulseValue ) <= -pulseOffsetToSave )
     {
       this.lastPulseValue = aPulseValue;
       return true;
     }
-    */
-    if ( this.pulseValueCounter < numOfPulseValuesTillPersist )
-    {
-      this.pulseValueCounter++;
-      return false;
-    }
     else
     {
-      this.pulseValueCounter = 0;
-      return true;
+      this.lastPulseValue = aPulseValue;
+      return false;
     }
   }
 
-  public Boolean locationToBeSaved()
-  {
-    return true;
-  }
-
-  @Override
-  public void onSharedPreferenceChanged( SharedPreferences sharedPreferences,
-      String key )
-  {
-    if ( key.equals( "prefPulseSave" ) )
-    {
-      Log.d( TAG, "Changing number of pulse values till save "
-          + sharedPreferences.getString( key, "" ) );
-      this.numOfPulseValuesTillPersist = Integer.parseInt( sharedPreferences
-          .getString( key, "" ) );
-    }
-  }
-  
   /**
-   * Determine if an activity means that the user is moving.
+   * Checks if the given activity should be saved.
    * 
-   * @param type
-   *          The type of activity the user is doing
-   * @return true if the user seems to be moving from one location to another,
-   *         otherwise false
+   * @param aActivity
+   *          the activity to be checked.
+   * @return true if it should be saved, false otehrwise.
    */
-  private boolean isMoving( int type )
+  public Boolean activityToBeSaved( ActivityModel aActivity )
   {
-    switch ( type )
+    if ( aActivity.getType() == lastActivityType )
+      return false;
+    else if ( aActivity.getConfidence() <= MIN_CONFIDENCE )
+      return false;
+    else
     {
-      case DetectedActivity.STILL:
-      case DetectedActivity.TILTING:
-      case DetectedActivity.UNKNOWN:
-        return false;
-      default:
-        return true;
-    }
+      this.lastActivityType = aActivity.getType();
+      return true;
+    }      
   }
 }

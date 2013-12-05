@@ -35,7 +35,8 @@ public class ActivityRequester implements ConnectionCallbacks,
   /* The current pending intent */
   private PendingIntent pIntent;
 
-  private int detectionIntervalMillis = 3000;
+  /* Detection intervall in millis */
+  private static final int detectionIntervalMillis = 5000;
 
   private Boolean isConnected = false;
   

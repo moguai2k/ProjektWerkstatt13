@@ -137,7 +137,7 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
       demoGen.cancel( true );
       demoGen = null;
       /* TODO-tof: TESTING */
-      perst.printPulseStatistics();
+      perst.printStatistics();
       perst.exportXml();
     }
   }

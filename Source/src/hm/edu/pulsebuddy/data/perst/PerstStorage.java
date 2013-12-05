@@ -120,18 +120,18 @@ public class PerstStorage
   }
 
   /**
-   * Get some pulse related statistics.
+   * Get some database related statistics.
    */
-  public void printPulseStatistics()
+  public void printStatistics()
   {
     int i;
-    Iterator<Pulse> iterator = root.pulses.iterator();
+    Iterator<LocationModel> iterator = root.locations.iterator();
     for ( i = 0; iterator.hasNext(); i++ )
     {
-      Pulse pulse = iterator.next();
-      Log.d( TAG, pulse.toString() );
+      LocationModel location = iterator.next();
+      Log.d( TAG, location.toString() );
     }
-    Log.d( TAG, "Number of pulse values in DB: " + i );
+    Log.d( TAG, "Number of database entries: " + i );
   }
 
   /**

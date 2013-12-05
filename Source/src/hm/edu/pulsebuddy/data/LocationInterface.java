@@ -56,6 +56,21 @@ public class LocationInterface
     }
   }
   
+  public Boolean stopLocationFetcher()
+  {
+    if ( this.isRunning )
+    {
+      locationTimer.cancel();
+      this.isRunning = false;
+      return true;
+    }
+    else
+    {
+      Log.e( TAG, "Fetcher ist not running" );
+      return false;
+    }
+  }
+  
   private class LocationFetcher extends TimerTask
   {
     @Override

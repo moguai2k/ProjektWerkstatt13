@@ -21,16 +21,13 @@ public class BMI
     gender = "m";
 
     // WHO
-    bmiValue = calculateBMI( userWeight, userWeight );
+    bmiValue = calculateBMI( userWeight, userHeight );
     bmiWColor = colorBMI( bmiValue );
     bmiWDescription = interpretWHOBMI( bmiValue );
 
     // DGE
     bmiDColor = colorBMI( bmiValue );
-    if ( gender == "m" )
-      bmiDDescription = interpretDGEBMIForM( bmiValue );
-    else
-      bmiDDescription = interpretDGEBMIForW( bmiValue );
+    bmiDDescription = interpretDGEBMI( bmiValue );
   }
 
   private int interpretWHOBMI( float bmiValue )
@@ -93,6 +90,16 @@ public class BMI
     }
   }
 
+  private int interpretDGEBMI( float bmiValue )
+  {
+    if ( gender == "m" )
+      return interpretDGEBMIForM( bmiValue );
+    else if ( gender == "w" )
+      return interpretDGEBMIForW( bmiValue );
+    else
+      return 0;
+  }
+
   private int colorBMI( float bmiValue )
   {
     if ( bmiValue < 16 )
@@ -121,5 +128,30 @@ public class BMI
   private float calculateBMI( int weight, int height )
   {
     return (float) ( weight / ( height * height ) );
+  }
+
+  public int getBmiWDescription()
+  {
+    return bmiWDescription;
+  }
+
+  public int getBmiDDescription()
+  {
+    return bmiDDescription;
+  }
+
+  public int getBmiWColor()
+  {
+    return bmiWColor;
+  }
+
+  public int getBmiDColor()
+  {
+    return bmiDColor;
+  }
+
+  public float getBmiValue()
+  {
+    return bmiValue;
   }
 }

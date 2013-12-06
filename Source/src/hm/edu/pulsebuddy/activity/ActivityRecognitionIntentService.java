@@ -1,5 +1,7 @@
 package hm.edu.pulsebuddy.activity;
 
+import java.util.Date;
+
 import hm.edu.pulsebuddy.data.perst.ActivityModel;
 import android.app.IntentService;
 import android.content.Intent;
@@ -45,6 +47,7 @@ public class ActivityRecognitionIntentService extends IntentService
       ActivityModel activity = new ActivityModel();
       activity.setConfidence( confidence );
       activity.setType( mapTypes( activityType ) );
+      activity.setTime( new Date().getTime() );
 
       Intent i = new Intent(
           "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" );

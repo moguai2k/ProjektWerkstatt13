@@ -38,8 +38,6 @@ public class LocationInterface implements OnSharedPreferenceChangeListener
     this.context = context;
     this.storageInterface = aStorage;
 
-    this.locationTimer = new Timer( "Location timer" );
-    this.locationTimerTask = new LocationFetcher();
     this.isRunning = false;
 
     this.locationRequester = new LocationRequester( this.context );
@@ -52,12 +50,14 @@ public class LocationInterface implements OnSharedPreferenceChangeListener
 
   public Boolean startLocationFetcher()
   {
-    if ( !this.isRunning )
+    if ( !this.isRunning )  
     {
+      this.locationTimerTask = new LocationFetcher();
       this.locationTimer = new Timer( "Location timer" );
-      this.isRunning = true;
+      
       locationTimer.schedule( locationTimerTask, EXECUTION_DELAY,
           EXECUTION_DELAY );
+      this.isRunning = true;
       return true;
     }
     else

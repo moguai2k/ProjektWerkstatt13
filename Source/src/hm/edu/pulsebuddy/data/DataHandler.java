@@ -40,7 +40,6 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
 
     /* Create the location interface */
     locI = new LocationInterface( context, perst );
-    locI.startLocationFetcher();
 
     activityRequester = new ActivityRequester( context );
     activityRequester.addActivityChangedListener( this );

@@ -3,6 +3,11 @@
     <PreferenceCategory
         android:key="pref_key_general_settings"
         android:title="@string/pref_key_general_title" >
+         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="location_fetcher"
+            android:summary="@string/location_fetcher_summary"
+            android:title="@string/location_fetcher" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="prefDebugging"

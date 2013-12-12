@@ -1,25 +1,23 @@
 package hm.edu.pulsebuddy.math;
 
 import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.common.Gender;
 
-public class BMI
+public class BMI implements Math
 {
 
   private int userWeight; // kg
   private int userHeight; // cm
+  private Gender userGender;
   private int bmiWDescription;
   private int bmiDDescription;
   private int bmiWColor;
   private int bmiDColor;
-  private float bmiValue;
-  private String gender;
+  private double bmiValue;
 
-  public BMI()
+  public void startBMICalculation( int userWeight, int userHeight,
+      Gender userGender )
   {
-    userWeight = 1; // PERST.gimmeUserWeight();
-    userWeight = 1; // PERST.gimmeUserHeight();
-    gender = "m";
-
     // WHO
     bmiValue = calculateBMI( userWeight, userHeight );
     bmiWColor = colorBMI( bmiValue );
@@ -27,28 +25,28 @@ public class BMI
 
     // DGE
     bmiDColor = colorBMI( bmiValue );
-    bmiDDescription = interpretDGEBMI( bmiValue );
+    bmiDDescription = interpretDGEBMI( bmiValue, userGender );
   }
 
-  private int interpretWHOBMI( float bmiValue )
+  private int interpretWHOBMI( double bmiValue2 )
   {
-    if ( bmiValue < 16 )
+    if ( bmiValue2 < 16 )
     {
       return R.string.bmiSUnder;
     }
-    else if ( bmiValue < 18.5 )
+    else if ( bmiValue2 < 18.5 )
     {
       return R.string.bmiUnder;
     }
-    else if ( bmiValue < 25 )
+    else if ( bmiValue2 < 25 )
     {
       return R.string.bmiNormal;
     }
-    else if ( bmiValue < 30 )
+    else if ( bmiValue2 < 30 )
     {
       return R.string.bmiOver;
     }
-    else if ( bmiValue < 40 )
+    else if ( bmiValue2 < 40 )
     {
       return R.string.bmiSOver;
     }
@@ -58,63 +56,63 @@ public class BMI
     }
   }
 
-  private int interpretDGEBMIForM( float bmiValue )
+  private int interpretDGEBMIForM( double bmiValue2 )
   {
-    if ( bmiValue < 20 )
+    if ( bmiValue2 < 20 )
     {
       return R.string.bmiUnder;
     }
-    else if ( bmiValue < 24.99 )
+    else if ( bmiValue2 < 24.99 )
     {
       return R.string.bmiNormal;
     }
     else
     {
-      return interpretWHOBMI( bmiValue );
+      return interpretWHOBMI( bmiValue2 );
     }
   }
 
-  private int interpretDGEBMIForW( float bmiValue )
+  private int interpretDGEBMIForW( double bmiValue2 )
   {
-    if ( bmiValue < 19 )
+    if ( bmiValue2 < 19 )
     {
       return R.string.bmiUnder;
     }
-    else if ( bmiValue < 23.99 )
+    else if ( bmiValue2 < 23.99 )
     {
       return R.string.bmiNormal;
     }
     else
     {
-      return interpretWHOBMI( bmiValue );
+      return interpretWHOBMI( bmiValue2 );
     }
   }
 
-  private int interpretDGEBMI( float bmiValue )
+  private int interpretDGEBMI( double bmiValue2, Gender gender )
   {
-    if ( gender == "m" )
-      return interpretDGEBMIForM( bmiValue );
-    else if ( gender == "w" )
-      return interpretDGEBMIForW( bmiValue );
+    if ( gender.equals( Gender.male ) )
+      return interpretDGEBMIForM( bmiValue2 );
+    else if ( gender.equals( Gender.female ) )
+      return interpretDGEBMIForW( bmiValue2 );
     else
       return 0;
   }
 
-  private int colorBMI( float bmiValue )
+  private int colorBMI( double bmiValue2 )
   {
-    if ( bmiValue < 16 )
+    if ( bmiValue2 < 16 )
     {
       return R.color.red;
     }
-    else if ( bmiValue < 18.5 )
+    else if ( bmiValue2 < 18.5 )
     {
       return R.color.yellow;
     }
-    else if ( bmiValue < 25 )
+    else if ( bmiValue2 < 25 )
     {
       return R.color.green;
     }
-    else if ( bmiValue < 30 )
+    else if ( bmiValue2 < 30 )
     {
       return R.color.yellow;
     }
@@ -128,6 +126,16 @@ public class BMI
   private float calculateBMI( int weight, int height )
   {
     return (float) ( weight / ( height * height ) );
+  }
+
+  private void setUserWeight( int userWeight )
+  {
+    this.userWeight = userWeight;
+  }
+
+  private void setUserHeight( int userHeight )
+  {
+    this.userHeight = userHeight;
   }
 
   public int getBmiWDescription()
@@ -150,7 +158,7 @@ public class BMI
     return bmiDColor;
   }
 
-  public float getBmiValue()
+  public double getBmiValue()
   {
     return bmiValue;
   }

@@ -5,6 +5,7 @@ import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.About;
+import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
 import android.app.Activity;
@@ -59,6 +60,9 @@ public class MainActivity extends Activity
   {
     switch ( item.getItemId() )
     {
+      case R.id.calibration:
+        startActivity( new Intent( this, CalibrationActivity.class ) );
+        return true;
       case R.id.settings:
         startActivity( new Intent( this, SettingsActivity.class ) );
         return true;

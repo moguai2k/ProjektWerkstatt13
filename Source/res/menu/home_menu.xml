@@ -4,6 +4,9 @@
         android:id="@+id/settings"
         android:title="@string/settings"/>
     <item
+        android:id="@+id/calibration"
+        android:title="@string/calibration"/>
+    <item
         android:id="@+id/about"
         android:title="@string/about"/>
     <item
@@ -12,5 +15,4 @@
     <item
         android:id="@+id/ble_scan"
         android:title="@string/title_devices"/>
-
 </menu>

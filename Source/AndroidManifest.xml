@@ -38,6 +38,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="hm.edu.pulsebuddy.misc.BMIActivity"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".misc.CalibrationActivity"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".misc.Help"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
@@ -56,12 +64,14 @@
         <activity
             android:name=".ble.DeviceControlActivity"
             android:screenOrientation="portrait" />
+
         <service
             android:name=".ble.BluetoothLeService"
             android:enabled="true" />
         <service
             android:name=".activity.ActivityRecognitionIntentService"
             android:exported="true" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

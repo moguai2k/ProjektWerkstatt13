@@ -1,20 +1,28 @@
 package hm.edu.pulsebuddy.misc;
 
-import java.util.Date;
-
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.Gender;
-import hm.edu.pulsebuddy.math.BMI;
-import hm.edu.pulsebuddy.math.Math;
+import hm.edu.pulsebuddy.data.DataHandler;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.perst.UserModel;
+
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.NumberPicker;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The calibration collects user information like date of birthday, height,
@@ -23,22 +31,32 @@ import android.widget.NumberPicker;
  * @author josefbichlmeier
  * 
  */
-public class CalibrationActivity extends Activity
+public class CalibrationActivity extends Activity implements
+    OnDateChangedListener
 {
   private Date dateOfBirthday;
   private int userHeight;
   private int userWeight;
   private Gender userGender;
 
+  private DataHandler dh;
+  private UserModel user;
+
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.calibration05 );
+
+    dh = DataManager.getStorageInstance();
+    user = dh.getUserInstance();
+
     getActionBar().setDisplayHomeAsUpEnabled( true );
+
     setValuesUserHeight();
     setValuesUserWeight();
     setValuesUserGender();
+    setValuesUserBirthday();
     saveCalibrationValues();
   }
 
@@ -53,6 +71,21 @@ public class CalibrationActivity extends Activity
       default:
         return super.onOptionsItemSelected( item );
     }
+  }
+
+  private void setValuesUserBirthday()
+  {
+    DatePicker datePicker = (DatePicker) findViewById( R.id.datePickerBirthday );
+
+    Calendar c = Calendar.getInstance();
+    c.setTimeInMillis( user.getBirthday().getTime() );
+
+    int year = c.get( Calendar.YEAR );
+    int month = c.get( Calendar.MONTH );
+    int day = c.get( Calendar.DATE );
+    datePicker.init( year, month, day, this );
+
+    setDateOfBirthday( user.getBirthday() );
   }
 
   /**
@@ -79,6 +112,12 @@ public class CalibrationActivity extends Activity
         .setDescendantFocusability( NumberPicker.FOCUS_BLOCK_DESCENDANTS );
 
     getSelectedUserHeight( numberPickerUserHeight );
+
+    if ( user != null )
+    {
+      numberPickerUserHeight.setValue( user.getHeight() );
+      setUserHeight( user.getHeight() );
+    }
   }
 
   /**
@@ -125,6 +164,13 @@ public class CalibrationActivity extends Activity
         .setDescendantFocusability( NumberPicker.FOCUS_BLOCK_DESCENDANTS );
 
     getSelectedUserWeight( numberPickerForWeight );
+
+    if ( user != null )
+    {
+      numberPickerForWeight.setValue( user.getWeight() );
+      setUserWeight( user.getWeight() );
+    }
+
   }
 
   /**
@@ -164,6 +210,17 @@ public class CalibrationActivity extends Activity
         .setDescendantFocusability( NumberPicker.FOCUS_BLOCK_DESCENDANTS );
 
     getSelectedUserGender( numberPickerUserGender );
+
+    if ( user != null )
+    {
+      Gender g = user.getGender();
+      if ( g == Gender.female )
+        numberPickerUserGender.setValue( 1 );
+      else if ( g == Gender.male )
+        numberPickerUserGender.setValue( 2 );
+
+      setUserGender( g );
+    }
   }
 
   /**
@@ -224,9 +281,14 @@ public class CalibrationActivity extends Activity
     {
       public void onClick( View v )
       {
-        // @Tore: Butten "Speichern" klicken wird hier ausgeführt, Werte der
-        // Kalibrierung in die DB speichern
+        user.setWeight( userWeight );
+        user.setHeight( userHeight );
+        user.setGender( userGender );
+        user.setBirthday( dateOfBirthday );
 
+        dh.savaUserInstance( user );
+
+        customToast( "Saved user data." );
       }
     } );
   }
@@ -255,4 +317,28 @@ public class CalibrationActivity extends Activity
     this.dateOfBirthday = dateOfBirthday;
   }
 
+  private void customToast( String text )
+  {
+    LayoutInflater inflater = getLayoutInflater();
+    View layout = inflater.inflate( R.layout.custom_toast,
+        (ViewGroup) findViewById( R.id.toast_layout ) );
+
+    TextView textV = (TextView) layout.findViewById( R.id.toastText );
+    textV.setText( text );
+
+    Toast toast = new Toast( getApplicationContext() );
+    toast.setDuration( Toast.LENGTH_LONG );
+    toast.setView( layout );
+    toast.show();
+
+  }
+
+  @Override
+  public void onDateChanged( DatePicker view, int year, int monthOfYear,
+      int dayOfMonth )
+  { 
+    Calendar c = Calendar.getInstance();
+    c.set( year, monthOfYear, dayOfMonth );
+    setDateOfBirthday( c.getTime() );
+  }
 }

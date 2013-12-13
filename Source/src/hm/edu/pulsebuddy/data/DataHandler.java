@@ -5,6 +5,7 @@ import hm.edu.pulsebuddy.activity.ActivityRequester;
 import hm.edu.pulsebuddy.data.perst.ActivityModel;
 import hm.edu.pulsebuddy.data.perst.PerstStorage;
 import hm.edu.pulsebuddy.data.perst.Pulse;
+import hm.edu.pulsebuddy.data.perst.UserModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,6 +35,12 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
   private DemoPulseGenerator demoGen = null;
   private Boolean demoGenIsRunning = false;
 
+  
+  /**
+   * CTOR
+   * 
+   * @param context the application context.
+   */
   public DataHandler( Context context )
   {
     perst = new PerstStorage( context );
@@ -74,12 +81,22 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
     return success;
   }
 
+  /**
+   * Add a listener to receive pulse changes.
+   * 
+   * @param listener
+   */
   public synchronized void addPulseChangedListener(
       PulseChangedListener listener )
   {
     _listeners.add( listener );
   }
 
+  /**
+   * Remove a previously added pulse change listener.
+   * 
+   * @param listener
+   */
   public synchronized void removePulseChangedListener(
       PulseChangedListener listener )
   {
@@ -99,6 +116,26 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
     {
       ( (PulseChangedListener) i.next() ).handlePulseChangedEvent( p );
     }
+  }
+
+  /**
+   * Get the user instance object.
+   * 
+   * @return The user object.
+   */
+  public synchronized UserModel getUserInstance()
+  {
+    return perst.getUser();
+  }
+
+  /**
+   * Save the user instance object.
+   * 
+   * @param aUser The user object.
+   */
+  public synchronized void savaUserInstance( UserModel aUser )
+  {
+    perst.setUser( aUser );
   }
 
   /**

@@ -1,5 +1,6 @@
 package hm.edu.pulsebuddy.data.perst;
 
+import org.garret.perst.FieldIndex;
 import org.garret.perst.Storage;
 import org.garret.perst.TimeSeries;
 
@@ -8,6 +9,8 @@ public class PerstRootClass
   public TimeSeries<Pulse> pulses;
   public TimeSeries<LocationModel> locations;
   public TimeSeries<ActivityModel> activities;
+  
+  public FieldIndex<UserModel> user;
 
   public PerstRootClass( Storage db )
   {
@@ -22,6 +25,9 @@ public class PerstRootClass
     /* Create time series for the activity objects. */
     this.activities = db.createTimeSeries( ActivityBlock.class,
         (long) ActivityBlock.N_ELEMS_PER_BLOCK * (24*60*60*1000) * 2 );
+    
+    /* Create user object index. */
+    this.user = db.createFieldIndex( UserModel.class, "intIndex", true );
   }
 
   public PerstRootClass()

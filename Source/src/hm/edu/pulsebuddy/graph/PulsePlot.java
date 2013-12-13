@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.widget.TextView;
 
 import com.androidplot.Plot;
@@ -16,65 +17,87 @@ import com.androidplot.util.Redrawer;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYStepMode;
 
-public class PulsePlot implements PulseChangedListener
-{
-  private Redrawer redrawer;
-  private static final int HISTORY_SIZE = 200;
-  private XYPlot aprHistoryPlot = null;
-  private SimpleXYSeries rollHistorySeries = null;
-  private TextView tv = null;
+public class PulsePlot implements PulseChangedListener {
+	private Redrawer redrawer;
+	private static final int SECONDS = 30;
+	private static final int PULSE = 220;
+	// private XYPlot aprHistoryPlot = null;
+	private MultitouchPlot aprHistoryPlot = null;
+	private SimpleXYSeries rollHistorySeries = null;
+	private TextView tv = null;
 
-  private DataHandler ds = null;
+	private DataHandler ds = null;
 
-  public PulsePlot( XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer )
-  {
-    this.aprHistoryPlot = aprHistoryPlot;
-    this.tv = tv;
-    this.redrawer = redrawer;
+	// public PulsePlot(XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer) {
+	public PulsePlot(MultitouchPlot aprHistoryPlot, TextView tv,
+			Redrawer redrawer) {
+		this.aprHistoryPlot = aprHistoryPlot;
+		this.tv = tv;
+		this.redrawer = redrawer;
 
-    ds = DataManager.getStorageInstance();
-    if ( ds != null )
-      ds.addPulseChangedListener( this );
-    graphIt();
-  }
+		ds = DataManager.getStorageInstance();
+		if (ds != null)
+			ds.addPulseChangedListener(this);
 
-  @SuppressWarnings( "deprecation" )
-  public void graphIt()
-  {
-    rollHistorySeries = new SimpleXYSeries( "Puls" );
-    rollHistorySeries.useImplicitXVals();
+		graphIt();
+	}
 
-    aprHistoryPlot.setRangeBoundaries( 0, 240, BoundaryMode.FIXED );
-    aprHistoryPlot.setDomainBoundaries( 0, HISTORY_SIZE, BoundaryMode.FIXED );
-    aprHistoryPlot.addSeries( rollHistorySeries, new LineAndPointFormatter(
-        Color.rgb( 200, 100, 100 ), null, null, null ) );
-    aprHistoryPlot.setDomainStepMode( XYStepMode.INCREMENT_BY_VAL );
-    aprHistoryPlot.setDomainStepValue( HISTORY_SIZE / 10 );
-    aprHistoryPlot.setTicksPerRangeLabel( 3 );
-    aprHistoryPlot.setDomainLabel( "Sample Index" );
-    aprHistoryPlot.getDomainLabelWidget().pack();
-    aprHistoryPlot.setRangeLabel( "Angle (Degs)" );
-    aprHistoryPlot.getRangeLabelWidget().pack();
+	public void graphIt() {
+		rollHistorySeries = new SimpleXYSeries("Puls");
+		rollHistorySeries.useImplicitXVals();
 
-    aprHistoryPlot.setRangeValueFormat( new DecimalFormat( "#" ) );
-    aprHistoryPlot.setDomainValueFormat( new DecimalFormat( "#" ) );
+		aprHistoryPlot.setDrawDomainOriginEnabled(false);
+		aprHistoryPlot.setBackgroundPaint(null);
+		aprHistoryPlot.getGraphWidget().setBackgroundPaint(null);
+		aprHistoryPlot.getGraphWidget().setGridBackgroundPaint(null);
+		aprHistoryPlot.getGraphWidget().setDomainLabelPaint(null);
+		aprHistoryPlot.getGraphWidget().setDomainOriginLabelPaint(null);
+		aprHistoryPlot.getGraphWidget().setDomainGridLinePaint(null);
+	    aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint(null);
+	    aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint(null);
+	    
+	    aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
+	    aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
+		
+		//aprHistoryPlot.setRangeBoundaries(0, PULSE, BoundaryMode.FIXED);
+		//aprHistoryPlot.setDomainBoundaries(0, SECONDS, BoundaryMode.FIXED);
+		
+		LineAndPointFormatter lineAndPointFormatter = new LineAndPointFormatter(Color.rgb(200, 100, 100), null, null, null);
+	    Paint paint = lineAndPointFormatter.getLinePaint();
+	    paint.setStrokeWidth(10);
+	    lineAndPointFormatter.setLinePaint(paint);
+	    
+		aprHistoryPlot.addSeries(rollHistorySeries, lineAndPointFormatter);
+		aprHistoryPlot.setDomainStepMode(XYStepMode.INCREMENT_BY_VAL);
+		aprHistoryPlot.setDomainStepValue(SECONDS / 6);
+		aprHistoryPlot.setRangeStepValue(7.0d);
+		aprHistoryPlot.setRangeValueFormat(new DecimalFormat("#"));
+		aprHistoryPlot.setDomainValueFormat(new DecimalFormat("#"));
+		
+		//aprHistoryPlot.setTicksPerRangeLabel(3);
+		aprHistoryPlot.setDomainLabel("Zeit");
+		aprHistoryPlot.getDomainLabelWidget().pack();
+		aprHistoryPlot.setRangeLabel("Puls");
+		aprHistoryPlot.getRangeLabelWidget().pack();
 
-    redrawer = new Redrawer( Arrays.asList( new Plot[] { aprHistoryPlot } ),
-        100, false );
-    redrawer.start();
-  }
+		aprHistoryPlot.getLayoutManager().remove(
+		aprHistoryPlot.getLegendWidget());
 
-  @Override
-  public void handlePulseChangedEvent( Pulse aPulse )
-  {
-    if ( rollHistorySeries.size() > HISTORY_SIZE )
-      rollHistorySeries.removeFirst();
+		redrawer = new Redrawer(Arrays.asList(new Plot[] { aprHistoryPlot }),
+				100, false);
+		redrawer.start();
 
-    rollHistorySeries.addLast( null, aPulse.getValue() );
-    tv.setText( "" + aPulse.getValue() );
-  }
+		aprHistoryPlot.redraw();
+	}
 
+	@Override
+	public void handlePulseChangedEvent(Pulse aPulse) {
+		if (rollHistorySeries.size() > SECONDS)
+			rollHistorySeries.removeFirst();
+
+		rollHistorySeries.addLast(null, aPulse.getValue());
+		tv.setText("" + aPulse.getValue());
+	}
 }

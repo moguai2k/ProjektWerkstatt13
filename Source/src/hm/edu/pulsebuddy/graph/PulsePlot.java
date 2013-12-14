@@ -55,35 +55,36 @@ public class PulsePlot implements PulseChangedListener {
 		aprHistoryPlot.getGraphWidget().setDomainLabelPaint(null);
 		aprHistoryPlot.getGraphWidget().setDomainOriginLabelPaint(null);
 		aprHistoryPlot.getGraphWidget().setDomainGridLinePaint(null);
-	    aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint(null);
-	    aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint(null);
-	    
-	    aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
-	    aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
-		
-		//aprHistoryPlot.setRangeBoundaries(0, PULSE, BoundaryMode.FIXED);
-		//aprHistoryPlot.setDomainBoundaries(0, SECONDS, BoundaryMode.FIXED);
-		
-		LineAndPointFormatter lineAndPointFormatter = new LineAndPointFormatter(Color.rgb(200, 100, 100), null, null, null);
-	    Paint paint = lineAndPointFormatter.getLinePaint();
-	    paint.setStrokeWidth(10);
-	    lineAndPointFormatter.setLinePaint(paint);
-	    
+		aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint(null);
+		aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint(null);
+
+		// aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
+		// aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
+
+		aprHistoryPlot.setRangeBoundaries(0, PULSE, BoundaryMode.FIXED);
+		aprHistoryPlot.setDomainBoundaries(0, SECONDS, BoundaryMode.FIXED);
+
+		LineAndPointFormatter lineAndPointFormatter = new LineAndPointFormatter(
+				Color.rgb(200, 100, 100), null, null, null);
+		Paint paint = lineAndPointFormatter.getLinePaint();
+		paint.setStrokeWidth(8);
+		lineAndPointFormatter.setLinePaint(paint);
+
 		aprHistoryPlot.addSeries(rollHistorySeries, lineAndPointFormatter);
 		aprHistoryPlot.setDomainStepMode(XYStepMode.INCREMENT_BY_VAL);
 		aprHistoryPlot.setDomainStepValue(SECONDS / 6);
 		aprHistoryPlot.setRangeStepValue(7.0d);
 		aprHistoryPlot.setRangeValueFormat(new DecimalFormat("#"));
 		aprHistoryPlot.setDomainValueFormat(new DecimalFormat("#"));
-		
-		//aprHistoryPlot.setTicksPerRangeLabel(3);
+
+		// aprHistoryPlot.setTicksPerRangeLabel(3);
 		aprHistoryPlot.setDomainLabel("Zeit");
 		aprHistoryPlot.getDomainLabelWidget().pack();
 		aprHistoryPlot.setRangeLabel("Puls");
 		aprHistoryPlot.getRangeLabelWidget().pack();
 
 		aprHistoryPlot.getLayoutManager().remove(
-		aprHistoryPlot.getLegendWidget());
+				aprHistoryPlot.getLegendWidget());
 
 		redrawer = new Redrawer(Arrays.asList(new Plot[] { aprHistoryPlot }),
 				100, false);

@@ -146,18 +146,47 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
     @Override
     protected String doInBackground( Void... params )
     {
+      //demo and algorithm for never-stop-puslin
+      int lastPulse = 50 + (int) ( Math.random() * ( ( 210 - 50 ) + 1 ) );
+      
       while ( demoGenIsRunning )
       {
-        int pulse = 50 + (int) ( Math.random() * ( ( 210 - 50 ) + 1 ) );
-        publishProgress( pulse );
-        try
-        {
-          Thread.sleep( 1000 );
+        int nextPulse = 50 + (int) ( Math.random() * ( ( 210 - 50 ) + 1 ) );
+        
+        publishProgress( lastPulse );
+
+        int avgPulseSteps = 0;
+        int currentPulse = lastPulse;
+        
+        if( nextPulse > lastPulse ) { //+pulse
+          avgPulseSteps = ( nextPulse - lastPulse ) / 10;
         }
-        catch ( InterruptedException e )
-        {
-          e.printStackTrace();
+        else { //-pulse
+          avgPulseSteps = ( lastPulse - nextPulse ) / 10;
         }
+        
+        for ( int i = 0; i < 9; i++ )
+        {
+          if( nextPulse > lastPulse ) { //+pulse
+            currentPulse += avgPulseSteps;
+          }
+          else { //-pulse
+            currentPulse -= avgPulseSteps;
+          }
+
+          publishProgress( currentPulse );
+          
+          try
+          {
+            Thread.sleep( 100 );
+          }
+          catch ( InterruptedException e )
+          {
+            e.printStackTrace();
+          }
+        }
+        
+        lastPulse = nextPulse;
       }
       return null;
     }

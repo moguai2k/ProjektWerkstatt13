@@ -17,22 +17,22 @@ import com.androidplot.util.Redrawer;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYStepMode;
 
 public class PulsePlot implements PulseChangedListener {
 	private Redrawer redrawer;
-	private static final int SECONDS = 30;
+	private static final int SECONDS = 300;
 	private static final int PULSE = 220;
-	// private XYPlot aprHistoryPlot = null;
-	private MultitouchPlot aprHistoryPlot = null;
+	private XYPlot aprHistoryPlot = null;
+	// private MultitouchPlot aprHistoryPlot = null;
 	private SimpleXYSeries rollHistorySeries = null;
 	private TextView tv = null;
 
 	private DataHandler ds = null;
 
-	// public PulsePlot(XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer) {
-	public PulsePlot(MultitouchPlot aprHistoryPlot, TextView tv,
-			Redrawer redrawer) {
+	public PulsePlot(XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer) {
+	// public PulsePlot(MultitouchPlot aprHistoryPlot, TextView tv,	Redrawer redrawer) {
 		this.aprHistoryPlot = aprHistoryPlot;
 		this.tv = tv;
 		this.redrawer = redrawer;

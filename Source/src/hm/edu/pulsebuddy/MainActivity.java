@@ -3,11 +3,11 @@ package hm.edu.pulsebuddy;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataManager;
-import hm.edu.pulsebuddy.graph.MultitouchPlot;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.About;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
+import hm.edu.pulsebuddy.misc.MapsActivity;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidplot.util.Redrawer;
+import com.androidplot.xy.XYPlot;
 
 public class MainActivity extends Activity {
 	private LayoutInflater inflater;
@@ -40,8 +41,8 @@ public class MainActivity extends Activity {
 		/* Important to be the first that is initiated. */
 		ds = DataManager.getStorageInstance(this);
 
-		// XYPlot aprHistoryPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
-		MultitouchPlot aprHistoryPlot = (MultitouchPlot) findViewById(R.id.aprHistoryPlot);
+		XYPlot aprHistoryPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
+		// MultitouchPlot aprHistoryPlot = (MultitouchPlot) findViewById(R.id.aprHistoryPlot);
 		TextView tv = (TextView) findViewById(R.id.currentPulse);
 
 		new PulsePlot(aprHistoryPlot, tv, redrawer);
@@ -63,6 +64,9 @@ public class MainActivity extends Activity {
 		case R.id.settings:
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
+    case R.id.maps:
+      startActivity(new Intent(this, MapsActivity.class));
+      return true;
 		case R.id.about:
 			startActivity(new Intent(this, About.class));
 			return true;

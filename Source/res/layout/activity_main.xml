@@ -29,9 +29,8 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <!-- <com.androidplot.xy.XYPlot -->
-
-        <hm.edu.pulsebuddy.graph.MultitouchPlot
+        <!-- <hm.edu.pulsebuddy.graph.MultitouchPlot -->
+        <com.androidplot.xy.XYPlot
             android:id="@+id/aprHistoryPlot"
             android:layout_width="0dp"
             android:layout_height="300dp"

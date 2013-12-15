@@ -72,6 +72,10 @@
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="hm.edu.pulsebuddy.graph.GraphDayActivity"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ble.DeviceScanActivity"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />

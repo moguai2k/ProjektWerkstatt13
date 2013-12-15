@@ -19,6 +19,8 @@
     <string name="zero_pulse">0</string>
     <string name="maps">Location / Activity</string>
     <string name="maptype">Ändere Kartenart</string>
+    <string name="graph_day">Zeige Tagesanzeige</string>
+    <string name="reset">Reset</string>
 
     <!-- Menu items -->
     <string name="menu_connect">Connect</string>

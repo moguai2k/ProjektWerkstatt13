@@ -45,7 +45,6 @@ public class MapsActivity extends Activity implements ActivityListener
     getActionBar().setDisplayHomeAsUpEnabled( true );
 
     di = DataManager.getDataInterface();
-    di.addActivityListener( this );
 
     adapter = new MapsAdapter( MapsActivity.this, R.layout.map_fragment_element );
     adapter.setValues( di.getLastActivities( NUMBER_ACTITIY_ENTRIES ) );
@@ -64,8 +63,13 @@ public class MapsActivity extends Activity implements ActivityListener
       map.moveCamera( CameraUpdateFactory.newLatLngZoom( MUNICH, 15 ) );
       map.animateCamera( CameraUpdateFactory.zoomTo( 10 ), 2000, null );
     }
+  }
 
-    
+  @Override
+  protected void onResume()
+  {
+    super.onResume();
+    di.addActivityListener( this );
   }
 
   @Override
@@ -100,18 +104,17 @@ public class MapsActivity extends Activity implements ActivityListener
         return super.onOptionsItemSelected( item );
     }
   }
-  
+
   private void setLocationOnMap( LocationModel aLocation )
   {
     if ( aLocation == null )
       return;
-    
+
     LatLng loc = new LatLng( aLocation.getLatitude(), aLocation.getLongitude() );
-    map.addMarker( new MarkerOptions().position( loc ).draggable( true )
-        .icon( BitmapDescriptorFactory.fromResource( R.drawable.pb ) ) );
-    
-    //.title( "Activity" ).snippet( "50% Bewegung, 11:00, 01.01.2014, w/e" )
-    
+    map.addMarker( new MarkerOptions().position( loc )
+        .icon( BitmapDescriptorFactory.fromResource( R.drawable.pb ) )
+        .title( "Activity" ).snippet( "50% Bewegung, 11:00, 01.01.2014, w/e" ) );
+
     map.moveCamera( CameraUpdateFactory.newLatLngZoom( loc, 17 ) );
   }
 

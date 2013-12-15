@@ -1,7 +1,7 @@
 package hm.edu.pulsebuddy.data;
 
-import hm.edu.pulsebuddy.data.perst.ActivityModel;
-import hm.edu.pulsebuddy.data.perst.ActivityModel.Type;
+import hm.edu.pulsebuddy.data.models.ActivityModel;
+import hm.edu.pulsebuddy.data.models.ActivityModel.Type;
 import android.content.Context;
 
 import com.google.android.gms.location.DetectedActivity;

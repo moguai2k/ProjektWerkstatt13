@@ -1,12 +1,20 @@
 package hm.edu.pulsebuddy.data.perst;
 
+import hm.edu.pulsebuddy.data.listeners.ActivityListener;
+import hm.edu.pulsebuddy.data.models.ActivityModel;
+import hm.edu.pulsebuddy.data.models.LocationModel;
+import hm.edu.pulsebuddy.data.models.Pulse;
+import hm.edu.pulsebuddy.data.models.UserModel;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.garret.perst.Key;
 import org.garret.perst.Storage;
@@ -40,6 +48,9 @@ public class PerstStorage
 
   private RrdDb rrdDb;
   private Sample rrdSample;
+
+  /* Listeners */
+  private List<ActivityListener> _actListeners = new ArrayList<ActivityListener>();
 
   public PerstStorage( Context context )
   {
@@ -168,6 +179,12 @@ public class PerstStorage
     return success;
   }
 
+  /****************************************************************************
+   * 
+   * Activity related
+   * 
+   ***************************************************************************/
+
   /**
    * Synchronized method to add an activity to the database.
    * 
@@ -175,33 +192,104 @@ public class PerstStorage
    *          the activity to be saved.
    * @return true on success, false otherwise.
    */
-  public synchronized Boolean addActivity( ActivityModel aActivity )
+  public Boolean addActivity( ActivityModel aActivity )
   {
     Boolean success = root.activities.add( aActivity );
     db.commit();
     Log.d( TAG, "Saved activty " + success );
 
+    /* Notify the listeners. */
+    notifyActivity( aActivity );
+
     return success;
   }
 
   /**
-   * Synchronized method to update the user object.
+   * Add a listener to be notified for relevant activity changes.
    * 
-   * @param aUser
-   *          the user to be updated.
-   * @return true on success, false otherwise.
+   * @param listener
    */
-  public synchronized Boolean setUser( UserModel aUser )
+  public void addActivityListener( ActivityListener listener )
   {
-    Boolean success = root.user.remove( aUser );
-    success = root.user.put( aUser );
-    db.store( aUser );
-    db.commit();
-    Log.d( TAG, "Updated user " + success );
-    Log.d( TAG, "User: " + aUser.toString() );
-
-    return success;
+    _actListeners.add( listener );
   }
+
+  /**
+   * Remove a previously added activity change listener.
+   * 
+   * @param listener
+   */
+  public void removeActivityListener( ActivityListener listener )
+  {
+    _actListeners.remove( listener );
+  }
+
+  /**
+   * Forwards the current activity to the listeners.
+   * 
+   * @param aPulse
+   */
+  private void notifyActivity( ActivityModel aActivity )
+  {
+    Iterator<ActivityListener> i = _actListeners.iterator();
+    while ( i.hasNext() )
+    {
+      ( (ActivityListener) i.next() ).handleRelevantActivity( aActivity );
+    }
+  }
+
+  /**
+   * Returns a given number of recent activities. If the list contains less
+   * activities then requested, no more are available in the database.
+   * 
+   * @param aNumberOfActivities
+   *          The number of activities to be returned.
+   * @return a list containing recent activities.
+   */
+  public List<ActivityModel> getLastActivities(
+      int aNumberOfActivities )
+  {
+    List<ActivityModel> activities = new ArrayList<ActivityModel>();
+    int i;
+    Iterator<ActivityModel> it = root.activities.iterator( false );
+    for ( i = aNumberOfActivities; i > 0; i-- )
+    {
+      if ( it.hasNext() )
+      {
+        ActivityModel a = (ActivityModel) it.next();
+        if ( a != null )
+          activities.add( a );
+      }
+    }
+
+    return activities;
+
+  }
+
+  /****************************************************************************
+   * 
+   * Location related
+   * 
+   ***************************************************************************/
+
+  /**
+   * Returns the the last saved location.
+   * 
+   * @return The last saved location, null if no location is available.
+   */
+  public LocationModel getLastLocation()
+  {
+    Iterator<LocationModel> it = root.locations.iterator( false );
+    if ( it.hasNext() )
+      return (LocationModel) it.next();
+    return null;
+  }
+
+  /****************************************************************************
+   * 
+   * User related
+   * 
+   ***************************************************************************/
 
   /**
    * Returns the default user if it already has been created, otherwise it
@@ -209,7 +297,7 @@ public class PerstStorage
    * 
    * @return The user object.
    */
-  public synchronized UserModel getUser()
+  public UserModel getUser()
   {
     UserModel u = root.user.get( new Key( UserModel.intIndex ) );
     if ( u != null )
@@ -224,18 +312,43 @@ public class PerstStorage
   }
 
   /**
+   * Synchronized method to update the user object.
+   * 
+   * @param aUser
+   *          the user to be updated.
+   * @return true on success, false otherwise.
+   */
+  public Boolean setUser( UserModel aUser )
+  {
+    Boolean success = root.user.remove( aUser );
+    success = root.user.put( aUser );
+    db.store( aUser );
+    db.commit();
+    Log.d( TAG, "Updated user " + success );
+    Log.d( TAG, "User: " + aUser.toString() );
+
+    return success;
+  }
+
+  /****************************************************************************
+   * 
+   * Testing Methods
+   * 
+   ***************************************************************************/
+
+  /**
    * Get some database related statistics.
    */
   public void printStatistics()
   {
-    int i;
-    Iterator<LocationModel> iterator = root.locations.iterator();
-    for ( i = 0; iterator.hasNext(); i++ )
+    Iterator<ActivityModel> iterator = root.activities.iterator();
+    int length = root.activities.size();
+    while ( iterator.hasNext() )
     {
-      LocationModel location = iterator.next();
-      Log.d( TAG, location.toString() );
+      ActivityModel activity = iterator.next();
+      Log.d( TAG, activity.toString() );
     }
-    Log.d( TAG, "Number of database entries: " + i );
+    Log.d( TAG, "Number of activity entries: " + length );
   }
 
   /**

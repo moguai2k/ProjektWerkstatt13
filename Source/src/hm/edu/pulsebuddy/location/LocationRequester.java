@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.location;
 
-import hm.edu.pulsebuddy.data.perst.LocationModel;
+import hm.edu.pulsebuddy.data.models.LocationModel;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,9 +28,6 @@ public class LocationRequester implements LocationListener,
 
   /* The application context */
   private Context context;
-
-  /* Saves the last location. */
-  private Location lastLocation;
 
   /**
    * Constructor
@@ -83,16 +80,6 @@ public class LocationRequester implements LocationListener,
       l.setTime( currentLocation.getTime() );
       Log.d( TAG, l.toString() );
 
-      if ( this.lastLocation != null )
-      {
-        long dis = calculateDistance( lastLocation.getLatitude(),
-            lastLocation.getLongitude(), currentLocation.getLatitude(),
-            currentLocation.getLongitude() );
-        Log.d( TAG, "Distance: " + dis );
-      }
-
-      this.lastLocation = currentLocation;
-
       return l;
     }
 
@@ -118,20 +105,6 @@ public class LocationRequester implements LocationListener,
     {
       return false;
     }
-  }
-
-  private long calculateDistance( double lat1, double lng1, double lat2,
-      double lng2 )
-  {
-    double dLat = Math.toRadians( lat2 - lat1 );
-    double dLon = Math.toRadians( lng2 - lng1 );
-    double a = Math.sin( dLat / 2 ) * Math.sin( dLat / 2 )
-        + Math.cos( Math.toRadians( lat1 ) )
-        * Math.cos( Math.toRadians( lat2 ) ) * Math.sin( dLon / 2 )
-        * Math.sin( dLon / 2 );
-    double c = 2 * Math.asin( Math.sqrt( a ) );
-    long distanceInMeters = Math.round( 6371000 * c );
-    return distanceInMeters;
   }
 
   @Override

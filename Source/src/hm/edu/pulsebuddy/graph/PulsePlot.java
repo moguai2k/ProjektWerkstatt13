@@ -2,8 +2,8 @@ package hm.edu.pulsebuddy.graph;
 
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataManager;
-import hm.edu.pulsebuddy.data.PulseChangedListener;
-import hm.edu.pulsebuddy.data.perst.Pulse;
+import hm.edu.pulsebuddy.data.listeners.PulseChangedListener;
+import hm.edu.pulsebuddy.data.models.Pulse;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;

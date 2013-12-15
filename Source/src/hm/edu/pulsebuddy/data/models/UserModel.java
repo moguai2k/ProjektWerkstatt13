@@ -1,4 +1,4 @@
-package hm.edu.pulsebuddy.data.perst;
+package hm.edu.pulsebuddy.data.models;
 
 import hm.edu.pulsebuddy.common.Gender;
 

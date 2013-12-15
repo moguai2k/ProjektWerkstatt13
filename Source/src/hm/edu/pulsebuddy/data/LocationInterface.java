@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.data;
 
-import hm.edu.pulsebuddy.data.perst.LocationModel;
+import hm.edu.pulsebuddy.data.models.LocationModel;
 import hm.edu.pulsebuddy.data.perst.PerstStorage;
 import hm.edu.pulsebuddy.location.LocationRequester;
 

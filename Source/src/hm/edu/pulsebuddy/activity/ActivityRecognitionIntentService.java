@@ -2,7 +2,7 @@ package hm.edu.pulsebuddy.activity;
 
 import java.util.Date;
 
-import hm.edu.pulsebuddy.data.perst.ActivityModel;
+import hm.edu.pulsebuddy.data.models.ActivityModel;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;

@@ -2,9 +2,9 @@ package hm.edu.pulsebuddy.misc;
 
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.Gender;
-import hm.edu.pulsebuddy.data.DataHandler;
+import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
-import hm.edu.pulsebuddy.data.perst.UserModel;
+import hm.edu.pulsebuddy.data.models.UserModel;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class CalibrationActivity extends Activity implements
   private int userWeight;
   private Gender userGender;
 
-  private DataHandler dh;
+  private DataInterface di;
   private UserModel user;
 
   @Override
@@ -48,8 +48,8 @@ public class CalibrationActivity extends Activity implements
     super.onCreate( savedInstanceState );
     setContentView( R.layout.calibration05 );
 
-    dh = DataManager.getStorageInstance();
-    user = dh.getUserInstance();
+    di = DataManager.getDataInterface();
+    user = di.getUserInstance();
 
     getActionBar().setDisplayHomeAsUpEnabled( true );
 
@@ -286,7 +286,7 @@ public class CalibrationActivity extends Activity implements
         user.setGender( userGender );
         user.setBirthday( dateOfBirthday );
 
-        dh.savaUserInstance( user );
+        di.savaUserInstance( user );
 
         customToast( "Saved user data." );
       }

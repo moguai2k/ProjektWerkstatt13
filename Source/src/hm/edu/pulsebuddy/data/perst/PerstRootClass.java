@@ -1,5 +1,10 @@
 package hm.edu.pulsebuddy.data.perst;
 
+import hm.edu.pulsebuddy.data.models.ActivityModel;
+import hm.edu.pulsebuddy.data.models.LocationModel;
+import hm.edu.pulsebuddy.data.models.Pulse;
+import hm.edu.pulsebuddy.data.models.UserModel;
+
 import org.garret.perst.FieldIndex;
 import org.garret.perst.Storage;
 import org.garret.perst.TimeSeries;

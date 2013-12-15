@@ -53,7 +53,6 @@
             androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
             androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size"
             androidplot.renderMode="use_background_thread" />
-            androidplot.
     </LinearLayout>
 
     <RelativeLayout

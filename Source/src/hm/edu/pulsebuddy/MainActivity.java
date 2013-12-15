@@ -3,6 +3,7 @@ package hm.edu.pulsebuddy;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.About;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
@@ -67,6 +68,9 @@ public class MainActivity extends Activity {
     case R.id.maps:
       startActivity(new Intent(this, MapsActivity.class));
       return true;
+    case R.id.graph_day:
+      startActivity(new Intent(this, GraphDayActivity.class));
+      return true;
 		case R.id.about:
 			startActivity(new Intent(this, About.class));
 			return true;
@@ -85,11 +89,11 @@ public class MainActivity extends Activity {
 		switch (view.getId()) {
 		case R.id.hs_dm:
 			// startActivity(new Intent(this, Daymode.class));
-			customToast("Noch kein Content vorhanden, lol...");
+			customToast("Noch kein Day-Mode-Content vorhanden...");
 			break;
 		case R.id.hs_sm:
 			// startActivity(new Intent(this, Sportmode.class));
-			customToast("Noch kein Content vorhanden, lol...");
+			customToast("Noch kein Sport-Mode-Content vorhanden...");
 			break;
 		default:
 		}

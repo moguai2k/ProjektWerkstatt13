@@ -10,6 +10,9 @@
         android:id="@+id/maps"
         android:title="@string/maps"/>
     <item
+        android:id="@+id/graph_day"
+        android:title="@string/graph_day"/>
+    <item
         android:id="@+id/about"
         android:title="@string/about"/>
     <item

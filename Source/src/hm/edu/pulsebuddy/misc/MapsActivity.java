@@ -1,6 +1,11 @@
 package hm.edu.pulsebuddy.misc;
 
 import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.data.DataInterface;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.listeners.ActivityListener;
+import hm.edu.pulsebuddy.data.models.ActivityModel;
+import hm.edu.pulsebuddy.data.models.LocationModel;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,18 +26,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends Activity
+public class MapsActivity extends Activity implements ActivityListener
 {
   static final LatLng MUNICH = new LatLng( 48.133, 11.566 );
   private GoogleMap map;
 
-  // TODO Das ist ein Test-Array für die Activities. Wohmöglich sollte es
-  // mehrdimensional werden, damit man dem Array "Activity" (Activity-Logo) +
-  // "Text" (Ws, Zeit, etc) mitgeben kann. Vllt sollte das Listview auch auf
-  // max. die letzten 3 Einträge beschränkt werden, damit nicht mehr
-  // angezeigt werden.
-  String[] newValues = new String[] { "<-ActivityLogo Laufen, 50% WS",
-      "<-ActivityLogo Schwimmen, 50% WS", "<-ActivityLogo Idle, 50% WS" };
+  private final int NUMBER_ACTITIY_ENTRIES = 5;
+
+  private MapsAdapter adapter;
+  private DataInterface di;
 
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -42,9 +44,11 @@ public class MapsActivity extends Activity
 
     getActionBar().setDisplayHomeAsUpEnabled( true );
 
-    MapsAdapter adapter = new MapsAdapter( MapsActivity.this,
-        R.layout.map_fragment_element );
-    adapter.setValues( newValues );
+    di = DataManager.getDataInterface();
+    di.addActivityListener( this );
+
+    adapter = new MapsAdapter( MapsActivity.this, R.layout.map_fragment_element );
+    adapter.setValues( di.getLastActivities( NUMBER_ACTITIY_ENTRIES ) );
 
     ListView lv = (ListView) findViewById( R.id.list );
     lv.setAdapter( adapter );
@@ -52,22 +56,23 @@ public class MapsActivity extends Activity
     map = ( (MapFragment) getFragmentManager().findFragmentById( R.id.map ) )
         .getMap();
 
-    // TODO Tore, hier ein Beispiel für Maps, wie du die Activities einbringen
-    // kannst. Quasi für alle Daten aus der DB hier die Location + Activity
-    // eintragen?!
-    final LatLng TORE = new LatLng( 48.233, 11.566 );
-    map.addMarker( new MarkerOptions().position( TORE ).draggable( true )
-        .title( "Activity" ).snippet( "50% Bewegung, 11:00, 01.01.2014, w/e" )
-        .icon( BitmapDescriptorFactory.fromResource( R.drawable.pb ) ) );
+    LocationModel l = di.getLastLocation( 0 );
+    if ( l != null )
+      setLocationOnMap( l );
+    else
+    {
+      map.moveCamera( CameraUpdateFactory.newLatLngZoom( MUNICH, 15 ) );
+      map.animateCamera( CameraUpdateFactory.zoomTo( 10 ), 2000, null );
+    }
 
-    final LatLng CHRIS = new LatLng( 48.133, 11.566 );
-    map.addMarker( new MarkerOptions().position( CHRIS ).draggable( true )
-        .title( "Activity" ).snippet( "20% Schwimmen, 11:00, 01.01.2014, w/e" )
-        .icon( BitmapDescriptorFactory.fromResource( R.drawable.pb ) ) );
-    // Beispiel Ende.
+    
+  }
 
-    map.moveCamera( CameraUpdateFactory.newLatLngZoom( MUNICH, 15 ) );
-    map.animateCamera( CameraUpdateFactory.zoomTo( 10 ), 2000, null );
+  @Override
+  protected void onPause()
+  {
+    super.onPause();
+    di.removeActivityListener( this );
   }
 
   @Override
@@ -94,6 +99,30 @@ public class MapsActivity extends Activity
       default:
         return super.onOptionsItemSelected( item );
     }
+  }
+  
+  private void setLocationOnMap( LocationModel aLocation )
+  {
+    if ( aLocation == null )
+      return;
+    
+    LatLng loc = new LatLng( aLocation.getLatitude(), aLocation.getLongitude() );
+    map.addMarker( new MarkerOptions().position( loc ).draggable( true )
+        .icon( BitmapDescriptorFactory.fromResource( R.drawable.pb ) ) );
+    
+    //.title( "Activity" ).snippet( "50% Bewegung, 11:00, 01.01.2014, w/e" )
+    
+    map.moveCamera( CameraUpdateFactory.newLatLngZoom( loc, 17 ) );
+  }
+
+  /**
+   * Currently only indicates redrawing the last activities.
+   */
+  @Override
+  public void handleRelevantActivity( ActivityModel aActivity )
+  {
+    adapter.setValues( di.getLastActivities( NUMBER_ACTITIY_ENTRIES ) );
+    setLocationOnMap( di.getLastLocation( 50 ) );
   }
 
   private class MapsAdapter extends BaseAdapter

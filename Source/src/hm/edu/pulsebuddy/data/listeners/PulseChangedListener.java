@@ -1,6 +1,6 @@
-package hm.edu.pulsebuddy.data;
+package hm.edu.pulsebuddy.data.listeners;
 
-import hm.edu.pulsebuddy.data.perst.Pulse;
+import hm.edu.pulsebuddy.data.models.Pulse;
 
 public interface PulseChangedListener
 {

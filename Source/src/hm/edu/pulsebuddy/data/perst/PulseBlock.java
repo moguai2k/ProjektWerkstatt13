@@ -1,5 +1,7 @@
 package hm.edu.pulsebuddy.data.perst;
 
+import hm.edu.pulsebuddy.data.models.Pulse;
+
 import org.garret.perst.TimeSeries;
 
 public class PulseBlock extends TimeSeries.Block

@@ -1,4 +1,4 @@
-package hm.edu.pulsebuddy.data.perst;
+package hm.edu.pulsebuddy.data.models;
 
 import java.io.Serializable;
 import java.util.Date;

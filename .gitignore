@@ -29,3 +29,7 @@ proguard/
 .idea/
 
 Source/project.properties
+
+Source/src/hm/edu/pulsebuddy/data/DataHandler.java
+
+Source/src/hm/edu/pulsebuddy/data/DataHandler.java

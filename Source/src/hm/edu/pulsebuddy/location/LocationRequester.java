@@ -72,6 +72,9 @@ public class LocationRequester implements LocationListener,
       /* Get the current location */
       Location currentLocation = locationClient.getLastLocation();
 
+      if(currentLocation == null)
+    	  return null;
+      
       LocationModel l = new LocationModel();
       l.setElevation( currentLocation.getAltitude() );
       l.setSpeed( currentLocation.getSpeed() );

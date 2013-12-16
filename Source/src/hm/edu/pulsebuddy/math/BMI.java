@@ -1,5 +1,6 @@
 package hm.edu.pulsebuddy.math;
 
+import android.util.Log;
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.Gender;
 
@@ -21,12 +22,19 @@ import hm.edu.pulsebuddy.common.Gender;
  */
 
 public class BMI {
-	// check for http://en.wikipedia.org/wiki/Body_mass_index
-	private static double getBMI(int weight, int height) {
-		return (weight / (height * height));
+	/**
+	 * 
+	 * @param weight
+	 * @param height
+	 * @return
+	 */
+	public static double getBMI(int weight, int height) {
+		//height usually in cm, BMI needs meter, so /100 /100 => /10000
+		// check for http://en.wikipedia.org/wiki/Body_mass_index
+		return (double) Math.round( (double) ( weight / (double) ( ( height * height) / 10000 ) ) *10 ) / 10;
 	}
 
-	private static int getDGEDescriptionForBMI(double bmiValue, Gender gender) {
+	public static int getDGEDescriptionForBMI(double bmiValue, Gender gender) {
 		if (gender.equals(Gender.male))
 			return getDGEDescriptionForBMIForM(bmiValue);
 		else if (gender.equals(Gender.female))
@@ -35,7 +43,12 @@ public class BMI {
 			return 0;
 	}
 
-	private static int getColorForBMI(double bmiValue) {
+	/**
+	 * 
+	 * @param bmiValue
+	 * @return
+	 */
+	public static int getColorForBMI(double bmiValue) {
 		if (bmiValue < 16) {
 			return R.color.red;
 		} else if (bmiValue < 18.5) {
@@ -49,7 +62,12 @@ public class BMI {
 		}
 	}
 
-	private static int getWHODescriptionForBMI(double bmiValue) {
+	/**
+	 * 
+	 * @param bmiValue
+	 * @return
+	 */
+	public static int getWHODescriptionForBMI(double bmiValue) {
 		if (bmiValue < 16) {
 			return R.string.bmiSUnder;
 		} else if (bmiValue < 18.5) {
@@ -65,7 +83,12 @@ public class BMI {
 		}
 	}
 
-	private static int getDGEDescriptionForBMIForM(double bmiValue) {
+	/**
+	 * 
+	 * @param bmiValue
+	 * @return
+	 */
+	public static int getDGEDescriptionForBMIForM(double bmiValue) {
 		if (bmiValue < 20) {
 			return R.string.bmiUnder;
 		} else if (bmiValue < 24.99) {
@@ -75,7 +98,12 @@ public class BMI {
 		}
 	}
 
-	private static int getDGEDescriptionForBMIForF(double bmiValue) {
+	/**
+	 * 
+	 * @param bmiValue
+	 * @return
+	 */
+	public static int getDGEDescriptionForBMIForF(double bmiValue) {
 		if (bmiValue < 19) {
 			return R.string.bmiUnder;
 		} else if (bmiValue < 23.99) {

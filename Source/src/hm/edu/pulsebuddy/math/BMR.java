@@ -11,13 +11,26 @@ import hm.edu.pulsebuddy.common.Gender;
 
 public class BMR
 {
-  private float getBRM( int weight, int height, int age, Gender gender )
+  /**
+   * 
+   * @param weight
+   * @param height
+   * @param age
+   * @param gender
+   * @return
+   */
+  public static double getBMR( int weight, int height, int age, Gender gender )
   {
-    if ( gender.equals(Gender.male) )
-      return 66 + ( 6.3F * weight ) + ( 12.9F * height ) - ( 6.8F * age );
-    else if ( gender.equals(Gender.female) )
-      return 655 + ( 4.3F * weight ) + ( 4.7F * height ) - ( 4.7F * age );
+    if ( gender.equals( Gender.male ) )
+      return 66 + ( 13.7 * weight ) + ( 5 * height ) - ( 6.8 * age );
+    else if ( gender.equals( Gender.female ) )
+      return 655 + ( 9.6 * weight ) + ( 1.8 * height ) - ( 4.7 * age );
     else
       return 0;
+  }
+
+  public static double getBMRE( double bmr, double energy )
+  {
+    return Math.round( energy * bmr * 10 ) / 10;
   }
 }

@@ -6,7 +6,7 @@ import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.About;
-import hm.edu.pulsebuddy.misc.BMIActivity;
+import hm.edu.pulsebuddy.misc.CalculationActivity;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
 import hm.edu.pulsebuddy.misc.MapsActivity;
@@ -66,15 +66,14 @@ public class MainActivity extends Activity
   {
     switch ( item.getItemId() )
     {
-
-      case R.id.bmi:
-        startActivity( new Intent( this, BMIActivity.class ) );
+      case R.id.settings:
+        startActivity( new Intent( this, SettingsActivity.class ) );
         return true;
       case R.id.calibration:
         startActivity( new Intent( this, CalibrationActivity.class ) );
         return true;
-      case R.id.settings:
-        startActivity( new Intent( this, SettingsActivity.class ) );
+      case R.id.calculation:
+        startActivity( new Intent( this, CalculationActivity.class ) );
         return true;
       case R.id.maps:
         startActivity( new Intent( this, MapsActivity.class ) );

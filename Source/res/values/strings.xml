@@ -30,7 +30,7 @@
     <string name="about">Team</string>
     <string name="help">Hilfe</string>
     <string name="settings">Einstellungen</string>
-    <string name="BMI">BMI</string>
+    <string name="calculation">Berechnung</string>
     <string name="calibration">Kalibrierung</string>
     <string name="home">Startseite</string>
     <string name="sm">Sport Mode</string>
@@ -43,9 +43,9 @@
     <string name="bmiOver">Übergewicht</string>
     <string name="bmiSOver">Adipositas</string>
     <string name="bmiObese">Starkes Adipositas</string>
-    <string name="bmi_label_value">Dein BMI-Wert:</string>
+    <string name="bmi_label_value">Body-Mass-Index:</string>
     <string name="bmi_textView_value">0</string>
-    <string name="bmi_label_recommendation">Empfehlung:</string>
+    <string name="bmi_label_recommendation">Bewertung:</string>
     <string name="bmi_textView_recommendation">Normal</string>
 
     <!-- Calibration -->
@@ -57,5 +57,11 @@
     <string name="calibration_save_values">Speichern</string>
     <string name="calibration_kilogram">kg</string>
     <string name="calibration_cm">cm</string>
+    
+    <!-- BMR -->
+    <string name="textViewBMREResult">0</string>
+    <string name="textViewBMRResult">0</string>
+    <string name="labelBMR">Grundumsatz:</string>
+    <string name="labelBMRE">Grundumsatzenergie:</string>
 
 </resources>

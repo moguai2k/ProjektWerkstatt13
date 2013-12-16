@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="hm.edu.pulsebuddy.misc.BMIActivity"
+            android:name=".misc.CalculationActivity"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -72,7 +72,7 @@
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="hm.edu.pulsebuddy.graph.GraphDayActivity"
+            android:name=".graph.GraphDayActivity"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity

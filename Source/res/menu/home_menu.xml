@@ -4,11 +4,11 @@
         android:id="@+id/settings"
         android:title="@string/settings"/>
     <item
-        android:id="@+id/bmi"
-        android:title="@string/BMI"/>
-    <item
         android:id="@+id/calibration"
         android:title="@string/calibration"/>
+    <item
+        android:id="@+id/calculation"
+        android:title="@string/calculation"/>
     <item
         android:id="@+id/maps"
         android:title="@string/maps"/>

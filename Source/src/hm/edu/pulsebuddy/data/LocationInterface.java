@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy.data;
 
-import hm.edu.pulsebuddy.data.perst.LocationModel;
+import hm.edu.pulsebuddy.data.models.LocationModel;
 import hm.edu.pulsebuddy.data.perst.PerstStorage;
 import hm.edu.pulsebuddy.location.LocationRequester;
 
@@ -17,7 +17,7 @@ public class LocationInterface implements OnSharedPreferenceChangeListener
 {
   private static final String TAG = "data.location";
 
-  private static final int EXECUTION_DELAY = 10000;
+  private static final int EXECUTION_DELAY = 60000;
 
   /* The application context */
   private Context context;

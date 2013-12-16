@@ -2,10 +2,10 @@ package hm.edu.pulsebuddy.data;
 
 import hm.edu.pulsebuddy.activity.ActivityChangedListener;
 import hm.edu.pulsebuddy.activity.ActivityRequester;
-import hm.edu.pulsebuddy.data.perst.ActivityModel;
+import hm.edu.pulsebuddy.data.listeners.PulseChangedListener;
+import hm.edu.pulsebuddy.data.models.ActivityModel;
+import hm.edu.pulsebuddy.data.models.Pulse;
 import hm.edu.pulsebuddy.data.perst.PerstStorage;
-import hm.edu.pulsebuddy.data.perst.Pulse;
-import hm.edu.pulsebuddy.data.perst.UserModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,11 +23,14 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
 {
   private final static String TAG = "data.handler";
 
+  private DataInterface dataInterface;
+
   private PerstStorage perst;
   private StorageLogic storageLogic;
 
   /* Location interface */
   private LocationInterface locI;
+  /* Activity requester */
   private ActivityRequester activityRequester;
 
   private List<PulseChangedListener> _listeners = new ArrayList<PulseChangedListener>();
@@ -35,15 +38,16 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
   private DemoPulseGenerator demoGen = null;
   private Boolean demoGenIsRunning = false;
 
-  
   /**
    * CTOR
    * 
-   * @param context the application context.
+   * @param context
+   *          the application context.
    */
   public DataHandler( Context context )
   {
     perst = new PerstStorage( context );
+    dataInterface = new DataInterface( perst );
 
     /* Create the location interface */
     locI = new LocationInterface( context, perst );
@@ -57,6 +61,16 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
     SharedPreferences settings = PreferenceManager
         .getDefaultSharedPreferences( context );
     settings.registerOnSharedPreferenceChangeListener( this );
+  }
+
+  /**
+   * Getter for the data interface.
+   * 
+   * @return the data interface.
+   */
+  public DataInterface getDataInterface()
+  {
+    return dataInterface;
   }
 
   /**
@@ -119,26 +133,6 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
   }
 
   /**
-   * Get the user instance object.
-   * 
-   * @return The user object.
-   */
-  public synchronized UserModel getUserInstance()
-  {
-    return perst.getUser();
-  }
-
-  /**
-   * Save the user instance object.
-   * 
-   * @param aUser The user object.
-   */
-  public synchronized void savaUserInstance( UserModel aUser )
-  {
-    perst.setUser( aUser );
-  }
-
-  /**
    * Demo pulse generator.
    */
   private class DemoPulseGenerator extends AsyncTask<Void, Integer, String>
@@ -146,18 +140,50 @@ public class DataHandler implements OnSharedPreferenceChangeListener,
     @Override
     protected String doInBackground( Void... params )
     {
+      //demo and algorithm for never-stop-puslin
+      double lastPulse = 50 + (int) ( Math.random() * ( ( 200 - 50 ) + 1 ) );
+      
       while ( demoGenIsRunning )
       {
-        int pulse = 50 + (int) ( Math.random() * ( ( 210 - 50 ) + 1 ) );
-        publishProgress( pulse );
-        try
-        {
-          Thread.sleep( 1000 );
+        double nextPulse = 50 + (int) ( Math.random() * ( ( 200 - 50 ) + 1 ) );
+        
+        publishProgress( (int) lastPulse );
+
+        double avgPulseSteps = 0.0;
+        double currentPulse = lastPulse;
+        
+        if( nextPulse > lastPulse ) { //+pulse
+          avgPulseSteps = ( nextPulse - lastPulse ) / 10;
         }
-        catch ( InterruptedException e )
-        {
-          e.printStackTrace();
+        else
+        { // -pulse
+          avgPulseSteps = ( lastPulse - nextPulse ) / 10;
         }
+
+        for ( int i = 0; i < 9; i++ )
+        {
+          if ( nextPulse > lastPulse )
+          { // +pulse
+            currentPulse += avgPulseSteps;
+          }
+          else
+          { // -pulse
+            currentPulse -= avgPulseSteps;
+          }
+
+          publishProgress( (int) ( (double) Math.round( currentPulse*10  )/ 10 ) );
+
+          try
+          {
+            Thread.sleep( 100 );
+          }
+          catch ( InterruptedException e )
+          {
+            e.printStackTrace();
+          }
+        }
+
+        lastPulse = nextPulse;
       }
       return null;
     }

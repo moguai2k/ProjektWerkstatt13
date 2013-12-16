@@ -1,5 +1,7 @@
 package hm.edu.pulsebuddy.data.perst;
 
+import hm.edu.pulsebuddy.data.models.LocationModel;
+
 import org.garret.perst.TimeSeries;
 
 public class LocationBlock extends TimeSeries.Block

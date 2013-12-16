@@ -4,8 +4,17 @@
         android:id="@+id/settings"
         android:title="@string/settings"/>
     <item
+        android:id="@+id/bmi"
+        android:title="@string/BMI"/>
+    <item
         android:id="@+id/calibration"
         android:title="@string/calibration"/>
+    <item
+        android:id="@+id/maps"
+        android:title="@string/maps"/>
+    <item
+        android:id="@+id/graph_day"
+        android:title="@string/graph_day"/>
     <item
         android:id="@+id/about"
         android:title="@string/about"/>
@@ -15,4 +24,5 @@
     <item
         android:id="@+id/ble_scan"
         android:title="@string/title_devices"/>
+
 </menu>

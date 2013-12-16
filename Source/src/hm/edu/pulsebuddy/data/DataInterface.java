@@ -133,13 +133,16 @@ public class DataInterface implements ActivityListener
       {
         long dis = LocationUtils.calculateDistance( lastLocation, l );
         Log.d( TAG, "Distance between new and recent location: " + dis );
-        Log.d( TAG, "Minimum distance to return a location: " + aMinimumDistance );
+        Log.d( TAG, "Minimum distance to return a location: "
+            + aMinimumDistance );
         if ( dis >= aMinimumDistance )
         {
+          Log.d( TAG, "Got new location" );
           lastLocation = l;
           return l;
         }
-        else return null;
+        else
+          return null;
       }
       lastLocation = l;
       return l;

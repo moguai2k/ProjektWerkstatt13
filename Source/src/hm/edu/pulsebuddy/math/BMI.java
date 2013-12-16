@@ -1,6 +1,5 @@
 package hm.edu.pulsebuddy.math;
 
-import android.util.Log;
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.Gender;
 
@@ -31,7 +30,9 @@ public class BMI {
 	public static double getBMI(int weight, int height) {
 		//height usually in cm, BMI needs meter, so /100 /100 => /10000
 		// check for http://en.wikipedia.org/wiki/Body_mass_index
-		return (double) Math.round( (double) ( weight / (double) ( ( height * height) / 10000 ) ) *10 ) / 10;
+	  double weight2 = weight;
+	  double height2 = height;
+		return (double) Math.round( ( weight2 / ( ( height2 * height2) / 10000 ) ) *10 ) / 10;
 	}
 
 	public static int getDGEDescriptionForBMI(double bmiValue, Gender gender) {

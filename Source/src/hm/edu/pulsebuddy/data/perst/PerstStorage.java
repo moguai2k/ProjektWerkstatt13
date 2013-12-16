@@ -246,8 +246,7 @@ public class PerstStorage
    *          The number of activities to be returned.
    * @return a list containing recent activities.
    */
-  public List<ActivityModel> getLastActivities(
-      int aNumberOfActivities )
+  public List<ActivityModel> getLastActivities( int aNumberOfActivities )
   {
     List<ActivityModel> activities = new ArrayList<ActivityModel>();
     int i;
@@ -283,6 +282,21 @@ public class PerstStorage
     if ( it.hasNext() )
       return (LocationModel) it.next();
     return null;
+  }
+
+  /**
+   * Returns all locations.
+   * 
+   * @return All available locations.
+   */
+  public ArrayList<LocationModel> getAllLocations()
+  {
+    ArrayList<LocationModel> locations = new ArrayList<LocationModel>();
+    Iterator<LocationModel> it = root.locations.iterator();
+    Log.d( TAG, "Get all locations, size: " + root.locations.size() );
+    while ( it.hasNext() )
+      locations.add( (LocationModel) it.next() );
+    return locations;
   }
 
   /****************************************************************************

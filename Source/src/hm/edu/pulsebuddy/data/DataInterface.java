@@ -13,8 +13,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.garret.perst.Aggregator.LastAggregate;
-
 import android.util.Log;
 
 public class DataInterface implements ActivityListener
@@ -148,5 +146,40 @@ public class DataInterface implements ActivityListener
       return l;
     }
     return null;
+  }
+
+  /**
+   * Returns all locations with a give minimum distance from each other.
+   * 
+   * @param aMinimumDistance
+   *          The minimum distance between the locations.
+   * @return The array with locations.
+   */
+  public synchronized ArrayList<LocationModel> getAllLocations(
+      int aMinimumDistance )
+  {
+    ArrayList<LocationModel> locations = perst.getAllLocations();
+    ArrayList<LocationModel> results = new ArrayList<LocationModel>();
+    LocationModel currentLocation = null;
+
+    for ( int i = 0; locations.size() > i; i++ )
+    {
+      LocationModel l = locations.get( i );
+      if ( currentLocation == null )
+      {
+        currentLocation = l;
+        results.add( l );
+      }
+      else
+      {
+        long dis = LocationUtils.calculateDistance( currentLocation, l );
+        if ( dis > aMinimumDistance )
+        {
+          results.add( l );
+          currentLocation = l;
+        }
+      }
+    }
+    return results;
   }
 }

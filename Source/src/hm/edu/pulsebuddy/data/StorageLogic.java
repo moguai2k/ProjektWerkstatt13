@@ -4,8 +4,6 @@ import hm.edu.pulsebuddy.data.models.ActivityModel;
 import hm.edu.pulsebuddy.data.models.ActivityModel.Type;
 import android.content.Context;
 
-import com.google.android.gms.location.DetectedActivity;
-
 public class StorageLogic
 {
   private final static String TAG = "db.storageLogic";

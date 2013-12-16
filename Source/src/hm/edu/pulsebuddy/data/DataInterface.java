@@ -13,8 +13,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.garret.perst.Aggregator.LastAggregate;
-
 import android.util.Log;
 
 public class DataInterface implements ActivityListener

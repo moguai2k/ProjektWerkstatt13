@@ -1,18 +1,18 @@
 package hm.edu.pulsebuddy.misc;
 
-import java.util.ArrayList;
-
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.listeners.ActivityListener;
 import hm.edu.pulsebuddy.data.models.ActivityModel;
 import hm.edu.pulsebuddy.data.models.LocationModel;
+
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +36,7 @@ public class MapsActivity extends Activity implements ActivityListener
   private GoogleMap map;
 
   private final int NUMBER_ACTITIY_ENTRIES = 5;
-  private final int DISTANCE_BETWEEN_LOCATIONS = 25;
+  private final int DISTANCE_BETWEEN_LOCATIONS = 100;
 
   private MapsAdapter adapter;
   private DataInterface di;
@@ -60,24 +60,19 @@ public class MapsActivity extends Activity implements ActivityListener
     map = ( (MapFragment) getFragmentManager().findFragmentById( R.id.map ) )
         .getMap();
 
-    ArrayList<LocationModel> locations = di.getAllLocations( 100 );
+    ArrayList<LocationModel> locations = di
+        .getAllLocations( DISTANCE_BETWEEN_LOCATIONS );
     for ( int i = 0; i < locations.size(); i++ )
     {
       LocationModel l = locations.get( i );
       if ( l != null )
-        setLocationOnMap( l, null );
+        setLocationOnMap( l, "Location " + i );
     }
-    
-    /*
-    LocationModel l = di.getLastLocation( 0 );
-    if ( l != null )
-      setLocationOnMap( l, null );
-    else
-    {
-      map.moveCamera( CameraUpdateFactory.newLatLngZoom( MUNICH, 15 ) );
-      map.animateCamera( CameraUpdateFactory.zoomTo( 10 ), 2000, null );
-    }
-    */
+
+    /* LocationModel l = di.getLastLocation( 0 ); if ( l != null )
+     * setLocationOnMap( l, null ); else { map.moveCamera(
+     * CameraUpdateFactory.newLatLngZoom( MUNICH, 15 ) ); map.animateCamera(
+     * CameraUpdateFactory.zoomTo( 10 ), 2000, null ); } */
   }
 
   @Override
@@ -126,12 +121,12 @@ public class MapsActivity extends Activity implements ActivityListener
       return;
 
     LatLng loc = new LatLng( aLocation.getLatitude(), aLocation.getLongitude() );
-    Marker marker = map.addMarker( new MarkerOptions().position( loc )
-        .icon( BitmapDescriptorFactory.fromResource( R.drawable.pb ) ) );
-    
+    Marker marker = map.addMarker( new MarkerOptions().position( loc ).icon(
+        BitmapDescriptorFactory.fromResource( R.drawable.pb ) ) );
+
     if ( aTitle != null )
       marker.setTitle( aTitle );
-    
+
     marker.showInfoWindow();
 
     map.moveCamera( CameraUpdateFactory.newLatLngZoom( loc, 17 ) );
@@ -145,7 +140,8 @@ public class MapsActivity extends Activity implements ActivityListener
   {
     String[] values = di.getLastActivities( NUMBER_ACTITIY_ENTRIES );
     adapter.setValues( values );
-    setLocationOnMap( di.getLastLocation( DISTANCE_BETWEEN_LOCATIONS ), values[ 0 ] );
+    setLocationOnMap( di.getLastLocation( 5 ),
+        values[ 0 ] );
   }
 
   private class MapsAdapter extends BaseAdapter

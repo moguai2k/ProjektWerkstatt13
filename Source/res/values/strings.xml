@@ -30,6 +30,7 @@
     <string name="about">Team</string>
     <string name="help">Hilfe</string>
     <string name="settings">Einstellungen</string>
+    <string name="BMI">BMI</string>
     <string name="calibration">Kalibrierung</string>
     <string name="home">Startseite</string>
     <string name="sm">Sport Mode</string>
@@ -42,6 +43,10 @@
     <string name="bmiOver">Übergewicht</string>
     <string name="bmiSOver">Adipositas</string>
     <string name="bmiObese">Starkes Adipositas</string>
+    <string name="bmi_label_value">Dein BMI-Wert:</string>
+    <string name="bmi_textView_value">0</string>
+    <string name="bmi_label_recommendation">Empfehlung:</string>
+    <string name="bmi_textView_recommendation">Normal</string>
 
     <!-- Calibration -->
     <string name="calibration_titel">Kalibrierung</string>

@@ -4,6 +4,9 @@
         android:id="@+id/settings"
         android:title="@string/settings"/>
     <item
+        android:id="@+id/bmi"
+        android:title="@string/BMI"/>
+    <item
         android:id="@+id/calibration"
         android:title="@string/calibration"/>
     <item

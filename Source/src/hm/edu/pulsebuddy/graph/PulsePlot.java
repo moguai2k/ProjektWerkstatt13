@@ -61,6 +61,9 @@ public class PulsePlot implements PulseChangedListener
     aprHistoryPlot.getGraphWidget().setDomainGridLinePaint( null );
     aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint( null );
     aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint( null );
+    
+    //aprHistoryPlot.getGraphWidget().setTicksPerRangeLabel( 2 ); 1 ... 3 ... 5
+    aprHistoryPlot.getGraphWidget().setRangeLabelWidth( 50 );
 
     // aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
     // aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);

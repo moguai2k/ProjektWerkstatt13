@@ -55,9 +55,10 @@
     <string name="calibration_user_height">Größe:</string>
     <string name="calibration_user_gender">Geschlecht:</string>
     <string name="calibration_save_values">Speichern</string>
+    <string name="calibration_saved_values">Gespeichert!</string>
     <string name="calibration_kilogram">kg</string>
     <string name="calibration_cm">cm</string>
-    <string name="calibration_edit">Bearebiten</string>
+    <string name="calibration_edit">Bearbeiten</string>
 
     <!-- BMR -->
     <string name="textViewBMREResult">0</string>

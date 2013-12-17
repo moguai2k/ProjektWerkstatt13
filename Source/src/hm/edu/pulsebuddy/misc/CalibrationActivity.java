@@ -7,11 +7,9 @@ import hm.edu.pulsebuddy.common.Gender;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.models.UserModel;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-
-import com.google.android.gms.wallet.Cart;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -324,7 +322,7 @@ public class CalibrationActivity extends FragmentActivity implements
 
         di.savaUserInstance( user );
 
-        customToast( "Saved user data." );
+        customToast( R.string.calibration_saved_values + "" );
       }
     } );
   }

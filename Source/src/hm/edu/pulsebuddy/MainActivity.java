@@ -78,9 +78,6 @@ public class MainActivity extends Activity
       case R.id.maps:
         startActivity( new Intent( this, MapsActivity.class ) );
         return true;
-      case R.id.graph_day:
-        startActivity( new Intent( this, GraphDayActivity.class ) );
-        return true;
       case R.id.about:
         startActivity( new Intent( this, About.class ) );
         return true;

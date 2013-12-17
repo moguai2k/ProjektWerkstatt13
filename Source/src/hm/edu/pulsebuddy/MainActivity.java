@@ -100,6 +100,7 @@ public class MainActivity extends Activity
     switch ( view.getId() )
     {
       case R.id.hs_dm:
+        // TODO ggf. aus Liste entfernen und nur aufrufbar über Day-Mode Button 
         startActivity( new Intent( this, GraphDayActivity.class ) );
         break;
       case R.id.hs_sm:

@@ -49,7 +49,13 @@ public class CalibrationActivity extends FragmentActivity implements
 
   private DataInterface di;
   private UserModel user;
+
   final String dateOfBirthdayTag = "dateOfBirthday";
+
+  // TODO
+  final static int STD_WEIGHT = 80; // Standard weight
+  final static int STD_HEIGHT = 180; // Standard height
+  final static Gender STD_GENDER = Gender.female; // Standard gender
 
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -59,6 +65,17 @@ public class CalibrationActivity extends FragmentActivity implements
 
     di = DataManager.getDataInterface();
     user = di.getUserInstance();
+
+    // TODO
+    userHeight = STD_WEIGHT;
+    userWeight = STD_HEIGHT;
+    userGender = STD_GENDER;
+    
+    // TODO
+    if ( user.getWeight() > 0 )
+    {
+      userWeight = user.getWeight();
+    }
 
     getActionBar().setDisplayHomeAsUpEnabled( true );
 
@@ -99,6 +116,9 @@ public class CalibrationActivity extends FragmentActivity implements
   private void setUserWeight()
   {
     Button buttonUserWeight = (Button) findViewById( R.id.buttonUserWeight );
+
+    buttonUserWeight.setText( userWeight + "" );
+
     buttonUserWeight.setOnClickListener( new View.OnClickListener()
     {
       @Override
@@ -156,7 +176,6 @@ public class CalibrationActivity extends FragmentActivity implements
         dialog.dismiss();
       }
     } );
-
     dialog.show();
 
   }
@@ -173,6 +192,8 @@ public class CalibrationActivity extends FragmentActivity implements
 
     numberPicker.setMinValue( 30 );
     numberPicker.setMaxValue( 300 );
+    // TODO
+    numberPicker.setValue( userWeight );
     numberPicker.setWrapSelectorWheel( false );
     numberPicker
         .setOnValueChangedListener( new NumberPicker.OnValueChangeListener()
@@ -191,7 +212,9 @@ public class CalibrationActivity extends FragmentActivity implements
       public void onClick( View v )
       {
         Button buttonUserWeight = (Button) findViewById( R.id.buttonUserWeight );
-        buttonUserWeight.setText( String.valueOf( numberPicker.getValue() ) );
+        // TODO
+        userWeight = numberPicker.getValue();
+        buttonUserWeight.setText( userWeight + "" );
         dialog.dismiss();
       }
     } );
@@ -322,7 +345,7 @@ public class CalibrationActivity extends FragmentActivity implements
 
         di.savaUserInstance( user );
 
-        customToast( R.string.calibration_saved_values + "" );
+        customToast( getResources().getString( R.string.calibration_saved_values ) );
       }
     } );
   }
@@ -340,7 +363,6 @@ public class CalibrationActivity extends FragmentActivity implements
     toast.setDuration( Toast.LENGTH_LONG );
     toast.setView( layout );
     toast.show();
-
   }
 
   @Override

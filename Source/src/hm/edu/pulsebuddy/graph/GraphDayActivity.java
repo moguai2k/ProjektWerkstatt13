@@ -222,20 +222,20 @@ public class GraphDayActivity extends FragmentActivity implements
   public void showDatePickerDialogForStartDate( View v )
   {
     DialogFragment newFragment = new DatePickerFragment();
-    newFragment.show( getSupportFragmentManager(), "datePickerForStartDate" );
+    newFragment.show( getSupportFragmentManager(), "startDateTag" );
   }
 
   public void showDatePickerDialogForEndDate( View v )
   {
     DialogFragment newFragment = new DatePickerFragment();
-    newFragment.show( getSupportFragmentManager(), "datePickerForEndDate" );
+    newFragment.show( getSupportFragmentManager(), "endDateTag" );
   }
 
   @Override
   public void returnDate( String tag, Calendar calendar )
   {
-    final String startDateTag = "datePickerForStartDate";
-    final String endDateTag = "datePickerForEndDate";
+    final String startDateTag = "startDateTag";
+    final String endDateTag = "endDateTag";
     SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
     dateFormat.setCalendar( calendar );
     String selectedDate = dateFormat.format( calendar.getTime() );

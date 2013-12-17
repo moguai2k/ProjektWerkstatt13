@@ -42,7 +42,7 @@
             android:layout_margin="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="1"
             androidPlot.backgroundPaint.color="@color/transparent"
             androidPlot.borderPaint.color="@color/transparent"

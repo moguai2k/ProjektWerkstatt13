@@ -50,19 +50,21 @@
 
     <!-- Calibration -->
     <string name="calibration_titel">Kalibrierung</string>
-    <string name="calibration_date_of_birth">Geburtsdatum</string>
-    <string name="calibration_user_weight">Gewicht</string>
-    <string name="calibration_user_height">Größe</string>
-    <string name="calibration_user_gender">Geschlecht</string>
+    <string name="calibration_date_of_birth">Geburtsdatum:</string>
+    <string name="calibration_user_weight">Gewicht:</string>
+    <string name="calibration_user_height">Größe:</string>
+    <string name="calibration_user_gender">Geschlecht:</string>
     <string name="calibration_save_values">Speichern</string>
     <string name="calibration_kilogram">kg</string>
     <string name="calibration_cm">cm</string>
+    <string name="calibration_edit">Bearebiten</string>
 
     <!-- BMR -->
     <string name="textViewBMREResult">0</string>
     <string name="textViewBMRResult">0</string>
     <string name="labelBMR">Grundumsatz:</string>
     <string name="labelBMRE">Grundumsatzenergie:</string>
+    <string name="buttonfinished">Fertig</string>
 
     <!-- Day-Mode -->
     <string name="dayMode_startDate">Startdatum</string>

@@ -1,6 +1,5 @@
 package hm.edu.pulsebuddy.common;
 
-
 import java.util.Calendar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -16,7 +15,7 @@ public class DatePickerFragment extends DialogFragment implements
 
   public interface DateListener
   {
-    public void returnDate( String tag, Calendar date );
+    public void returnDate( String tag, Calendar calendar );
   }
 
   @Override
@@ -35,10 +34,13 @@ public class DatePickerFragment extends DialogFragment implements
 
   public void onDateSet( DatePicker view, int year, int month, int day )
   {
+    // set tags
+    final String startDateTag = "startDateTag";
+    final String endDateTag = "endDateTag";
+    final String dateOfBirthdayTag = "dateOfBirthday";
+
     // set selected date
     final Calendar calendar = Calendar.getInstance();
-    final String startDateTag = "datePickerForStartDate";
-    final String endDateTag = "datePickerForEndDate";
     calendar.set( year, month, day );
 
     // tag is set in show and separate each date picker
@@ -48,9 +50,15 @@ public class DatePickerFragment extends DialogFragment implements
     {
       dateListener.returnDate( startDateTag, calendar );
     }
+
     else if ( tag.equals( endDateTag ) )
     {
       dateListener.returnDate( endDateTag, calendar );
+    }
+
+    else if ( tag.equals( dateOfBirthdayTag ) )
+    {
+      dateListener.returnDate( dateOfBirthdayTag, calendar );
     }
 
   }

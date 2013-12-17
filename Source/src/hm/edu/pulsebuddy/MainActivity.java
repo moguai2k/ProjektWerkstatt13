@@ -5,7 +5,6 @@ import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
-import hm.edu.pulsebuddy.misc.About;
 import hm.edu.pulsebuddy.misc.CalculationActivity;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
@@ -77,9 +76,6 @@ public class MainActivity extends Activity
         return true;
       case R.id.maps:
         startActivity( new Intent( this, MapsActivity.class ) );
-        return true;
-      case R.id.about:
-        startActivity( new Intent( this, About.class ) );
         return true;
       case R.id.help:
         startActivity( new Intent( this, Help.class ) );

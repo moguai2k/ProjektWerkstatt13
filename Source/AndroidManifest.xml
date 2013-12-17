@@ -65,16 +65,11 @@
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".misc.About"
-            android:label="@string/about"
-            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".misc.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
-p
+
         <activity
             android:name=".misc.MapsActivity"
             android:label="@string/maps"

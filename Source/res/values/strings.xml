@@ -27,7 +27,6 @@
     <string name="menu_disconnect">Disconnect</string>
     <string name="menu_scan">Scan</string>
     <string name="menu_stop">Stop</string>
-    <string name="about">Team</string>
     <string name="help">Hilfe</string>
     <string name="settings">Einstellungen</string>
     <string name="calculation">Berechnung</string>
@@ -72,4 +71,7 @@
     <string name="dayMode_to">bis</string>
     <string name="dayMode_endDate">Enddatum</string>
 
+    <!-- Misc -->
+    <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
+    
 </resources>

@@ -15,16 +15,16 @@ public class CalculationActivity extends Activity
 {
   private DataInterface di;
   private UserModel user;
-  // TODO Josef, brauchen in Kalibrierung eine Angabe an Aktivität, siehe
+  // TODO Josef, brauchen in Kalibrierung eine Angabe an Aktivitï¿½t, siehe
   // Technisches Konzept Grundumsatzenergie
-  // TODO Tore muss diese Activität in der DB speichern
+  // TODO Tore muss diese Activitï¿½t in der DB speichern
   final static double ENERGY_REQUIREMENTS_AS_STUDENT = 1.3;
 
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.calculation );
+    setContentView( R.layout.calculation2 );
     getActionBar().setDisplayHomeAsUpEnabled( true );
 
     di = DataManager.getDataInterface();

@@ -1,44 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <com.androidplot.xy.XYPlot
         android:id="@+id/dayGraphPlot"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/domain_label_font_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gridLayout1"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         androidPlot.domainLabelWidget.labelPaint.color="@color/red"
+        androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/domain_label_font_size"
+        androidPlot.graphWidget.backgroundPaint.color="@color/transparent"
         androidPlot.graphWidget.domainLabelPaint.textSize="@dimen/domain_tick_label_font_size"
         androidPlot.graphWidget.domainOriginLabelPaint.textSize="@dimen/domain_tick_label_font_size"
+        androidPlot.graphWidget.gridBackgroundPaint.color="@color/transparent"
+        androidPlot.graphWidget.gridLinePaint.color="@color/red"
         androidPlot.graphWidget.marginBottom="25dp"
         androidPlot.graphWidget.marginLeft="15dp"
         androidPlot.graphWidget.marginRight="10dp"
         androidPlot.graphWidget.marginTop="20dp"
         androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/range_tick_label_font_size"
         androidPlot.graphWidget.rangeOriginLabelPaint.textSize="@dimen/range_tick_label_font_size"
-        androidPlot.graphWidget.gridLinePaint.color="@color/red"
-        androidPlot.graphWidget.backgroundPaint.color="@color/transparent"
-        androidPlot.graphWidget.gridBackgroundPaint.color="@color/transparent"
         androidPlot.legendWidget.heightMetric.value="25dp"
         androidPlot.legendWidget.positionMetrics.anchor="right_bottom"
         androidPlot.legendWidget.positionMetrics.xPositionMetric.value="0"
         androidPlot.legendWidget.textPaint.textSize="@dimen/legend_text_font_size"
         androidPlot.legendWidget.widthMetric.value="1"
-        androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
         androidPlot.rangeLabelWidget.labelPaint.color="@color/red"
-        androidPlot.title="Puls-Tagesanzeige"
-        androidPlot.title.textSize="50sp"
+        androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
         androidPlot.titleWidget.labelPaint.color="@color/red"
         androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size" />
 
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/ButtonsMenu"
-        android:text="@string/reset" />
+        android:layout_alignLeft="@+id/gridLayout1"
+        android:layout_alignParentBottom="true" >
 
-</LinearLayout>
+        <Button
+            android:id="@+id/resetButton"
+            style="@style/ButtonsMenuSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="@string/reset" />
+    </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:columnCount="3" >
+
+        <Button
+            android:id="@+id/startDateButton"
+            style="@style/ButtonsMenuSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left|center_vertical"
+            android:layout_row="0"
+            android:onClick="showDatePickerDialogForStartDate"
+            android:text="@string/dayMode_startDate" />
+
+        <Button
+            android:id="@+id/endDateButton"
+            style="@style/ButtonsMenuSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_gravity="right|center_horizontal"
+            android:layout_row="0"
+            android:onClick="showDatePickerDialogForEndDate"
+            android:text="@string/dayMode_endDate" />
+    </GridLayout>
+
+</RelativeLayout>

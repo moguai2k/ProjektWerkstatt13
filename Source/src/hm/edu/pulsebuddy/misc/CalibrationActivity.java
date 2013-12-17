@@ -1,18 +1,23 @@
 package hm.edu.pulsebuddy.misc;
 
 import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.common.DatePickerFragment;
+import hm.edu.pulsebuddy.common.DatePickerFragment.DateListener;
 import hm.edu.pulsebuddy.common.Gender;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.models.UserModel;
-
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.app.Activity;
+import com.google.android.gms.wallet.Cart;
+
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,33 +36,40 @@ import android.widget.Toast;
  * @author josefbichlmeier
  * 
  */
-public class CalibrationActivity extends Activity implements
-    OnDateChangedListener
+public class CalibrationActivity extends FragmentActivity implements
+    OnDateChangedListener, DateListener
 {
-  private Date dateOfBirthday;
+  private Calendar dateOfBirthday;
   private int userHeight;
   private int userWeight;
   private Gender userGender;
 
+  public Gender getUserGender()
+  {
+    return userGender;
+  }
+
   private DataInterface di;
   private UserModel user;
+  final String dateOfBirthdayTag = "dateOfBirthday";
 
   @Override
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.calibration05 );
+    setContentView( R.layout.calibration7 );
 
     di = DataManager.getDataInterface();
     user = di.getUserInstance();
 
     getActionBar().setDisplayHomeAsUpEnabled( true );
 
-    setValuesUserHeight();
-    setValuesUserWeight();
-    setValuesUserGender();
-    setValuesUserBirthday();
     saveCalibrationValues();
+
+    setUserHeigt();
+    setUserWeight();
+    setUserGender();
+
   }
 
   @Override
@@ -73,175 +85,179 @@ public class CalibrationActivity extends Activity implements
     }
   }
 
-  private void setValuesUserBirthday()
+  private void setUserHeigt()
   {
-    DatePicker datePicker = (DatePicker) findViewById( R.id.datePickerBirthday );
-
-    Calendar c = Calendar.getInstance();
-    c.setTimeInMillis( user.getBirthday().getTime() );
-
-    int year = c.get( Calendar.YEAR );
-    int month = c.get( Calendar.MONTH );
-    int day = c.get( Calendar.DATE );
-    datePicker.init( year, month, day, this );
-
-    setDateOfBirthday( user.getBirthday() );
+    Button buttonUserHeight = (Button) findViewById( R.id.buttonUserHeight );
+    buttonUserHeight.setOnClickListener( new View.OnClickListener()
+    {
+      @Override
+      public void onClick( View v )
+      {
+        showUserHeightPicker();
+      }
+    } );
   }
 
-  /**
-   * Set the number picker for user height in calibration.
-   */
-  private void setValuesUserHeight()
+  private void setUserWeight()
   {
-    NumberPicker numberPickerUserHeight = (NumberPicker) findViewById( R.id.numberPickerUserHeight );
-
-    String[] userHeights = new String[ 161 ];
-    int index = 0;
-    for ( int height = 100; height <= 260; height++ )
+    Button buttonUserWeight = (Button) findViewById( R.id.buttonUserWeight );
+    buttonUserWeight.setOnClickListener( new View.OnClickListener()
     {
-      userHeights[ index++ ] = String.format( "%3d", height );
-    }
-
-    int minUserHeight = 100;
-    int maxUserHeight = 260;
-    numberPickerUserHeight.setMinValue( minUserHeight );
-    numberPickerUserHeight.setMaxValue( maxUserHeight );
-    numberPickerUserHeight.setWrapSelectorWheel( false );
-    numberPickerUserHeight.setDisplayedValues( userHeights );
-    numberPickerUserHeight
-        .setDescendantFocusability( NumberPicker.FOCUS_BLOCK_DESCENDANTS );
-
-    getSelectedUserHeight( numberPickerUserHeight );
-
-    if ( user != null )
-    {
-      numberPickerUserHeight.setValue( user.getHeight() );
-      setUserHeight( user.getHeight() );
-    }
+      @Override
+      public void onClick( View v )
+      {
+        showUserWeightPicker();
+      }
+    } );
   }
 
-  /**
-   * Get selected user height value.
-   * 
-   * @param numberPickerUserHeight
-   *          Selector for user height.
-   */
-  private void getSelectedUserHeight( NumberPicker numberPickerUserHeight )
+  private void setUserGender()
   {
-    numberPickerUserHeight
+    Button buttonUserGender = (Button) findViewById( R.id.buttonUserGender );
+    buttonUserGender.setOnClickListener( new View.OnClickListener()
+    {
+      @Override
+      public void onClick( View v )
+      {
+        showUserGenderPicker();
+      }
+    } );
+  }
+
+  public void showUserHeightPicker()
+  {
+    final Dialog dialog = new Dialog( CalibrationActivity.this );
+    dialog.setTitle( "Wähle Dein Größe" );
+    dialog.setContentView( R.layout.height_picker_dialog );
+    Button buttonFinished = (Button) dialog.findViewById( R.id.buttonFinished );
+
+    final NumberPicker numberPicker = (NumberPicker) dialog
+        .findViewById( R.id.numberPickerHeight );
+
+    numberPicker.setMinValue( 110 );
+    numberPicker.setMaxValue( 260 );
+    numberPicker.setWrapSelectorWheel( false );
+    numberPicker
         .setOnValueChangedListener( new NumberPicker.OnValueChangeListener()
         {
           @Override
-          public void onValueChange( NumberPicker picker,
-              int oldUserHeightValue, int newUserHeightValue )
+          public void onValueChange( NumberPicker picker, int oldPickerValue,
+              int newPickerValue )
           {
-            setUserHeight( newUserHeightValue );
+            setUserHeight( newPickerValue );
           }
         } );
-  }
 
-  /**
-   * Set the number picker for user weight in calibration.
-   */
-  private void setValuesUserWeight()
-  {
-    NumberPicker numberPickerForWeight = (NumberPicker) findViewById( R.id.numberPickerWeight );
-
-    String[] userweights = new String[ 271 ];
-    int index = 0;
-    for ( int weight = 30; weight <= 300; weight++ )
+    buttonFinished.setOnClickListener( new View.OnClickListener()
     {
-      userweights[ index++ ] = String.format( "%3d", weight );
-    }
+      @Override
+      public void onClick( View v )
+      {
+        Button buttonUserHeight = (Button) findViewById( R.id.buttonUserHeight );
+        buttonUserHeight.setText( String.valueOf( numberPicker.getValue() ) );
+        dialog.dismiss();
+      }
+    } );
 
-    int minUserWeight = 30;
-    int maxUserWeight = 300;
-    numberPickerForWeight.setMinValue( minUserWeight );
-    numberPickerForWeight.setMaxValue( maxUserWeight );
-    numberPickerForWeight.setWrapSelectorWheel( false );
-    numberPickerForWeight.setDisplayedValues( userweights );
-    numberPickerForWeight
-        .setDescendantFocusability( NumberPicker.FOCUS_BLOCK_DESCENDANTS );
-
-    getSelectedUserWeight( numberPickerForWeight );
-
-    if ( user != null )
-    {
-      numberPickerForWeight.setValue( user.getWeight() );
-      setUserWeight( user.getWeight() );
-    }
+    dialog.show();
 
   }
 
-  /**
-   * Get selected user weight value.
-   * 
-   * @param numberPickerUserWeight
-   *          Selector for user weight.
-   */
-  private void getSelectedUserWeight( NumberPicker numberPickerUserWeight )
+  public void showUserWeightPicker()
   {
-    numberPickerUserWeight
+    final Dialog dialog = new Dialog( CalibrationActivity.this );
+    dialog.setTitle( "Wähle Dein Gewicht" );
+    dialog.setContentView( R.layout.weight_picker_dialog );
+    Button buttonFinished = (Button) dialog.findViewById( R.id.buttonFinished );
+
+    final NumberPicker numberPicker = (NumberPicker) dialog
+        .findViewById( R.id.numberPickerGender );
+
+    numberPicker.setMinValue( 30 );
+    numberPicker.setMaxValue( 300 );
+    numberPicker.setWrapSelectorWheel( false );
+    numberPicker
         .setOnValueChangedListener( new NumberPicker.OnValueChangeListener()
         {
           @Override
-          public void onValueChange( NumberPicker picker,
-              int oldUserWeightValue, int newUserWeightValue )
+          public void onValueChange( NumberPicker picker, int oldPickerValue,
+              int newPickerValue )
           {
-            setUserWeight( newUserWeightValue );
+            setUserWeight( newPickerValue );
           }
         } );
+
+    buttonFinished.setOnClickListener( new View.OnClickListener()
+    {
+      @Override
+      public void onClick( View v )
+      {
+        Button buttonUserWeight = (Button) findViewById( R.id.buttonUserWeight );
+        buttonUserWeight.setText( String.valueOf( numberPicker.getValue() ) );
+        dialog.dismiss();
+      }
+    } );
+
+    dialog.show();
+
   }
 
-  /**
-   * Set the number picker for user gender in calibration.
-   */
-  private void setValuesUserGender()
+  public void showUserGenderPicker()
   {
-    NumberPicker numberPickerUserGender = (NumberPicker) findViewById( R.id.numberPickerUserGender );
+    final Dialog dialog = new Dialog( CalibrationActivity.this );
+    dialog.setTitle( "Wähle Dein Geschlecht" );
+    dialog.setContentView( R.layout.gender_picker_dialog );
+    Button buttonFinished = (Button) dialog.findViewById( R.id.buttonFinished );
 
+    final NumberPicker numberPicker = (NumberPicker) dialog
+        .findViewById( R.id.numberPickerGender );
+
+    numberPicker.setMinValue( 1 );
+    numberPicker.setMaxValue( 2 );
     String[] genders = { "weiblich", "männlich" };
-
-    numberPickerUserGender.setMinValue( 1 );
-    numberPickerUserGender.setMaxValue( genders.length );
-    numberPickerUserGender.setWrapSelectorWheel( false );
-    numberPickerUserGender.setDisplayedValues( genders );
-    numberPickerUserGender
-        .setDescendantFocusability( NumberPicker.FOCUS_BLOCK_DESCENDANTS );
-
-    getSelectedUserGender( numberPickerUserGender );
-
-    if ( user != null )
-    {
-      Gender g = user.getGender();
-      if ( g == Gender.female )
-        numberPickerUserGender.setValue( 1 );
-      else if ( g == Gender.male )
-        numberPickerUserGender.setValue( 2 );
-
-      setUserGender( g );
-    }
-  }
-
-  /**
-   * Get selected user gender value.
-   * 
-   * @param numberPickerUserGender
-   *          Selector for user gender.
-   */
-  private void getSelectedUserGender( NumberPicker numberPickerUserGender )
-  {
-    numberPickerUserGender
+    numberPicker.setWrapSelectorWheel( false );
+    numberPicker.setDisplayedValues( genders );
+    numberPicker
         .setOnValueChangedListener( new NumberPicker.OnValueChangeListener()
         {
           @Override
-          public void onValueChange( NumberPicker picker,
-              int oldUserGenderValue, int newUserGenderValue )
+          public void onValueChange( NumberPicker picker, int oldPickerValue,
+              int newPickerValue )
           {
-            setUserGender( calclulateUserGender( newUserGenderValue ) );
-
+            setUserGender( calclulateUserGender( newPickerValue ) );
           }
         } );
+
+    buttonFinished.setOnClickListener( new View.OnClickListener()
+    {
+      @Override
+      public void onClick( View v )
+      {
+        Button buttonUserGender = (Button) findViewById( R.id.buttonUserGender );
+
+        if ( numberPicker.getValue() == 1 )
+        {
+          buttonUserGender.setText( "weiblich" );
+        }
+        else if ( numberPicker.getValue() == 2 )
+        {
+          buttonUserGender.setText( "männlich" );
+        }
+
+        dialog.dismiss();
+
+      }
+    } );
+
+    dialog.show();
+
+  }
+
+  // show date picker dialog if button is fired
+  public void showDatePickerDialogForDateOfBirthday( View v )
+  {
+    DialogFragment newFragment = new DatePickerFragment();
+    newFragment.show( getSupportFragmentManager(), dateOfBirthdayTag );
   }
 
   /**
@@ -263,12 +279,28 @@ public class CalibrationActivity extends Activity implements
     {
       return Gender.male;
     }
-    else
-    {
-      // TODO exceptoin
-      // default value
-      return Gender.male;
-    }
+    return null;
+
+  }
+
+  private void setUserWeight( int userWeight )
+  {
+    this.userWeight = userWeight;
+  }
+
+  private void setUserHeight( int userHeight )
+  {
+    this.userHeight = userHeight;
+  }
+
+  private void setUserGender( Gender userGender )
+  {
+    this.userGender = userGender;
+  }
+
+  public void setDateOfBirthday( Calendar dateOfBirthday )
+  {
+    this.dateOfBirthday = dateOfBirthday;
   }
 
   /**
@@ -284,37 +316,17 @@ public class CalibrationActivity extends Activity implements
         user.setWeight( userWeight );
         user.setHeight( userHeight );
         user.setGender( userGender );
-        user.setBirthday( dateOfBirthday );
+        // TODO @Tore: ich musste den Typ auf Calendar ändern, bitte anpassen
+        // user.setBirthday( dateOfBirthday );
+
+        // TODO @Tore noch mal prüfen ob die Werte richtig in die DB übernomnen
+        // werden
 
         di.savaUserInstance( user );
 
         customToast( "Saved user data." );
       }
     } );
-  }
-
-  private void setUserWeight( int userWeight )
-  {
-    Log.d( "pulsebuddy debug: ", "set weight: " + userWeight );
-    this.userWeight = userWeight;
-  }
-
-  private void setUserHeight( int userHeight )
-  {
-    Log.d( "pulsebuddy debug: ", "set user height: " + userHeight );
-    this.userHeight = userHeight;
-  }
-
-  private void setUserGender( Gender userGender )
-  {
-    Log.d( "pulsebuddy debug: ", "set gender: " + userGender );
-    this.userGender = userGender;
-  }
-
-  private void setDateOfBirthday( Date dateOfBirthday )
-  {
-    Log.d( "pulsebuddy debug: ", "set date of birthday: " + dateOfBirthday );
-    this.dateOfBirthday = dateOfBirthday;
   }
 
   private void customToast( String text )
@@ -334,11 +346,28 @@ public class CalibrationActivity extends Activity implements
   }
 
   @Override
+  public void returnDate( String tag, Calendar calendar )
+  {
+    SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
+    dateFormat.setCalendar( calendar );
+    String selectedDate = dateFormat.format( calendar.getTime() );
+
+    setDateOfBirthday( calendar );
+
+    if ( dateOfBirthdayTag.equals( tag ) )
+    {
+      Button startDateButton = (Button) findViewById( R.id.buttonDateOfBirthday );
+      startDateButton.setText( selectedDate );
+
+      // TODO Hier Code einfügen, Startdatum für Graph
+    }
+  }
+
+  @Override
   public void onDateChanged( DatePicker view, int year, int monthOfYear,
       int dayOfMonth )
-  { 
-    Calendar c = Calendar.getInstance();
-    c.set( year, monthOfYear, dayOfMonth );
-    setDateOfBirthday( c.getTime() );
+  {
+    // TODO Auto-generated method stub
+
   }
 }

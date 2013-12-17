@@ -82,7 +82,7 @@ public class GraphDayActivity extends Activity implements OnTouchListener
     aprHistoryPlot.setBorderStyle( Plot.BorderStyle.NONE, null, null );
 
     series = new SimpleXYSeries[ 1 ];
-    int scale = 10;
+    int scale = 200;
     series[ 0 ] = new SimpleXYSeries( "S" );
     populateSeries( series[ 0 ], scale );
     aprHistoryPlot.addSeries(

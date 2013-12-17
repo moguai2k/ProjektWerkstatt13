@@ -7,15 +7,18 @@
         android:id="@+id/currentPulse"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/controls_layout"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:text="@string/zero_pulse"
         android:textColor="@color/red"
-        android:textSize="40pt"
+        android:textSize="20pt"
         android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/hello_world"
@@ -30,6 +33,7 @@
         android:orientation="horizontal" >
 
         <!-- <hm.edu.pulsebuddy.graph.MultitouchPlot -->
+
         <com.androidplot.xy.XYPlot
             android:id="@+id/aprHistoryPlot"
             android:layout_width="0dp"
@@ -55,35 +59,32 @@
             androidplot.renderMode="use_background_thread" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/InnerRelativeLayout"
-        android:layout_width="wrap_content"
+    <GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <Button
+            android:id="@+id/hs_dm"
+            style="@style/ButtonsMenuSmall"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_gravity="left"
+            android:onClick="onButtonClick"
+            android:text="@string/dm" />
 
-            <Button
-                android:id="@+id/hs_dm"
-                style="@style/ButtonsMenu"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onButtonClick"
-                android:text="@string/dm" >
-            </Button>
-
-            <Button
-                android:id="@+id/hs_sm"
-                style="@style/ButtonsMenu"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onButtonClick"
-                android:text="@string/sm" >
-            </Button>
-        </LinearLayout>
-    </RelativeLayout>
+        <Button
+            android:id="@+id/hs_sm"
+            style="@style/ButtonsMenuSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:onClick="onButtonClick"
+            android:text="@string/sm" />
+    </GridLayout>
 
 </RelativeLayout>

@@ -45,13 +45,12 @@
 
         <Button
             android:id="@+id/resetButton"
-            style="@style/ButtonsMenu"
+            style="@style/ButtonsMenuSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:text="@string/reset" />
-
     </LinearLayout>
 
     <GridLayout

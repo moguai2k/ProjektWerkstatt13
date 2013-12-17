@@ -49,6 +49,9 @@ public class DeviceScanActivity extends ListActivity
   private BluetoothAdapter mBluetoothAdapter;
   private boolean mScanning;
   private Handler mHandler;
+private LayoutInflater inflater;
+private View layout;
+private TextView toastText;
 
   private static final int REQUEST_ENABLE_BT = 1;
   // Stops scanning after 10 seconds.
@@ -59,6 +62,7 @@ public class DeviceScanActivity extends ListActivity
   {
     super.onCreate( savedInstanceState );
     getActionBar().setTitle( R.string.title_devices );
+    getActionBar().setDisplayHomeAsUpEnabled(true);
     mHandler = new Handler();
 
     // Use this check to determine whether BLE is supported on the device. Then
@@ -73,8 +77,7 @@ public class DeviceScanActivity extends ListActivity
     }
 
     // Initializes a Bluetooth adapter. For API level 18 and above, get a
-    // reference to
-    // BluetoothAdapter through BluetoothManager.
+    // reference to BluetoothAdapter through BluetoothManager.
     final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService( Context.BLUETOOTH_SERVICE );
     mBluetoothAdapter = bluetoothManager.getAdapter();
 
@@ -137,12 +140,13 @@ public class DeviceScanActivity extends ListActivity
     {
       if ( !mBluetoothAdapter.isEnabled() )
       {
-        Intent enableBtIntent = new Intent(
-            BluetoothAdapter.ACTION_REQUEST_ENABLE );
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE );
         startActivityForResult( enableBtIntent, REQUEST_ENABLE_BT );
       }
     }
 
+     
+    //TODO if Device Connectet, do not start Scanning
     // Initializes list view adapter.
     mLeDeviceListAdapter = new LeDeviceListAdapter();
     setListAdapter( mLeDeviceListAdapter );
@@ -179,16 +183,16 @@ public class DeviceScanActivity extends ListActivity
       return;
     }
     final Intent intent = new Intent( this, DeviceControlActivity.class );
-    intent
-        .putExtra( DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName() );
-    intent.putExtra( DeviceControlActivity.EXTRAS_DEVICE_ADDRESS,
-        device.getAddress() );
+    intent.putExtra( DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName() );
+    intent.putExtra( DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress() );
     if ( mScanning )
     {
       mBluetoothAdapter.stopLeScan( mLeScanCallback );
       mScanning = false;
     }
+    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY ); // Quick and Dirty: deactivate History 
     startActivity( intent );
+//    finish();
   }
 
   private void scanLeDevice( final boolean enable )
@@ -217,7 +221,7 @@ public class DeviceScanActivity extends ListActivity
     }
     invalidateOptionsMenu();
   }
-
+  
   // Adapter for holding devices found through scanning.
   private class LeDeviceListAdapter extends BaseAdapter
   {
@@ -266,18 +270,32 @@ public class DeviceScanActivity extends ListActivity
     {
       return i;
     }
+    
+//	// Custom toast aka alert box
+//	private void customToast(String text) {
+//		inflater = getLayoutInflater();
+//		layout = inflater.inflate(R.layout.custom_toast,
+//				(ViewGroup) findViewById(R.id.toast_layout));
+//		toastText = (TextView) layout.findViewById(R.id.toastText);
+//		String messageText = "Device found: " + text;
+//		toastText.setText(messageText);
+//		Toast t = new Toast(getApplicationContext());
+//		t.setDuration(Toast.LENGTH_SHORT);
+//		t.setView(layout);
+//		t.show();
+//	}
 
     @Override
     public View getView( int i, View view, ViewGroup viewGroup )
     {
+   	
       ViewHolder viewHolder;
       // General ListView optimization code.
       if ( view == null )
       {
         view = mInflator.inflate( R.layout.listitem_device, null );
         viewHolder = new ViewHolder();
-        viewHolder.deviceAddress = (TextView) view
-            .findViewById( R.id.device_address );
+        viewHolder.deviceAddress = (TextView) view.findViewById( R.id.device_address );
         viewHolder.deviceName = (TextView) view.findViewById( R.id.device_name );
         view.setTag( viewHolder );
       }
@@ -291,6 +309,8 @@ public class DeviceScanActivity extends ListActivity
       if ( deviceName != null && deviceName.length() > 0 )
       {
         viewHolder.deviceName.setText( deviceName );
+//        customToast(deviceName) ;
+        
       }
       else
       {

@@ -40,6 +40,7 @@
         <activity
             android:name="hm.edu.pulsebuddy.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,13 +79,16 @@
         <activity
             android:name=".ble.DeviceScanActivity"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ble.DeviceControlActivity"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
 
         <service
             android:name=".ble.BluetoothLeService"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:enabled="true" />
         <service
             android:name=".activity.ActivityRecognitionIntentService"

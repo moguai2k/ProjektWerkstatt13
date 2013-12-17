@@ -1,15 +1,20 @@
 package hm.edu.pulsebuddy.graph;
 
 import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.common.DatePickerFragment;
+import hm.edu.pulsebuddy.common.DatePickerFragment.DateListener;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +27,8 @@ import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
-public class GraphDayActivity extends Activity implements OnTouchListener
+public class GraphDayActivity extends FragmentActivity implements
+    OnTouchListener, DateListener
 {
   private static final int SERIES_SIZE = 200;
   private XYPlot aprHistoryPlot;
@@ -211,5 +217,42 @@ public class GraphDayActivity extends Activity implements OnTouchListener
     float x = event.getX( 0 ) - event.getX( 1 );
     float y = event.getY( 0 ) - event.getY( 1 );
     return FloatMath.sqrt( x * x + y * y );
+  }
+
+  public void showDatePickerDialogForStartDate( View v )
+  {
+    DialogFragment newFragment = new DatePickerFragment();
+    newFragment.show( getSupportFragmentManager(), "datePickerForStartDate" );
+  }
+
+  public void showDatePickerDialogForEndDate( View v )
+  {
+    DialogFragment newFragment = new DatePickerFragment();
+    newFragment.show( getSupportFragmentManager(), "datePickerForEndDate" );
+  }
+
+  @Override
+  public void returnDate( String tag, Calendar calendar )
+  {
+    final String startDateTag = "datePickerForStartDate";
+    final String endDateTag = "datePickerForEndDate";
+    SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
+    dateFormat.setCalendar( calendar );
+    String selectedDate = dateFormat.format( calendar.getTime() );
+
+    if ( startDateTag.equals( tag ) )
+    {
+      Button startDateButton = (Button) findViewById( R.id.startDateButton );
+      startDateButton.setText( selectedDate );
+
+      // TODO Hier Code einfügen, Startdatum für Graph
+    }
+    else if ( endDateTag.equals( tag ) )
+    {
+      Button endDateButton = (Button) findViewById( R.id.endDateButton );
+      endDateButton.setText( selectedDate );
+
+      // TODO Hier Code einfügen, Enddatum für Graph
+    }
   }
 }

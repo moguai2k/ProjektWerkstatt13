@@ -57,11 +57,16 @@
     <string name="calibration_save_values">Speichern</string>
     <string name="calibration_kilogram">kg</string>
     <string name="calibration_cm">cm</string>
-    
+
     <!-- BMR -->
     <string name="textViewBMREResult">0</string>
     <string name="textViewBMRResult">0</string>
     <string name="labelBMR">Grundumsatz:</string>
     <string name="labelBMRE">Grundumsatzenergie:</string>
+
+    <!-- Day-Mode -->
+    <string name="dayMode_startDate">Startdatum</string>
+    <string name="dayMode_to">bis</string>
+    <string name="dayMode_endDate">Enddatum</string>
 
 </resources>

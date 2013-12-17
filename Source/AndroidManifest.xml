@@ -8,10 +8,10 @@
     <uses-sdk
         android:minSdkVersion="18"
         android:targetSdkVersion="18" />
-    
+
     <permission
-    android:name="hm.edu.pulsebuddy.permission.MAPS_RECEIVE"
-    android:protectionLevel="signature" />
+        android:name="hm.edu.pulsebuddy.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -25,8 +25,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
-    
+    <uses-permission
+        android:name="android.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
     <uses-permission android:name="hm.edu.pulsebuddy.permission.MAPS_RECEIVE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -50,46 +51,56 @@
         </activity>
         <activity
             android:name=".misc.CalculationActivity"
+            android:label="@string/calculation"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".misc.CalibrationActivity"
+            android:label="@string/calibration"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".misc.Help"
+            android:label="@string/help"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".misc.About"
+            android:label="@string/about"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".misc.SettingsActivity"
+            android:label="@string/settings"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
-            android:screenOrientation="portrait" />p
+            android:screenOrientation="portrait" />
+p
         <activity
             android:name=".misc.MapsActivity"
+            android:label="@string/maps"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".graph.GraphDayActivity"
+            android:label="@string/dm"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ble.DeviceScanActivity"
-            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
+            android:label="@string/title_devices"
             android:noHistory="true"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ble.DeviceControlActivity"
+            android:label="@string/title_devices"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
 
         <service
             android:name=".ble.BluetoothLeService"
-            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
-            android:enabled="true" />
+            android:enabled="true"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity" />
         <service
             android:name=".activity.ActivityRecognitionIntentService"
             android:exported="true" />

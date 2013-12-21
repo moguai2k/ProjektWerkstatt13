@@ -36,6 +36,8 @@ public class GraphDayActivity extends FragmentActivity implements
   private SimpleXYSeries[] series = null;
   private PointF minXY;
   private PointF maxXY;
+  final String startDateTag = "startDateTag";
+  final String endDateTag = "endDateTag";
 
   public void onCreate( Bundle savedInstanceState )
   {
@@ -222,21 +224,20 @@ public class GraphDayActivity extends FragmentActivity implements
   public void showDatePickerDialogForStartDate( View v )
   {
     DialogFragment newFragment = new DatePickerFragment();
-    newFragment.show( getSupportFragmentManager(), "startDateTag" );
+    newFragment.show( getSupportFragmentManager(), startDateTag );
   }
 
   public void showDatePickerDialogForEndDate( View v )
   {
     DialogFragment newFragment = new DatePickerFragment();
-    newFragment.show( getSupportFragmentManager(), "endDateTag" );
+    newFragment.show( getSupportFragmentManager(), endDateTag );
   }
 
   @Override
   public void returnDate( String tag, Calendar calendar )
   {
-    final String startDateTag = "startDateTag";
-    final String endDateTag = "endDateTag";
-    SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
+    SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy",
+        java.util.Locale.getDefault() );
     dateFormat.setCalendar( calendar );
     String selectedDate = dateFormat.format( calendar.getTime() );
 

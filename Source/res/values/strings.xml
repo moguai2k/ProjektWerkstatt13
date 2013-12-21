@@ -73,5 +73,10 @@
 
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
-    
+    <string name="title_activity_sport_mode">Sport Mode</string>
+    <string name="title_section1">Sport Test</string>
+    <string name="title_section2">Durchführen</string>
+    <string name="title_section3">Ergebnis</string>
+    <string name="title_activity_sport_test_fragment">SportTestFragment</string>
+
 </resources>

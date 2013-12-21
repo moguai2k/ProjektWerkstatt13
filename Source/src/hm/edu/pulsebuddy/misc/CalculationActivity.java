@@ -24,7 +24,7 @@ public class CalculationActivity extends Activity
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.calculation2 );
+    setContentView( R.layout.calculation );
     getActionBar().setDisplayHomeAsUpEnabled( true );
 
     di = DataManager.getDataInterface();

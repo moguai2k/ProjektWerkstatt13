@@ -50,7 +50,7 @@ public class CalibrationActivity extends FragmentActivity implements
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.calibration7 );
+    setContentView( R.layout.calibration );
 
     di = DataManager.getDataInterface();
     user = di.getUserInstance();

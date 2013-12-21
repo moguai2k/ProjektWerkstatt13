@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:gravity="center" >
 
-    <TextView
-        android:id="@+id/currentPulse"
-        android:layout_width="fill_parent"
+    <GridLayout
+        android:id="@+id/gridLayout1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/controls_layout"
-        android:layout_marginLeft="@dimen/legend_text_font_size"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="@string/zero_pulse"
-        android:textColor="@color/red"
-        android:textSize="20pt"
-        android:textStyle="bold" />
+        android:layout_centerHorizontal="true" >
 
-    <ImageView
-        android:id="@+id/header"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:contentDescription="@string/hello_world"
-        android:src="@drawable/pbbig" />
+        <TextView
+            android:id="@+id/currentPulse"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/legend_text_font_size"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="@string/zero_pulse"
+            android:textColor="@color/red"
+            android:textSize="20pt"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:contentDescription="@string/hello_world"
+            android:src="@drawable/pbbig" />
+    </GridLayout>
 
     <LinearLayout
         android:id="@+id/controls_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_above="@+id/gridLayout2"
+        android:layout_below="@+id/gridLayout1"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:orientation="horizontal" >
 
@@ -38,11 +47,8 @@
         <com.androidplot.xy.XYPlot
             android:id="@+id/aprHistoryPlot"
             android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:layout_margin="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
             androidPlot.backgroundPaint.color="@color/transparent"
             androidPlot.borderPaint.color="@color/transparent"
@@ -62,6 +68,7 @@
     </LinearLayout>
 
     <GridLayout
+        android:id="@+id/gridLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -66,7 +66,7 @@ public class MapsActivity extends Activity implements ActivityListener
     {
       LocationModel l = locations.get( i );
       if ( l != null )
-        setLocationOnMap( l, "Location " + i );
+        setLocationOnMap( l, "Location " + i + " " );
     }
 
     /* LocationModel l = di.getLastLocation( 0 ); if ( l != null )

@@ -71,12 +71,21 @@
     <string name="dayMode_to">bis</string>
     <string name="dayMode_endDate">Enddatum</string>
 
+    <!-- Sport Mode -->
+    <string name="sport_mode_title_sport_test">Sport Test</string>
+    <string name="sport_mode_title_perform">Durchführen</string>
+    <string name="sport_mode_title_result">Ergebnis</string>
+    <string name="sport_mode_title_activity_sport_test_fragment">Sport Test</string>
+    <string name="sport_mode_note">Hinweis</string>
+    <string name="sport_mode_note_description">Bitte folge den Anweisungen um Dein persönliches Sportprofil anzulegen, anschließend wird Dein individueller Fitnessplan erstellt.</string>
+    <string name="sport_mode_note_warning">Bitte berücksichtige immer deine sportliche Verfassung!</string>
+    <string name="sport_mode_title_activity">Sport Mode</string>
+    <string name="sport_mode_go">Leg los</string>
+    <string name="sport_mode_running_state">Laufzustand</string>
+    <string name="sport_mode_kind_of_sport_label">Trainingsart wählen</string>
+    <string name="sport_mode_sound_sign_left">((</string>
+
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
-    <string name="title_activity_sport_mode">Sport Mode</string>
-    <string name="title_section1">Sport Test</string>
-    <string name="title_section2">Durchführen</string>
-    <string name="title_section3">Ergebnis</string>
-    <string name="title_activity_sport_test_fragment">SportTestFragment</string>
 
 </resources>

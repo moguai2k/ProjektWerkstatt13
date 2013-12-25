@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="kind_of_sports_array">
+        <item>Kraft</item>
+        <item>Ausdauer</item>
+        <item>Abnehmen</item>
+    </string-array>
+
+</resources>

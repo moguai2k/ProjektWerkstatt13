@@ -175,11 +175,11 @@ public class SportModeActivity extends FragmentActivity implements
       switch ( position )
       {
         case 0:
-          return getString( R.string.title_section1 ).toUpperCase( l );
+          return getString( R.string.sport_mode_title_sport_test ).toUpperCase( l );
         case 1:
-          return getString( R.string.title_section2 ).toUpperCase( l );
+          return getString( R.string.sport_mode_title_perform ).toUpperCase( l );
         case 2:
-          return getString( R.string.title_section3 ).toUpperCase( l );
+          return getString( R.string.sport_mode_title_result ).toUpperCase( l );
       }
       return null;
     }

@@ -50,54 +50,61 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".misc.CalculationActivity"
+            android:name="hm.edu.pulsebuddy.misc.CalculationActivity"
             android:label="@string/calculation"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".misc.CalibrationActivity"
+            android:name="hm.edu.pulsebuddy.misc.CalibrationActivity"
             android:label="@string/calibration"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".misc.Help"
+            android:name="hm.edu.pulsebuddy.misc.Help"
             android:label="@string/help"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".misc.SettingsActivity"
+            android:name="hm.edu.pulsebuddy.misc.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name=".misc.MapsActivity"
+            android:name="hm.edu.pulsebuddy.misc.MapsActivity"
             android:label="@string/maps"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".graph.GraphDayActivity"
+            android:name="hm.edu.pulsebuddy.graph.GraphDayActivity"
             android:label="@string/dm"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ble.DeviceScanActivity"
+            android:name="hm.edu.pulsebuddy.ble.DeviceScanActivity"
             android:label="@string/title_devices"
             android:noHistory="true"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ble.DeviceControlActivity"
+            android:name="hm.edu.pulsebuddy.ble.DeviceControlActivity"
             android:label="@string/title_devices"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="hm.edu.pulsebuddy.SportModeActivity"
+            android:label="@string/sport_mode_title_activity" >
+        </activity>
+        <activity
+            android:name="hm.edu.pulsebuddy.SportTestFragment"
+            android:label="@string/sport_mode_title_activity_sport_test_fragment" >
+        </activity>
 
         <service
-            android:name=".ble.BluetoothLeService"
+            android:name="hm.edu.pulsebuddy.ble.BluetoothLeService"
             android:enabled="true"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity" />
         <service
-            android:name=".activity.ActivityRecognitionIntentService"
+            android:name="hm.edu.pulsebuddy.activity.ActivityRecognitionIntentService"
             android:exported="true" />
 
         <meta-data

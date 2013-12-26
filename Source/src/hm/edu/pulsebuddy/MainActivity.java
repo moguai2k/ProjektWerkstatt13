@@ -96,8 +96,7 @@ public class MainActivity extends Activity
         startActivity( new Intent( this, GraphDayActivity.class ) );
         break;
       case R.id.hs_sm:
-        // startActivity(new Intent(this, Sportmode.class));
-        customToast( "Noch kein Sport-Mode-Content vorhanden..." );
+        startActivity( new Intent( this, SportModeActivity.class ) );
         break;
       default:
     }

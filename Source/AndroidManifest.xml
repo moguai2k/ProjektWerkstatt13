@@ -98,6 +98,11 @@
             android:name="hm.edu.pulsebuddy.SportTestFragment"
             android:label="@string/sport_mode_title_activity_sport_test_fragment" >
         </activity>
+        <activity
+            android:name="hm.edu.pulsebuddy.SportTestStartFragment"
+            android:configChanges="orientation"
+            android:label="@string/sport_mode_title_activity_sport_test_fragment" >
+        </activity>
 
         <service
             android:name="hm.edu.pulsebuddy.ble.BluetoothLeService"

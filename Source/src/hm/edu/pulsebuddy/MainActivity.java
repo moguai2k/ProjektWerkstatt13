@@ -98,7 +98,7 @@ public class MainActivity extends Activity
       case R.id.hs_sm:
         startActivity( new Intent( this, SportModeActivity.class ) );
         break;
-      default:
+
     }
   }
 

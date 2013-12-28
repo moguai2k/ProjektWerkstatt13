@@ -68,10 +68,10 @@ public class DeviceControlActivity extends Activity
   private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
   private boolean mConnected = false;
   private BluetoothGattCharacteristic mNotifyCharacteristic;
-  
- 
+
   // UUID der Heart Rate Caracteristic
-  public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID.fromString( SampleGattAttributes.HEART_RATE_MEASUREMENT );
+  public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID
+      .fromString( SampleGattAttributes.HEART_RATE_MEASUREMENT );
 
   // Code to manage Service lifecycle.
   private final ServiceConnection mServiceConnection = new ServiceConnection()
@@ -80,13 +80,15 @@ public class DeviceControlActivity extends Activity
     @Override
     public void onServiceConnected( ComponentName componentName, IBinder service )
     {
-      mBluetoothLeService = ( (BluetoothLeService.LocalBinder) service ).getService();
+      mBluetoothLeService = ( (BluetoothLeService.LocalBinder) service )
+          .getService();
       if ( !mBluetoothLeService.initialize() )
       {
         Log.e( TAG, "Unable to initialize Bluetooth" );
         finish();
       }
-      // Automatically connects to the device upon successful start-up initialization.
+      // Automatically connects to the device upon successful start-up
+      // initialization.
       mBluetoothLeService.connect( mDeviceAddress );
     }
 
@@ -106,10 +108,10 @@ public class DeviceControlActivity extends Activity
   private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver()
   {
     private LayoutInflater inflater;
-	private View layout;
-	private TextView toastText;
+    private View layout;
+    private TextView toastText;
 
-	@Override
+    @Override
     public void onReceive( Context context, Intent intent )
     {
       final String action = intent.getAction();
@@ -122,47 +124,52 @@ public class DeviceControlActivity extends Activity
       else if ( BluetoothLeService.ACTION_GATT_DISCONNECTED.equals( action ) )
       {
         mConnected = false;
-		String messageText = "Disconnected from: " + mDeviceName;
-        customToast(messageText);
+        String messageText = "Disconnected from: " + mDeviceName;
+        customToast( messageText );
         updateConnectionState( R.string.disconnected );
         invalidateOptionsMenu();
         clearUI();
       }
-      else if ( BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals( action ) )
+      else if ( BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED
+          .equals( action ) )
       {
         // Show all the supported services and
         // characteristics on the user interface.
-//        displayGattServices( mBluetoothLeService.getSupportedGattServices());
-        getHeartRateService( mBluetoothLeService.getSupportedGattServices());
-//          Log.d( TAG, "ACTION_GATT_SERVICES_DISCOVERED: ..." );
-		String messageText = "Connectet to: " + mDeviceName;
-        customToast(messageText);
+        // displayGattServices( mBluetoothLeService.getSupportedGattServices());
+        getHeartRateService( mBluetoothLeService.getSupportedGattServices() );
+        // Log.d( TAG, "ACTION_GATT_SERVICES_DISCOVERED: ..." );
+        String messageText = "Connectet to: " + mDeviceName;
+        customToast( messageText );
         // TODO back to MainActivity
-	    Intent mainInt = new Intent(DeviceControlActivity.this, MainActivity.class); 
-	    mainInt.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY ); // Quick and Dirty: deactivate History 
-	    startActivity(mainInt);
-//        finish(); //finishing the activity would stop the heart reat
-        
-        
+        Intent mainInt = new Intent( DeviceControlActivity.this,
+            MainActivity.class );
+        mainInt.setFlags( Intent.FLAG_ACTIVITY_NO_HISTORY ); // Quick and Dirty:
+                                                             // deactivate
+                                                             // History
+        startActivity( mainInt );
+        // finish(); //finishing the activity would stop the heart reat
+
       }
       else if ( BluetoothLeService.ACTION_DATA_AVAILABLE.equals( action ) )
       {
-//        displayData( intent.getStringExtra( BluetoothLeService.EXTRA_DATA ) );
+        // displayData( intent.getStringExtra( BluetoothLeService.EXTRA_DATA )
+        // );
       }
     }
-    
-	// Custom toast aka alert box
-	private void customToast(String text) {
-		inflater = getLayoutInflater();
-		layout = inflater.inflate(R.layout.custom_toast,
-				(ViewGroup) findViewById(R.id.toast_layout));
-		toastText = (TextView) layout.findViewById(R.id.toastText);
-		toastText.setText(text);
-		Toast t = new Toast(getApplicationContext());
-		t.setDuration(Toast.LENGTH_SHORT);
-		t.setView(layout);
-		t.show();
-	}
+
+    // Custom toast aka alert box
+    private void customToast( String text )
+    {
+      inflater = getLayoutInflater();
+      layout = inflater.inflate( R.layout.custom_toast,
+          (ViewGroup) findViewById( R.id.toast_layout ) );
+      toastText = (TextView) layout.findViewById( R.id.toastText );
+      toastText.setText( text );
+      Toast t = new Toast( getApplicationContext() );
+      t.setDuration( Toast.LENGTH_SHORT );
+      t.setView( layout );
+      t.show();
+    }
   };
 
   // If a given GATT characteristic is selected, check for supported features.
@@ -181,7 +188,7 @@ public class DeviceControlActivity extends Activity
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.gatt_services_characteristics );
-    getActionBar().setDisplayHomeAsUpEnabled(true);
+    getActionBar().setDisplayHomeAsUpEnabled( true );
 
     final Intent intent = getIntent();
     mDeviceName = intent.getStringExtra( EXTRAS_DEVICE_NAME );
@@ -190,7 +197,7 @@ public class DeviceControlActivity extends Activity
     // Sets up UI references.
     ( (TextView) findViewById( R.id.device_address ) ).setText( mDeviceAddress );
     mGattServicesList = (ExpandableListView) findViewById( R.id.gatt_services_list );
-//    mGattServicesList.setOnChildClickListener( servicesListClickListner );
+    // mGattServicesList.setOnChildClickListener( servicesListClickListner );
     mConnectionState = (TextView) findViewById( R.id.connection_state );
     mDataField = (TextView) findViewById( R.id.data_value );
 
@@ -257,8 +264,8 @@ public class DeviceControlActivity extends Activity
         return true;
       case android.R.id.home:
         onBackPressed();
-//    	  NavUtils.navigateUpFromSameTask(this);
-          return true;
+        // NavUtils.navigateUpFromSameTask(this);
+        return true;
     }
     return super.onOptionsItemSelected( item );
   }
@@ -282,35 +289,37 @@ public class DeviceControlActivity extends Activity
       mDataField.setText( data );
     }
   }
-  
-  private void getHeartRateService( List<BluetoothGattService> gattServices){
-	  
-	    if ( gattServices == null )
-	    {
-	      return;
-	    }
-	    
-	    mGattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
 
-	    // Loops through available GATT Services.
-	    for ( BluetoothGattService gattService : gattServices )
-	    {
-	      List<BluetoothGattCharacteristic> gattCharacteristics = gattService.getCharacteristics();
+  private void getHeartRateService( List<BluetoothGattService> gattServices )
+  {
 
-	      // Loops through available Characteristics.
-	      for ( BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics )
-	      {
-	        // falls Heart Rate Characterristic
-	        if ( UUID_HEART_RATE_MEASUREMENT.equals( gattCharacteristic.getUuid() ) )
-	        {    	
-	        	Log.d( TAG, "UUID_HEART_RATE_MEASUREMENT Avaliable"  );
-	            mNotifyCharacteristic = gattCharacteristic;
-	            mBluetoothLeService.setCharacteristicNotification( gattCharacteristic, true );
-	        }
-	      }
-	    }	  
+    if ( gattServices == null )
+    {
+      return;
+    }
+
+    mGattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
+
+    // Loops through available GATT Services.
+    for ( BluetoothGattService gattService : gattServices )
+    {
+      List<BluetoothGattCharacteristic> gattCharacteristics = gattService
+          .getCharacteristics();
+
+      // Loops through available Characteristics.
+      for ( BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics )
+      {
+        // falls Heart Rate Characterristic
+        if ( UUID_HEART_RATE_MEASUREMENT.equals( gattCharacteristic.getUuid() ) )
+        {
+          Log.d( TAG, "UUID_HEART_RATE_MEASUREMENT Avaliable" );
+          mNotifyCharacteristic = gattCharacteristic;
+          mBluetoothLeService.setCharacteristicNotification(
+              gattCharacteristic, true );
+        }
+      }
+    }
   }
-
 
   private static IntentFilter makeGattUpdateIntentFilter()
   {

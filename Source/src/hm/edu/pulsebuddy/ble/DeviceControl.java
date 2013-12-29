@@ -90,7 +90,7 @@ public class DeviceControl
   /**
    * Ctor
    * 
-   * @param aContext
+   * @param aContext The application context.
    */
   public DeviceControl( Context aContext )
   {

@@ -81,11 +81,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="hm.edu.pulsebuddy.ble.DeviceScanActivity"
-            android:label="@string/title_devices"
+            android:label="@string/ble_title_devices"
             android:noHistory="true"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog"/>
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name="hm.edu.pulsebuddy.SportModeActivity"
             android:label="@string/sport_mode_title_activity" >

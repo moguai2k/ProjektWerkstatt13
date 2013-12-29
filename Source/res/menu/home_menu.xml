@@ -17,6 +17,6 @@
         android:title="@string/help"/>
     <item
         android:id="@+id/ble_scan"
-        android:title="@string/title_devices"/>
+        android:title="@string/ble_title_devices"/>
 
 </menu>

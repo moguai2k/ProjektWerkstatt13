@@ -87,11 +87,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog"/>
         <activity
-            android:name="hm.edu.pulsebuddy.ble.DeviceControlActivity"
-            android:label="@string/title_devices"
-            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="hm.edu.pulsebuddy.SportModeActivity"
             android:label="@string/sport_mode_title_activity" >
         </activity>

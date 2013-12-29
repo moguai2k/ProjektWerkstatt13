@@ -1,27 +1,18 @@
 package hm.edu.pulsebuddy.ble;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import hm.edu.pulsebuddy.MainActivity;
-import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataManager;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
+
+import java.util.UUID;
+
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
 public class DeviceControl
 {
@@ -32,17 +23,16 @@ public class DeviceControl
       .fromString( SampleGattAttributes.HEART_RATE_MEASUREMENT );
 
   private Context context;
-  
+
   private DataHandler dataHandler;
 
   private String deviceName;
   private String deviceAddress;
 
-  private BluetoothLeService mBluetoothLeService;
+  private BluetoothLeService bluetoothLeService;
 
-  private ArrayList<ArrayList<BluetoothGattCharacteristic>> gattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
-
-  private Boolean connected;
+  @SuppressWarnings( "unused" )
+  private Boolean connected = false;
 
   /* Code to manage Service lifecycle */
   private final ServiceConnection mServiceConnection = new ServiceConnection()
@@ -51,23 +41,23 @@ public class DeviceControl
     @Override
     public void onServiceConnected( ComponentName componentName, IBinder service )
     {
-      mBluetoothLeService = ( (BluetoothLeService.LocalBinder) service )
+      bluetoothLeService = ( (BluetoothLeService.LocalBinder) service )
           .getService();
-      if ( !mBluetoothLeService.initialize() )
+      if ( !bluetoothLeService.initialize() )
       {
         Log.e( TAG, "Unable to initialize Bluetooth" );
         return;
       }
       Log.d( TAG, "onServiceConnected" );
-      mBluetoothLeService.connect( deviceAddress );
+      bluetoothLeService.connect( deviceAddress );
     }
 
     @Override
     public void onServiceDisconnected( ComponentName componentName )
     {
       Log.d( TAG, "onServiceDisconnected" );
-      mBluetoothLeService.disconnect();
-      mBluetoothLeService = null;
+      bluetoothLeService.disconnect();
+      bluetoothLeService = null;
     }
   };
 
@@ -81,33 +71,27 @@ public class DeviceControl
       if ( BluetoothLeService.ACTION_GATT_CONNECTED.equals( action ) )
       {
         connected = true;
-        Log.d( TAG, "GATT connected " + deviceName );       
+        Log.d( TAG, "GATT connected " + deviceName );
       }
       else if ( BluetoothLeService.ACTION_GATT_DISCONNECTED.equals( action ) )
       {
         connected = false;
         Log.w( TAG, "GATT disconnected" + deviceName );
       }
-      else if ( BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED
-          .equals( action ) )
-      {
-        // TODO
-      }
       else if ( BluetoothLeService.ACTION_DATA_AVAILABLE.equals( action ) )
       {
-        if ( connected == true )
-        {
-          if ( dataHandler != null )
-          {
-            int heartRate = intent.getExtras().getInt( BluetoothLeService.EXTRA_DATA );
-            Log.d(TAG, "Heart rate: " + heartRate );
-            //dataHandler.savePulseValue( heartRate );
-          }
-        }
+        int heartRate = intent.getIntExtra( BluetoothLeService.EXTRA_DATA,
+            0 );
+        dataHandler.savePulseValue( heartRate );
       }
     }
   };
 
+  /**
+   * Ctor
+   * 
+   * @param aContext
+   */
   public DeviceControl( Context aContext )
   {
     this.context = aContext;
@@ -115,21 +99,24 @@ public class DeviceControl
   }
 
   /**
-   * Close everything.
+   * Set a previously scanned device.
+   * 
+   * @param aDeviceName
+   *          The device name.
+   * @param aDeviceAddress
+   *          The device address.
    */
-  public void close()
-  {
-    this.context.unregisterReceiver( mGattUpdateReceiver );
-    this.context.unbindService( mServiceConnection );
-    mBluetoothLeService = null;
-  }
-
   public void setDevice( String aDeviceName, String aDeviceAddress )
   {
     this.deviceName = aDeviceName;
     this.deviceAddress = aDeviceAddress;
   }
 
+  /**
+   * Start the service.
+   * 
+   * @return
+   */
   public Boolean startService()
   {
     this.context.registerReceiver( mGattUpdateReceiver,
@@ -140,6 +127,20 @@ public class DeviceControl
     this.context.bindService( gattServiceIntent, mServiceConnection,
         Context.BIND_AUTO_CREATE );
 
+    return true;
+  }
+  
+  /**
+   * Stop the service.
+   * 
+   * @return
+   */
+  public Boolean stopService()
+  {
+    bluetoothLeService.disconnect();
+    this.context.unregisterReceiver( mGattUpdateReceiver );
+    this.context.unbindService( mServiceConnection );
+    
     return true;
   }
 

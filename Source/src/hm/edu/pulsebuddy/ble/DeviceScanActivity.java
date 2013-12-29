@@ -67,6 +67,7 @@ public class DeviceScanActivity extends Activity
   {
     super.onCreate( savedInstanceState );
 
+    /* UI */
     requestWindowFeature( Window.FEATURE_INDETERMINATE_PROGRESS );
     setContentView( R.layout.device_list );
     mTitleView = (TextView) findViewById( R.id.title_devices );
@@ -186,9 +187,9 @@ public class DeviceScanActivity extends Activity
     unregisterReceiver( mReceiver );
     if ( mBluetoothAdapter != null )
     {
-      mBluetoothAdapter.cancelDiscovery();
+      // mBluetoothAdapter.cancelDiscovery();
     }
-    //finish();
+    finish();
   }
 
   /**
@@ -293,15 +294,10 @@ public class DeviceScanActivity extends Activity
     public void onItemClick( final AdapterView<?> aAdapterView,
         final View aView, final int aPosition, final long aId )
     {
-      /* old */
-      String address = ( (BluetoothDevice) mDeviceList.get( aPosition ) )
-          .getAddress();
-      Log.d( TAG, "On click device " + address );
       final BluetoothDevice device = mDeviceList.get( aPosition );
       if ( device == null )
-      {
         return;
-      }
+      
       deviceControl.setDevice( device.getName(), device.getAddress() );
       deviceControl.startService();
 
@@ -329,11 +325,5 @@ public class DeviceScanActivity extends Activity
     mEmptyList.setVisibility( View.GONE );
     mDeviceList.add( aDevice );
     mDeviceAdapter.notifyDataSetChanged();
-  }
-
-  static class ViewHolder
-  {
-    TextView deviceName;
-    TextView deviceAddress;
   }
 }

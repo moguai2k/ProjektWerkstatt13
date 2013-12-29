@@ -1,5 +1,8 @@
 package hm.edu.pulsebuddy;
 
+import hm.edu.pulsebuddy.ble.BluetoothLeService;
+import hm.edu.pulsebuddy.ble.DeviceControl;
+import hm.edu.pulsebuddy.ble.DeviceManager;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataManager;
@@ -13,6 +16,7 @@ import hm.edu.pulsebuddy.misc.SettingsActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +31,8 @@ import com.androidplot.xy.XYPlot;
 
 public class MainActivity extends Activity
 {
+  private final static String TAG = BluetoothLeService.class.getSimpleName();
+  
   private LayoutInflater inflater;
   private View layout;
   private TextView toastText;
@@ -34,6 +40,9 @@ public class MainActivity extends Activity
 
   @SuppressWarnings( "unused" )
   private DataHandler ds = null;
+  
+  @SuppressWarnings( "unused" )
+  private DeviceControl dc = null;
 
   @Override
   protected void onCreate( Bundle savedInstanceState )
@@ -43,6 +52,9 @@ public class MainActivity extends Activity
 
     /* Important to be the first that is initiated. */
     ds = DataManager.getStorageInstance( this );
+    
+    /* Device control for Bluetooth related settings. */
+    dc = DeviceManager.getDeviceControlInstance( this );
 
     XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
     // MultitouchPlot aprHistoryPlot = (MultitouchPlot)
@@ -121,8 +133,10 @@ public class MainActivity extends Activity
   @Override
   public void onDestroy()
   {
+    Log.d(TAG, "onDestroy");
     if ( redrawer != null )
-      redrawer.finish();
+      redrawer.finish();      
+    
     super.onDestroy();
   }
 

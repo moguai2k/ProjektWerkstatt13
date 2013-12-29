@@ -52,6 +52,7 @@ public class BluetoothLeService extends Service
   private static final int STATE_CONNECTING = 1;
   private static final int STATE_CONNECTED = 2;
 
+  @SuppressWarnings( "unused" )
   private int mConnectionState = STATE_DISCONNECTED;
 
   public final static String ACTION_GATT_CONNECTED = "hm.edu.pulsebuddy.ble.ACTION_GATT_CONNECTED";
@@ -172,9 +173,8 @@ public class BluetoothLeService extends Service
         format = BluetoothGattCharacteristic.FORMAT_UINT8;
         Log.d( TAG, "Heart rate format UINT8." );
       }
-      final int heartRate = characteristic.getIntValue( format, 1 );
+      int heartRate = characteristic.getIntValue( format, 1 );
       intent.putExtra( EXTRA_DATA, heartRate );
-      Log.d( TAG, String.format( "Received heart rate: %d", heartRate ) );
     }
     else
     {
@@ -347,6 +347,11 @@ public class BluetoothLeService extends Service
     mBluetoothGatt.readCharacteristic( characteristic );
   }
 
+  /**
+   * Get the heart rate service.
+   * 
+   * @param gattServices The list of valid GATT services.
+   */
   private void getHeartRateService( List<BluetoothGattService> gattServices )
   {
     if ( gattServices == null )

@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SportModeActivity extends FragmentActivity implements
+public class SportTestActivity extends FragmentActivity implements
     ActionBar.TabListener
 {
 
@@ -131,9 +131,9 @@ public class SportModeActivity extends FragmentActivity implements
       // Return a DummySectionFragment (defined as a static inner class
       // below) with the page number as its lone argument.
 
-      // Fragment fragment = new SportTestFragment();
+      // Fragment fragment = new SportTestNoteFragment();
       // Bundle args = new Bundle();
-      // args.putInt( SportTestFragment.ARG_SECTION_NUMBER, position + 1 );
+      // args.putInt( SportTestNoteFragment.ARG_SECTION_NUMBER, position + 1 );
       // fragment.setArguments( args );
       // return fragment;
 
@@ -141,7 +141,7 @@ public class SportModeActivity extends FragmentActivity implements
       switch ( position )
       {
         case 0:
-          fragment = new SportTestFragment();
+          fragment = new SportTestNoteFragment();
           break;
         case 1:
           fragment = new SportTestStartFragment();

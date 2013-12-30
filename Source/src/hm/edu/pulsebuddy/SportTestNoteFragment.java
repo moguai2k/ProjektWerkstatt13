@@ -14,7 +14,7 @@ import android.widget.Spinner;
 /**
  * Represents the note text for the user.
  */
-public class SportTestFragment extends Fragment implements
+public class SportTestNoteFragment extends Fragment implements
     OnItemSelectedListener, View.OnClickListener
 {
   /**
@@ -23,7 +23,7 @@ public class SportTestFragment extends Fragment implements
   public static final String ARG_SECTION_NUMBER = "section_number";
   private Spinner kindOfSportsSpinner;
 
-  public SportTestFragment()
+  public SportTestNoteFragment()
   {
   }
 

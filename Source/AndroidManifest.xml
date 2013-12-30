@@ -91,11 +91,11 @@
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="hm.edu.pulsebuddy.SportModeActivity"
+            android:name="hm.edu.pulsebuddy.SportTestActivity"
             android:label="@string/sport_mode_title_activity" >
         </activity>
         <activity
-            android:name="hm.edu.pulsebuddy.SportTestFragment"
+            android:name="hm.edu.pulsebuddy.SportTestNoteFragment"
             android:label="@string/sport_mode_title_activity_sport_test_fragment" >
         </activity>
         <activity

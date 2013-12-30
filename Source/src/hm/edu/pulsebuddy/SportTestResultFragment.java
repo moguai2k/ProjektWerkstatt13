@@ -55,7 +55,7 @@ public class SportTestResultFragment extends Fragment implements
     switch ( view.getId() )
     {
       case R.id.buttonAgain:
-        Intent intent = new Intent( getActivity(), SportModeActivity.class );
+        Intent intent = new Intent( getActivity(), SportTestActivity.class );
         startActivity( intent );
         break;
       case R.id.buttonSave:

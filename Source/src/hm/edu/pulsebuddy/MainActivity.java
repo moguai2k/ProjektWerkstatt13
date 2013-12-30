@@ -96,7 +96,7 @@ public class MainActivity extends Activity
         startActivity( new Intent( this, GraphDayActivity.class ) );
         break;
       case R.id.hs_sm:
-        startActivity( new Intent( this, SportModeActivity.class ) );
+        startActivity( new Intent( this, SportTestActivity.class ) );
         break;
 
     }

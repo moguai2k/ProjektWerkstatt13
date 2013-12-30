@@ -47,6 +47,9 @@ public class BluetoothLeService extends Service
   private BluetoothAdapter mBluetoothAdapter;
   private String mBluetoothDeviceAddress;
   private BluetoothGatt mBluetoothGatt;
+  
+  /* GATT characteristic for the heart rate. */
+  private BluetoothGattCharacteristic hrCharacteristic;
 
   private static final int STATE_DISCONNECTED = 0;
   private static final int STATE_CONNECTING = 1;
@@ -80,8 +83,8 @@ public class BluetoothLeService extends Service
       {
         intentAction = ACTION_GATT_CONNECTED;
         mConnectionState = STATE_CONNECTED;
-        // broadcastUpdate( intentAction );
-        // Log.i( TAG, "Connected to GATT server." );
+        broadcastUpdate( intentAction );
+        Log.i( TAG, "Connected to GATT server." );
         Log.i( TAG, "Discovering services" );
         mBluetoothGatt.discoverServices();
 
@@ -100,9 +103,8 @@ public class BluetoothLeService extends Service
     {
       if ( status == BluetoothGatt.GATT_SUCCESS )
       {
-        Log.i( TAG, "GATT services discovered." );
+        /* After services are discovered. */
         getHeartRateService( gatt.getServices() );
-        // broadcastUpdate( ACTION_GATT_SERVICES_DISCOVERED );
       }
       else
       {
@@ -368,7 +370,8 @@ public class BluetoothLeService extends Service
       {
         if ( UUID_HEART_RATE_MEASUREMENT.equals( gattCharacteristic.getUuid() ) )
         {
-          Log.d( TAG, "UUID_HEART_RATE_MEASUREMENT avaliable" );
+          Log.d( TAG, "UUID_HEART_RATE_MEASUREMENT characteristic found" );
+          hrCharacteristic = gattCharacteristic;
           setCharacteristicNotification( gattCharacteristic, true );
         }
       }
@@ -401,6 +404,17 @@ public class BluetoothLeService extends Service
       descriptor.setValue( BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE );
       mBluetoothGatt.writeDescriptor( descriptor );
     }
+  }
+  
+  /**
+   * Enable/disable the notification for the heart rate.
+   * 
+   * @param enable True to enable, false to disable.
+   */
+  public void setCharacteristicNotification( boolean enable )
+  {
+    if ( hrCharacteristic != null && mBluetoothGatt != null )
+      mBluetoothGatt.setCharacteristicNotification( hrCharacteristic, enable );
   }
 
   /**

@@ -12,10 +12,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 /**
- * A dummy fragment representing a section of the app, but that simply displays
- * dummy text.
+ * Represents the note text for the user.
  */
-public class SportTestFragment extends Fragment implements
+public class SportTestNoteFragment extends Fragment implements
     OnItemSelectedListener, View.OnClickListener
 {
   /**
@@ -24,7 +23,7 @@ public class SportTestFragment extends Fragment implements
   public static final String ARG_SECTION_NUMBER = "section_number";
   private Spinner kindOfSportsSpinner;
 
-  public SportTestFragment()
+  public SportTestNoteFragment()
   {
   }
 
@@ -91,7 +90,6 @@ public class SportTestFragment extends Fragment implements
 
     // switch to second tab "Durchführen"
     getActivity().getActionBar().setSelectedNavigationItem( 1 );
-
   }
 
 }

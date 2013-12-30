@@ -20,6 +20,7 @@
     <string name="maptype">Ändere Kartenart</string>
     <string name="graph_day">Zeige Tagesanzeige</string>
     <string name="reset">Reset</string>
+<<<<<<< HEAD
     
     <!-- BLE -->
     <string name="ble_title_devices">PulseBuddy Device Scan</string>
@@ -27,6 +28,10 @@
     <string name="ble_scanning">Scanning</string>
     <string name="ble_scanagain">Scan Again</string>
     
+=======
+    <string name="common_saved_values">Gespeichert!</string>
+
+>>>>>>> 0efa134900121efe157434b518c8bc53f1ce9154
     <!-- Menu items -->
     <string name="menu_connect">Connect</string>
     <string name="menu_disconnect">Disconnect</string>
@@ -59,7 +64,6 @@
     <string name="calibration_user_height">Größe:</string>
     <string name="calibration_user_gender">Geschlecht:</string>
     <string name="calibration_save_values">Speichern</string>
-    <string name="calibration_saved_values">Gespeichert!</string>
     <string name="calibration_kilogram">kg</string>
     <string name="calibration_cm">cm</string>
     <string name="calibration_edit">Bearbeiten</string>
@@ -89,8 +93,19 @@
     <string name="sport_mode_running_state">Laufzustand</string>
     <string name="sport_mode_kind_of_sport_label">Trainingsart wählen</string>
     <string name="sport_mode_sound_sign_left">((</string>
+    <string name="sport_mode_sound_sign_right">))</string>
+    <string name="sport_mode_countdown">Countdown</string>
+    <string name="sport_mode_stop_running">Lauf stopen</string>
+    <string name="sport_mode_save_values">Speichern</string>
+    <string name="sport_mode_again">Nochmal</string>
+    <string name="sport_mode_result_label">Ergebnis:</string>
+    <string name="sport_mode_result_value">23</string>
 
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
+    <string name="title_activity_sport_mode">SportModeActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 
 </resources>

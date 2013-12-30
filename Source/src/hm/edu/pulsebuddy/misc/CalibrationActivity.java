@@ -394,7 +394,7 @@ public class CalibrationActivity extends FragmentActivity implements
         di.savaUserInstance( user );
 
         customToast( getResources().getString(
-            R.string.calibration_saved_values ) );
+            R.string.common_saved_values ) );
       }
     } );
   }

@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SportModeActivity extends FragmentActivity implements
+public class SportTestActivity extends FragmentActivity implements
     ActionBar.TabListener
 {
 
@@ -42,7 +42,7 @@ public class SportModeActivity extends FragmentActivity implements
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.activity_sport_mode );
+    setContentView( R.layout.activity_sport_test );
 
     // Set up the action bar.
     final ActionBar actionBar = getActionBar();
@@ -130,10 +130,34 @@ public class SportModeActivity extends FragmentActivity implements
       // getItem is called to instantiate the fragment for the given page.
       // Return a DummySectionFragment (defined as a static inner class
       // below) with the page number as its lone argument.
-      Fragment fragment = new DummySectionFragment();
-      Bundle args = new Bundle();
-      args.putInt( DummySectionFragment.ARG_SECTION_NUMBER, position + 1 );
-      fragment.setArguments( args );
+
+      // Fragment fragment = new SportTestNoteFragment();
+      // Bundle args = new Bundle();
+      // args.putInt( SportTestNoteFragment.ARG_SECTION_NUMBER, position + 1 );
+      // fragment.setArguments( args );
+      // return fragment;
+
+      Fragment fragment;
+      switch ( position )
+      {
+        case 0:
+          fragment = new SportTestNoteFragment();
+          break;
+        case 1:
+          fragment = new SportTestStartFragment();
+          break;
+        case 2:
+          fragment = new SportTestResultFragment();
+          break;
+        default:
+          throw new IllegalArgumentException( "Invalid section number" );
+      }
+
+      // // set args if necessary
+      // Bundle args = new Bundle();
+      // args.putInt( DummySectionFragment.ARG_SECTION_NUMBER, position + 1 );
+      // fragment.setArguments( args );
+
       return fragment;
     }
 
@@ -151,43 +175,13 @@ public class SportModeActivity extends FragmentActivity implements
       switch ( position )
       {
         case 0:
-          return getString( R.string.title_section1 ).toUpperCase( l );
+          return getString( R.string.sport_mode_title_sport_test ).toUpperCase( l );
         case 1:
-          return getString( R.string.title_section2 ).toUpperCase( l );
+          return getString( R.string.sport_mode_title_perform ).toUpperCase( l );
         case 2:
-          return getString( R.string.title_section3 ).toUpperCase( l );
+          return getString( R.string.sport_mode_title_result ).toUpperCase( l );
       }
       return null;
     }
   }
-
-  /**
-   * A dummy fragment representing a section of the app, but that simply
-   * displays dummy text.
-   */
-  public static class DummySectionFragment extends Fragment
-  {
-    /**
-     * The fragment argument representing the section number for this fragment.
-     */
-    public static final String ARG_SECTION_NUMBER = "section_number";
-
-    public DummySectionFragment()
-    {
-    }
-
-    @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState )
-    {
-      View rootView = inflater.inflate( R.layout.fragment_sport_mode_dummy,
-          container, false );
-      TextView dummyTextView = (TextView) rootView
-          .findViewById( R.id.section_label );
-      dummyTextView.setText( Integer.toString( getArguments().getInt(
-          ARG_SECTION_NUMBER ) ) );
-      return rootView;
-    }
-  }
-
 }

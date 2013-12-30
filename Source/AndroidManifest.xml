@@ -87,11 +87,16 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
         <activity
-            android:name="hm.edu.pulsebuddy.SportModeActivity"
+            android:name="hm.edu.pulsebuddy.SportTestActivity"
             android:label="@string/sport_mode_title_activity" >
         </activity>
         <activity
-            android:name="hm.edu.pulsebuddy.SportTestFragment"
+            android:name="hm.edu.pulsebuddy.SportTestNoteFragment"
+            android:label="@string/sport_mode_title_activity_sport_test_fragment" >
+        </activity>
+        <activity
+            android:name="hm.edu.pulsebuddy.SportTestStartFragment"
+            android:configChanges="orientation"
             android:label="@string/sport_mode_title_activity_sport_test_fragment" >
         </activity>
 
@@ -109,6 +114,11 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCFjhhdNnWPIocLTs2-nozSCqt2538TKPU" />
+
+        <activity
+            android:name="hm.edu.pulsebuddy.SportModeActivity"
+            android:label="@string/title_activity_sport_mode" >
+        </activity>
     </application>
 
 </manifest>

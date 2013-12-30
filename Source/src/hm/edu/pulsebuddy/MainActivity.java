@@ -108,9 +108,23 @@ public class MainActivity extends Activity
         startActivity( new Intent( this, GraphDayActivity.class ) );
         break;
       case R.id.hs_sm:
+
         startActivity( new Intent( this, SportModeActivity.class ) );
+
+        // TODO @Tore: Prüfen ob schon ein Conconi-Test Ergebnis vorliegt falls
+        // nein dann muss der Conconi-Test durchgeführt werden falls ja dann
+        // soll in den SportMode gewechselt werden.
+        // if ( userModel.getSportTestResult() > 0 )
+        // {
+        // startActivity( new Intent( this, SportModeActivity.class ) );
+        // }
+        // else
+        // {
+        // startActivity( new Intent( this, SportTestActivity.class ) );
+        // }
+
         break;
-      default:
+
     }
   }
 

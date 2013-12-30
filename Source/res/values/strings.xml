@@ -20,7 +20,7 @@
     <string name="maptype">Ändere Kartenart</string>
     <string name="graph_day">Zeige Tagesanzeige</string>
     <string name="reset">Reset</string>
-<<<<<<< HEAD
+    <string name="common_saved_values">Gespeichert!</string>
     
     <!-- BLE -->
     <string name="ble_title_devices">PulseBuddy Device Scan</string>
@@ -28,10 +28,8 @@
     <string name="ble_scanning">Scanning</string>
     <string name="ble_scanagain">Scan Again</string>
     
-=======
-    <string name="common_saved_values">Gespeichert!</string>
+    
 
->>>>>>> 0efa134900121efe157434b518c8bc53f1ce9154
     <!-- Menu items -->
     <string name="menu_connect">Connect</string>
     <string name="menu_disconnect">Disconnect</string>

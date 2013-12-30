@@ -94,5 +94,9 @@
 
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
+    <string name="title_activity_sport_mode">SportModeActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 
 </resources>

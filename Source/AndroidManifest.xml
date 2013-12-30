@@ -118,6 +118,11 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCFjhhdNnWPIocLTs2-nozSCqt2538TKPU" />
+
+        <activity
+            android:name="hm.edu.pulsebuddy.SportModeActivity"
+            android:label="@string/title_activity_sport_mode" >
+        </activity>
     </application>
 
 </manifest>

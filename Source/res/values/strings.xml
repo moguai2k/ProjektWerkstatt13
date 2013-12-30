@@ -27,8 +27,6 @@
     <string name="ble_list_empty">No devices found yet</string>
     <string name="ble_scanning">Scanning</string>
     <string name="ble_scanagain">Scan Again</string>
-    
-    
 
     <!-- Menu items -->
     <string name="menu_connect">Connect</string>

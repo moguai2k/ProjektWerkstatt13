@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package hm.edu.pulsebuddy.ble;
 
 import java.util.List;
@@ -41,13 +25,14 @@ import android.util.Log;
  */
 public class BluetoothLeService extends Service
 {
-  private final static String TAG = BluetoothLeService.class.getSimpleName();
+  private final static String TAG = "BLEService";
 
   private BluetoothManager mBluetoothManager;
   private BluetoothAdapter mBluetoothAdapter;
   private String mBluetoothDeviceAddress;
+  private BluetoothDevice mBluetoothDevice;
   private BluetoothGatt mBluetoothGatt;
-  
+
   /* GATT characteristic for the heart rate. */
   private BluetoothGattCharacteristic hrCharacteristic;
 
@@ -55,7 +40,6 @@ public class BluetoothLeService extends Service
   private static final int STATE_CONNECTING = 1;
   private static final int STATE_CONNECTED = 2;
 
-  @SuppressWarnings( "unused" )
   private int mConnectionState = STATE_DISCONNECTED;
 
   public final static String ACTION_GATT_CONNECTED = "hm.edu.pulsebuddy.ble.ACTION_GATT_CONNECTED";
@@ -64,9 +48,6 @@ public class BluetoothLeService extends Service
   public final static String ACTION_DATA_AVAILABLE = "hm.edu.pulsebuddy.ble.ACTION_DATA_AVAILABLE";
 
   public final static String EXTRA_DATA = "hm.edu.pulsebuddy.ble.EXTRA_DATA";
-
-  public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID
-      .fromString( SampleGattAttributes.HEART_RATE_MEASUREMENT );
 
   /**
    * Implements callback methods for GATT events that the app cares about. For
@@ -83,11 +64,11 @@ public class BluetoothLeService extends Service
       {
         intentAction = ACTION_GATT_CONNECTED;
         mConnectionState = STATE_CONNECTED;
-        broadcastUpdate( intentAction );
         Log.i( TAG, "Connected to GATT server." );
-        Log.i( TAG, "Discovering services" );
-        mBluetoothGatt.discoverServices();
+        broadcastUpdate( intentAction );
 
+        Log.i( TAG, "Starting service discovery" );
+        mBluetoothGatt.discoverServices();
       }
       else if ( newState == BluetoothProfile.STATE_DISCONNECTED )
       {
@@ -103,8 +84,22 @@ public class BluetoothLeService extends Service
     {
       if ( status == BluetoothGatt.GATT_SUCCESS )
       {
+        Log.i( TAG, "Finished service discovery" );
+
+        BluetoothGattService service = mBluetoothGatt
+            .getService( DeviceControl.HR_SERVICE_UUID );
+        if ( service != null )
+        {
+          BluetoothGattCharacteristic hrChar = service
+              .getCharacteristic( DeviceControl.HR_CHAR_UUID );
+          if ( hrChar != null )
+          {
+            hrCharacteristic = hrChar;
+            setCharacteristicNotification( true );
+          }
+        }
         /* After services are discovered. */
-        getHeartRateService( gatt.getServices() );
+        // getHeartRateService( gatt.getServices() );
       }
       else
       {
@@ -161,19 +156,19 @@ public class BluetoothLeService extends Service
      * http://developer.bluetooth
      * .org/gatt/characteristics/Pages/CharacteristicViewer
      * .aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml */
-    if ( UUID_HEART_RATE_MEASUREMENT.equals( characteristic.getUuid() ) )
+    if ( DeviceControl.HR_CHAR_UUID.equals( characteristic.getUuid() ) )
     {
       int flag = characteristic.getProperties();
       int format = -1;
       if ( ( flag & 0x01 ) != 0 )
       {
         format = BluetoothGattCharacteristic.FORMAT_UINT16;
-        Log.d( TAG, "Heart rate format UINT16." );
+        // Log.d( TAG, "Heart rate format UINT16." );
       }
       else
       {
         format = BluetoothGattCharacteristic.FORMAT_UINT8;
-        Log.d( TAG, "Heart rate format UINT8." );
+        // Log.d( TAG, "Heart rate format UINT8." );
       }
       int heartRate = characteristic.getIntValue( format, 1 );
       intent.putExtra( EXTRA_DATA, heartRate );
@@ -227,7 +222,6 @@ public class BluetoothLeService extends Service
    */
   public boolean initialize()
   {
-
     /* For API level 18 and above, get a reference to BluetoothAdapter through
      * BluetoothManager. */
     if ( mBluetoothManager == null )
@@ -294,7 +288,11 @@ public class BluetoothLeService extends Service
     }
     /* autoConnect true (2. parameter) */
     mBluetoothGatt = device.connectGatt( this, true, mGattCallback );
+    /* Set the address */
     mBluetoothDeviceAddress = address;
+    
+    /* Set the device */
+    mBluetoothDevice = device;
     mConnectionState = STATE_CONNECTING;
 
     return true;
@@ -350,71 +348,36 @@ public class BluetoothLeService extends Service
   }
 
   /**
-   * Get the heart rate service.
-   * 
-   * @param gattServices The list of valid GATT services.
-   */
-  private void getHeartRateService( List<BluetoothGattService> gattServices )
-  {
-    if ( gattServices == null )
-      return;
-
-    /* Loops through available GATT Services. */
-    for ( BluetoothGattService gattService : gattServices )
-    {
-      List<BluetoothGattCharacteristic> gattCharacteristics = gattService
-          .getCharacteristics();
-
-      /* Loops through available Characteristics. */
-      for ( BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics )
-      {
-        if ( UUID_HEART_RATE_MEASUREMENT.equals( gattCharacteristic.getUuid() ) )
-        {
-          Log.d( TAG, "UUID_HEART_RATE_MEASUREMENT characteristic found" );
-          hrCharacteristic = gattCharacteristic;
-          setCharacteristicNotification( gattCharacteristic, true );
-        }
-      }
-    }
-  }
-
-  /**
-   * Enables or disables notification on a give characteristic.
-   * 
-   * @param characteristic
-   *          Characteristic to act on.
-   * @param enabled
-   *          If true, enable notification. False otherwise.
-   */
-  public void setCharacteristicNotification(
-      BluetoothGattCharacteristic characteristic, boolean enabled )
-  {
-    if ( mBluetoothAdapter == null || mBluetoothGatt == null )
-    {
-      Log.w( TAG, "BluetoothAdapter not initialized" );
-      return;
-    }
-    mBluetoothGatt.setCharacteristicNotification( characteristic, enabled );
-
-    /* This is specific to Heart Rate Measurement. */
-    if ( UUID_HEART_RATE_MEASUREMENT.equals( characteristic.getUuid() ) )
-    {
-      BluetoothGattDescriptor descriptor = characteristic.getDescriptor( UUID
-          .fromString( SampleGattAttributes.CLIENT_CHARACTERISTIC_CONFIG ) );
-      descriptor.setValue( BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE );
-      mBluetoothGatt.writeDescriptor( descriptor );
-    }
-  }
-  
-  /**
    * Enable/disable the notification for the heart rate.
    * 
-   * @param enable True to enable, false to disable.
+   * @param enable
+   *          True to enable, false to disable.
    */
   public void setCharacteristicNotification( boolean enable )
   {
     if ( hrCharacteristic != null && mBluetoothGatt != null )
+    {
+      Log.i( TAG, "HR notificaiton " + enable );
+      if ( enable )
+      {
+        BluetoothGattDescriptor descriptor = hrCharacteristic
+            .getDescriptor( UUID
+                .fromString( DeviceControl.CLIENT_CHARACTERISTIC_CONFIG ) );
+
+        if ( descriptor != null )
+        {
+          Boolean success = descriptor
+              .setValue( BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE );
+          Log.i( TAG, "ENABLE_NOTIFICATION_VALUE success " + success );
+          success = mBluetoothGatt.writeDescriptor( descriptor );
+          Log.i( TAG, "Write descriptor success " + success );
+        }
+        else
+          Log.e( TAG, "Error with descriptor." );
+
+      }
       mBluetoothGatt.setCharacteristicNotification( hrCharacteristic, enable );
+    }
   }
 
   /**
@@ -434,4 +397,16 @@ public class BluetoothLeService extends Service
     return mBluetoothGatt.getServices();
   }
 
+  /**
+   * Return the connected Bluetooth device.
+   * 
+   * @return The bluetooth device, null otherwise.
+   */
+  public BluetoothDevice getBluetoothDevice()
+  {
+    if ( mConnectionState == STATE_CONNECTED )
+      return mBluetoothDevice;
+    return null;
+  }
+  
 }

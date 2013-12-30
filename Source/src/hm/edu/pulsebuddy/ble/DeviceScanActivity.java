@@ -51,6 +51,12 @@ public class DeviceScanActivity extends Activity
   {
     super.onCreate( savedInstanceState );
 
+    Log.d( TAG, "onCreate" );
+    
+    /* Get a device control instance. */
+    deviceControl = DeviceManager
+        .getDeviceControlInstance( getApplicationContext() );
+    
     /* UI */
     requestWindowFeature( Window.FEATURE_INDETERMINATE_PROGRESS );
     setContentView( R.layout.device_list );
@@ -87,6 +93,8 @@ public class DeviceScanActivity extends Activity
   {
     super.onResume();
 
+    Log.d( TAG, "onResume" );
+    
     /* Ensures Bluetooth is enabled on the device. If Bluetooth is not currently
      * enabled, fire an intent to display a dialog asking the user to grant
      * permission to enable it. */
@@ -133,6 +141,14 @@ public class DeviceScanActivity extends Activity
     listView.setAdapter( mDeviceAdapter );
     listView.setOnItemClickListener( mDeviceClickListener );
 
+    if ( deviceControl.isConnected() )
+    {
+      BluetoothDevice dev = deviceControl.getBluetoothDevice();
+      if ( dev != null )        
+        Log.d(TAG, "Already connected decvice " + dev.getAddress() );
+      addDevice( deviceControl.getBluetoothDevice() );
+    }   
+    
     /* Add bonded devices to list on creation. */
     for ( final BluetoothDevice bondedDevice : mBluetoothAdapter
         .getBondedDevices() )
@@ -143,10 +159,6 @@ public class DeviceScanActivity extends Activity
     /* Discover other devices. */
     mBluetoothAdapter.cancelDiscovery();
     mBluetoothAdapter.startDiscovery();
-
-    /* Get a device control instance. */
-    deviceControl = DeviceManager
-        .getDeviceControlInstance( getApplicationContext() );
   }
 
   @Override
@@ -185,6 +197,7 @@ public class DeviceScanActivity extends Activity
       /* Scanning for devices started. */
       if ( BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals( action ) )
       {
+        Log.d( TAG, "Scanning for devices" );
         setProgressBarIndeterminateVisibility( true );
         mTitleView.setText( "Scanning..." );
         if ( mDeviceList.size() == 0 )
@@ -197,6 +210,8 @@ public class DeviceScanActivity extends Activity
       {
         final BluetoothDevice device = (BluetoothDevice) aIntent
             .getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
+
+        Log.d( TAG, "Found device " + device.getAddress() );
 
         /* Add the device. */
         addDevice( device );
@@ -280,10 +295,16 @@ public class DeviceScanActivity extends Activity
       if ( device == null )
         return;
 
+      if ( deviceControl.isConnected() )
+      {
+        Log.d( TAG, "Already connected..." );
+        return;
+      }
+      
       deviceControl.setDevice( device.getName(), device.getAddress() );
       deviceControl.startService();
 
-      finish();
+      //finish();
     }
   };
 

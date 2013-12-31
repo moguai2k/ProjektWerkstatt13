@@ -1,7 +1,11 @@
 package hm.edu.pulsebuddy;
 
+import hm.edu.pulsebuddy.data.DataInterface;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.models.UserModel;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +26,14 @@ public class SportTestNoteFragment extends Fragment implements
    */
   public static final String ARG_SECTION_NUMBER = "section_number";
   private Spinner kindOfSportsSpinner;
+ 
+  private final static String TAG = "SportTestNoteFragment";
+  
+  private DataInterface di;
 
   public SportTestNoteFragment()
   {
+    di = DataManager.getDataInterface();
   }
 
   @Override
@@ -47,14 +56,7 @@ public class SportTestNoteFragment extends Fragment implements
 
   private void setKindOfSports()
   {
-    // set value if kind of sports exists in db
-
-    // TODO @Tore: aus kommentieren und zuvor Prüfen ob Wert in DB schon besteht
-    // falls ja dann diesen im Spinner setzten
-    // if ( usermodel.getkindOfSportsDB() != null )
-    // {
-    // kindOfSportsSpinner.setSelection( usermodel.getkindOfSportsDB() );
-    // }
+    UserModel user = di.getUserInstance(); 
 
     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
         getActivity().getBaseContext(), R.array.kind_of_sports_array,
@@ -64,6 +66,9 @@ public class SportTestNoteFragment extends Fragment implements
         .setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
     kindOfSportsSpinner.setAdapter( adapter );
     kindOfSportsSpinner.setOnItemSelectedListener( this );
+    
+    if ( user.getTrainingType() != null )
+      kindOfSportsSpinner.setSelection( user.getTrainingTypeAsInt() ); 
 
   }
 
@@ -82,14 +87,16 @@ public class SportTestNoteFragment extends Fragment implements
   @Override
   public void onClick( View v )
   {
-    // TODO @Tore: Trainingsart in DB speichern
-    // 0: Kraft
-    // 1: Ausdauer
-    // 2: Abnehmen
-    kindOfSportsSpinner.getSelectedItemPosition();
-
-    // switch to second tab "Durchführen"
+    int trainingType = kindOfSportsSpinner.getSelectedItemPosition();
+    UserModel user = di.getUserInstance();
+    if ( user != null )
+    {
+      user.setTrainingType( trainingType );
+      Log.d( TAG, "Saved training type" );
+      di.savaUserInstance( user );
+    }
+    /* switch to second tab "Durchführen" */
     getActivity().getActionBar().setSelectedNavigationItem( 1 );
   }
-
+  
 }

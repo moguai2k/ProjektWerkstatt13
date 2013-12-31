@@ -1,6 +1,7 @@
 package hm.edu.pulsebuddy.data.models;
 
 import hm.edu.pulsebuddy.common.Gender;
+import hm.edu.pulsebuddy.common.TrainingType;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,8 +23,11 @@ public class UserModel extends Persistent
   /* oO */
   private int activity;
   private int genre;
-
+  
   private short gender;
+  
+  /* Sport related values */
+  private int trainingType;
 
   public UserModel()
   {
@@ -36,6 +40,8 @@ public class UserModel extends Persistent
     this.height = 155;
     this.weight = 65;
     this.gender = 1;
+    
+    this.trainingType = 99;
 
     Calendar c = Calendar.getInstance();
     c.set( 1985, Calendar.JANUARY, 1 );
@@ -151,6 +157,39 @@ public class UserModel extends Persistent
         return null;
     }
   }
+  
+  public TrainingType getTrainingType()
+  {
+    return mapToTrainingType( trainingType );
+  }
+  
+  public int getTrainingTypeAsInt()
+  {
+    return trainingType;
+  }
+
+  public void setTrainingType( int trainingType )
+  {
+    this.trainingType = trainingType;
+  }
+  
+  private TrainingType mapToTrainingType( int aTrainingType )
+  {
+    switch ( gender )
+    {
+      case 0:
+        return TrainingType.POWER;
+        
+      case 1:
+        return TrainingType.ENDURANCE;
+
+      case 2:
+        return TrainingType.ABATEMENT;
+
+      default:
+        return null;
+    }
+  }
 
   @Override
   public String toString()
@@ -158,7 +197,7 @@ public class UserModel extends Persistent
     return "UserModel [userName=" + userName + ", password=" + password
         + ", birthday=" + birthday + ", weight=" + weight + ", height="
         + height + ", activity=" + activity + ", genre=" + genre + ", gender="
-        + gender + "]";
+        + gender + ", trainingType=" + trainingType + "]";
   }
 
 }

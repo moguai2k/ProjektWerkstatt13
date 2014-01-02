@@ -143,10 +143,12 @@ public class DeviceControl
    */
   public Boolean stopService()
   {
-    bluetoothLeService.disconnect();
-    this.context.unregisterReceiver( mGattUpdateReceiver );
-    this.context.unbindService( mServiceConnection );
-
+    if ( bluetoothLeService != null )
+    {
+      bluetoothLeService.disconnect();
+      this.context.unregisterReceiver( mGattUpdateReceiver );
+      this.context.unbindService( mServiceConnection );
+    }
     return true;
   }
 

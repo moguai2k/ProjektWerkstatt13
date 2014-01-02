@@ -52,11 +52,11 @@ public class DeviceScanActivity extends Activity
     super.onCreate( savedInstanceState );
 
     Log.d( TAG, "onCreate" );
-    
+
     /* Get a device control instance. */
     deviceControl = DeviceManager
         .getDeviceControlInstance( getApplicationContext() );
-    
+
     /* UI */
     requestWindowFeature( Window.FEATURE_INDETERMINATE_PROGRESS );
     setContentView( R.layout.device_list );
@@ -94,7 +94,7 @@ public class DeviceScanActivity extends Activity
     super.onResume();
 
     Log.d( TAG, "onResume" );
-    
+
     /* Ensures Bluetooth is enabled on the device. If Bluetooth is not currently
      * enabled, fire an intent to display a dialog asking the user to grant
      * permission to enable it. */
@@ -122,6 +122,7 @@ public class DeviceScanActivity extends Activity
     {
       public void onClick( View paramView )
       {
+        deviceControl.stopService();
         mBluetoothAdapter.cancelDiscovery();
         mBluetoothAdapter.startDiscovery();
       }
@@ -144,21 +145,22 @@ public class DeviceScanActivity extends Activity
     if ( deviceControl.isConnected() )
     {
       BluetoothDevice dev = deviceControl.getBluetoothDevice();
-      if ( dev != null )        
-        Log.d(TAG, "Already connected decvice " + dev.getAddress() );
-      addDevice( deviceControl.getBluetoothDevice() );
-    }   
-    
-    /* Add bonded devices to list on creation. */
-    for ( final BluetoothDevice bondedDevice : mBluetoothAdapter
-        .getBondedDevices() )
-    {
-      Log.d( TAG, "Adding bonded device to list " + bondedDevice.getName() );
-      addDevice( bondedDevice );
+      if ( dev != null )
+      {
+        Log.d( TAG, "Already connected decvice " + dev.getAddress() );
+        mTitleView.setText( dev.getName() + " connected." );
+        addDevice( deviceControl.getBluetoothDevice() );
+      }
+      else
+        Log.e( TAG, "Error getting connected Bluetooth device" );
+
     }
-    /* Discover other devices. */
-    mBluetoothAdapter.cancelDiscovery();
-    mBluetoothAdapter.startDiscovery();
+    else
+    {
+      /* Discover other devices. */
+      mBluetoothAdapter.cancelDiscovery();
+      mBluetoothAdapter.startDiscovery();
+    }
   }
 
   @Override
@@ -202,7 +204,7 @@ public class DeviceScanActivity extends Activity
         mTitleView.setText( "Scanning..." );
         if ( mDeviceList.size() == 0 )
         {
-          mEmptyList.setText( "No MIO Alpha found yet..." );
+          mEmptyList.setText( "No device found yet..." );
         }
       }
       /* Found a new device. */
@@ -297,14 +299,16 @@ public class DeviceScanActivity extends Activity
 
       if ( deviceControl.isConnected() )
       {
-        Log.d( TAG, "Already connected..." );
+        mTitleView.setText( "Already connected..." );
         return;
       }
-      
-      deviceControl.setDevice( device.getName(), device.getAddress() );
-      deviceControl.startService();
-
-      //finish();
+      else
+      {
+        mTitleView.setText( "Connecting..." );
+        deviceControl.setDevice( device.getName(), device.getAddress() );
+        deviceControl.startService();
+        // finish();
+      }
     }
   };
 

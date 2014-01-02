@@ -22,8 +22,8 @@ public class ConconiTest
   
   /**
    * 
-   * @param pulse
-   * @return
+   * @param pulse (all measured pulse data)
+   * @return (deflection point)
    */
   public int getDeflectionPoint( int[] pulse )
   {    
@@ -39,8 +39,8 @@ public class ConconiTest
   
   /**
    * 
-   * @param pulse
-   * @return
+   * @param pulse (all measured pulse data)
+   * @return (deflection point finally)
    */
   public int getDeflectionPointFinally( int[] pulse )
   {
@@ -57,6 +57,22 @@ public class ConconiTest
       }
     }
     return pulse[rateIndex];
+  }
+  
+  /**
+   * 
+   * @param pulse (last 3 pulse [190m 195m, 200m])
+   * @return (correct pulse, average)
+   */
+  public int getCorrectPulesToStore( int[] pulse )
+  {
+    int correctPulse = 0;
+    
+    for( int i=0; i < pulse.length; i++ ) {
+      correctPulse += pulse[i];
+    }
+    
+    return correctPulse / pulse.length;
   }
 
 }

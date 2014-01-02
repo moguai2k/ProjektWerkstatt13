@@ -181,7 +181,7 @@ public class UserModel extends Persistent
   
   private TrainingType mapToTrainingType( int aTrainingType )
   {
-    switch ( gender )
+    switch ( aTrainingType )
     {
       case 0:
         return TrainingType.POWER;

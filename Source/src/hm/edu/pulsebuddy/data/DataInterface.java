@@ -2,6 +2,7 @@ package hm.edu.pulsebuddy.data;
 
 import hm.edu.pulsebuddy.data.listeners.ActivityListener;
 import hm.edu.pulsebuddy.data.models.ActivityModel;
+import hm.edu.pulsebuddy.data.models.CoconiResultModel;
 import hm.edu.pulsebuddy.data.models.LocationModel;
 import hm.edu.pulsebuddy.data.models.UserModel;
 import hm.edu.pulsebuddy.data.perst.PerstStorage;
@@ -32,6 +33,12 @@ public class DataInterface implements ActivityListener
     perst = aPerstStoreage;
   }
 
+  /****************************************************************************
+   * 
+   * User related
+   * 
+   ***************************************************************************/
+  
   /**
    * Get the user instance object.
    * 
@@ -53,6 +60,12 @@ public class DataInterface implements ActivityListener
     perst.setUser( aUser );
   }
 
+  /****************************************************************************
+   * 
+   * Activity related
+   * 
+   ***************************************************************************/
+  
   /**
    * Returns the last activities in form of a simple String array. You can
    * specify the number of desired activities. It can happen that the returned
@@ -114,6 +127,12 @@ public class DataInterface implements ActivityListener
     }
   }
 
+  /****************************************************************************
+   * 
+   * Location related
+   * 
+   ***************************************************************************/
+  
   /**
    * Returns the recently received location.
    * 
@@ -181,5 +200,32 @@ public class DataInterface implements ActivityListener
       }
     }
     return results;
+  }
+  
+  /****************************************************************************
+   * 
+   * Coconi related
+   * 
+   ***************************************************************************/
+  
+  /**
+   * Add a coconi test result to the database.
+   * 
+   * @param aCoconiResult The result object.
+   * @return True on success, false otherwise.
+   */
+  public synchronized Boolean addCoconiResult( CoconiResultModel aCoconiResult )
+  {
+    return perst.addCoconiResult( aCoconiResult );
+  }
+  
+  /**
+   * Get all coconi test result objects.
+   * 
+   * @return List containing all coconi test results.
+   */
+  public synchronized ArrayList<CoconiResultModel> getCoconiTestResults()
+  {
+    return perst.getCoconiTestResults();
   }
 }

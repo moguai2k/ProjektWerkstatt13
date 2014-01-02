@@ -1,13 +1,14 @@
-package hm.edu.pulsebuddy;
+package hm.edu.pulsebuddy.sportmode;
+
+import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.common.RunningState;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import hm.edu.pulsebuddy.common.RunningState;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 public class SportTestStartFragment extends Fragment implements
     View.OnClickListener
 {
+  private final static String TAG = "SportTestStartFragment";
+
   /**
    * The fragment argument representing the section number for this fragment.
    */
@@ -185,9 +188,8 @@ public class SportTestStartFragment extends Fragment implements
   @Override
   public void onClick( View view )
   {
-    // switch to second tab "Ergebnis"
+    Log.d( TAG, "onTestFinished -> switching to tab 3" );
     getActivity().getActionBar().setSelectedNavigationItem( 2 );
-
   }
 
   public RunningState getRunningState()

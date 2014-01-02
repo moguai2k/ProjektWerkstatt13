@@ -1,9 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/hm/edu/pulsebuddy/MainActivity.java=UTF-8
-encoding//src/hm/edu/pulsebuddy/SportTestNoteFragment.java=UTF-8
-encoding//src/hm/edu/pulsebuddy/SportTestResultFragment.java=UTF-8
-encoding//src/hm/edu/pulsebuddy/SportTestStartFragment.java=UTF-8
 encoding//src/hm/edu/pulsebuddy/graph/GraphDayActivity.java=UTF-8
 encoding//src/hm/edu/pulsebuddy/misc/CalculationActivity.java=UTF-8
 encoding//src/hm/edu/pulsebuddy/misc/CalibrationActivity.java=UTF-8
 encoding//src/hm/edu/pulsebuddy/misc/MapsActivity.java=UTF-8
+encoding//src/hm/edu/pulsebuddy/sportmode/SportTestNoteFragment.java=UTF-8
+encoding//src/hm/edu/pulsebuddy/sportmode/SportTestResultFragment.java=UTF-8
+encoding//src/hm/edu/pulsebuddy/sportmode/SportTestStartFragment.java=UTF-8

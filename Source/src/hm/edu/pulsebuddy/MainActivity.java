@@ -15,6 +15,8 @@ import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
 import hm.edu.pulsebuddy.misc.MapsActivity;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
+import hm.edu.pulsebuddy.sportmode.SportModeActivity;
+import hm.edu.pulsebuddy.sportmode.SportTestActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,10 @@
-package hm.edu.pulsebuddy;
+package hm.edu.pulsebuddy.sportmode;
+
+import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.R.id;
+import hm.edu.pulsebuddy.R.layout;
+import hm.edu.pulsebuddy.R.menu;
+import hm.edu.pulsebuddy.R.string;
 
 import java.util.Locale;
 

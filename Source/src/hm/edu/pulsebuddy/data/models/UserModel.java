@@ -28,6 +28,10 @@ public class UserModel extends Persistent
   
   /* Sport related values */
   private int trainingType;
+  
+  /* Coconi */
+  private long deflecDate;
+  private int deflecPulse;
 
   public UserModel()
   {
@@ -42,6 +46,8 @@ public class UserModel extends Persistent
     this.gender = 1;
     
     this.trainingType = 99;
+    this.deflecPulse = 0;
+    this.deflecDate = 0;
 
     Calendar c = Calendar.getInstance();
     c.set( 1985, Calendar.JANUARY, 1 );
@@ -190,6 +196,30 @@ public class UserModel extends Persistent
         return null;
     }
   }
+  
+  /* Coconi related. */
+  public int getDeflecPulse()
+  {
+    return deflecPulse;
+  }
+
+  public long getDeflecDate()
+  {
+    return deflecDate;
+  }
+  
+  public Boolean finishedSportTest()
+  {
+    if ( deflecPulse != 0 )
+      return true;
+    return false;
+  }
+
+  public void setCoconiDeflectionPoint( int aPulse, Date aDate )
+  {
+    this.deflecPulse = aPulse;
+    this.deflecDate = aDate.getTime();
+  }
 
   @Override
   public String toString()
@@ -197,7 +227,7 @@ public class UserModel extends Persistent
     return "UserModel [userName=" + userName + ", password=" + password
         + ", birthday=" + birthday + ", weight=" + weight + ", height="
         + height + ", activity=" + activity + ", genre=" + genre + ", gender="
-        + gender + ", trainingType=" + trainingType + "]";
+        + gender + ", trainingType=" + trainingType + ", deflecDate="
+        + deflecDate + ", deflecPulse=" + deflecPulse + "]";
   }
-
 }

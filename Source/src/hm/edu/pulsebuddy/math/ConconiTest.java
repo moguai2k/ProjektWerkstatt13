@@ -26,15 +26,23 @@ public class ConconiTest
    * @return (deflection point)
    */
   public int getDeflectionPoint( int[] pulse )
-  {    
+  {
+    int maxPulse = 0;
+    
     for( int i=0; i < pulse.length; i++ ) {
       double rate = ( pulse[i+1] - pulse[i] ) *100 / pulse[i];
       int rateIndex = i;
       
+      if(pulse[i] > maxPulse)
+        maxPulse = pulse[i];
+      
       if(i>2 && rate < 1.0)
         return pulse[rateIndex];
     }
-    return 0;
+    if(maxPulse > 179) //if pulse 180 or higher - better catch in activity?
+      return getDeflectionPointFinally( pulse );
+    else 
+      return 0;
   }
   
   /**

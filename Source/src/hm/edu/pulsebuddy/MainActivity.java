@@ -17,6 +17,7 @@ import hm.edu.pulsebuddy.misc.MapsActivity;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
 import hm.edu.pulsebuddy.sportmode.SportModeActivity;
 import hm.edu.pulsebuddy.sportmode.SportTestActivity;
+import hm.edu.pulsebuddy.trainingsplan.TrainingsplanActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -101,6 +102,9 @@ public class MainActivity extends Activity
         return true;
       case R.id.ble_scan:
         startActivity( new Intent( this, DeviceScanActivity.class ) );
+        return true;
+      case R.id.trainingsplan:
+        startActivity( new Intent( this, TrainingsplanActivity.class ) );
         return true;
       default:
         return super.onOptionsItemSelected( item );

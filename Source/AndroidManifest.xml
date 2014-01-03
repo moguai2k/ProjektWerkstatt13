@@ -102,6 +102,13 @@
             android:name="hm.edu.pulsebuddy.sportmode.SportTestStartFragmentrtFragment"
             android:configChanges="orientation"
             android:label="@string/sport_mode_title_activity_sport_test_fragment" >
+            
+        </activity>
+        <activity
+            android:name="hm.edu.pulsebuddy.trainingsplan.TrainingsplanActivity"
+            android:label="@string/title_activity_trainingsplan"             
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <service
@@ -111,6 +118,8 @@
         <service
             android:name="hm.edu.pulsebuddy.activity.ActivityRecognitionIntentService"
             android:exported="true" />
+        <service android:name="hm.edu.pulsebuddy.sportmode.SportTestConconiService" >
+        </service>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -118,6 +127,8 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCFjhhdNnWPIocLTs2-nozSCqt2538TKPU" />
+
+
     </application>
 
 </manifest>

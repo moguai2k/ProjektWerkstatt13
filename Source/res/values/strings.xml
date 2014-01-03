@@ -10,7 +10,7 @@
     <string name="label_state">State:</string>
     <string name="no_data">No data</string>
     <string name="connected">Connected</string>
-    <string name="disconnected">Disconnected</string>  
+    <string name="disconnected">Disconnected</string>
     <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
     <string name="unknown_device">Unknown device</string>
     <string name="unknown_characteristic">Unknown characteristic</string>
@@ -21,7 +21,7 @@
     <string name="graph_day">Zeige Tagesanzeige</string>
     <string name="reset">Reset</string>
     <string name="common_saved_values">Gespeichert!</string>
-    
+
     <!-- BLE -->
     <string name="ble_title_devices">PulseBuddy Device Scan</string>
     <string name="ble_list_empty">No devices found yet</string>
@@ -103,5 +103,9 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+
+    <!-- Trainingsplan -->
+    <string name="trainingsplan">Trainingsplan</string>
+    <string name="title_activity_trainingsplan">Trainingsplan</string>
 
 </resources>

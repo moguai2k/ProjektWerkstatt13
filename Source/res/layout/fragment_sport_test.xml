@@ -41,21 +41,6 @@
             android:layout_marginBottom="@dimen/legend_text_font_size"
             android:gravity="center"
             android:text="@string/sport_mode_note_warning" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:text="@string/sport_mode_kind_of_sport_label"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <Spinner
-            android:id="@+id/spinnerKindOfSports"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
     <Button

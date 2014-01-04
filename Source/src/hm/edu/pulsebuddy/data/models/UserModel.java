@@ -45,7 +45,7 @@ public class UserModel extends Persistent
     this.weight = 65;
     this.gender = 1;
     
-    this.trainingType = 99;
+    this.trainingType = 1;
     this.deflecPulse = 0;
     this.deflecDate = 0;
 
@@ -183,14 +183,14 @@ public class UserModel extends Persistent
   {
     switch ( aTrainingType )
     {
-      case 0:
+      case 1:
         return TrainingType.POWER;
         
-      case 1:
+      case 2:
         return TrainingType.ENDURANCE;
 
-      case 2:
-        return TrainingType.ABATEMENT;
+      case 3:
+        return TrainingType.LOSE_WEIGHT;
 
       default:
         return null;

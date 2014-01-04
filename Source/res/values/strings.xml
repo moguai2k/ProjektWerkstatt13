@@ -63,6 +63,7 @@
     <string name="calibration_kilogram">kg</string>
     <string name="calibration_cm">cm</string>
     <string name="calibration_edit">Bearbeiten</string>
+    <string name="calibration_kind_of_sport_label">Trainingsart wählen: </string>
 
     <!-- BMR -->
     <string name="textViewBMREResult">0</string>
@@ -87,7 +88,6 @@
     <string name="sport_mode_title_activity">Sport Mode</string>
     <string name="sport_mode_go">Leg los</string>
     <string name="sport_mode_running_state">Laufzustand</string>
-    <string name="sport_mode_kind_of_sport_label">Trainingsart wählen</string>
     <string name="sport_mode_sound_sign_left">((</string>
     <string name="sport_mode_sound_sign_right">))</string>
     <string name="sport_mode_countdown">Countdown</string>

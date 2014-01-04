@@ -45,7 +45,7 @@ public class MainActivity extends Activity
 
   private DataHandler ds = null;
   private DataInterface di = null;
-  
+
   @SuppressWarnings( "unused" )
   private DeviceControl dc = null;
 
@@ -60,7 +60,7 @@ public class MainActivity extends Activity
 
     /* Device control for Bluetooth related settings. */
     dc = DeviceManager.getDeviceControlInstance( this );
-    
+
     /* Data interface. */
     di = ds.getDataInterface();
 
@@ -122,16 +122,24 @@ public class MainActivity extends Activity
         UserModel user = di.getUserInstance();
         if ( user != null )
         {
-          if ( user.finishedSportTest() )
-          {
-            Log.d(TAG, "User finished sport test. Start Sport Mode.");
-            startActivity( new Intent( this, SportModeActivity.class ) );
-          }
-          else
-          {
-            Log.d(TAG, "User needs to do a sport test. Start Sport Test.");
-            startActivity( new Intent( this, SportModeActivity.class ) );
-          }
+
+          // TODO Fall unterscheidung notwendig: Falls sport test bereits
+          // durchgefühgt wurde dann zum Trainingsplan Tab springen falls nicht
+          // dann zum Sport Test Tab (erster Tab) springen
+          startActivity( new Intent( this, SportTestActivity.class ) );
+
+          // TODO @Tore: Es gibt nur noch Sport Mode Activity, Sport Test wird
+          // zu Sport Mode hinzugefüght.
+          // if ( user.finishedSportTest() )
+          // {
+          // Log.d( TAG, "User finished sport test. Start Sport Mode." );
+          // startActivity( new Intent( this, SportModeActivity.class ) );
+          // }
+          // else
+          // {
+          // Log.d( TAG, "User needs to do a sport test. Start Sport Test." );
+          // startActivity( new Intent( this, SportModeActivity.class ) );
+          // }
         }
         break;
     }

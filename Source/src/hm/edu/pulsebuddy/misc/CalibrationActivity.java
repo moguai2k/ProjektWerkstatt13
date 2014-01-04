@@ -4,6 +4,7 @@ import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.DatePickerFragment;
 import hm.edu.pulsebuddy.common.DatePickerFragment.DateListener;
 import hm.edu.pulsebuddy.common.Gender;
+import hm.edu.pulsebuddy.common.TrainingType;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.models.UserModel;
@@ -16,10 +17,13 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -33,14 +37,14 @@ import android.widget.Toast;
  * 
  */
 public class CalibrationActivity extends FragmentActivity implements
-    DateListener
+    DateListener, OnItemSelectedListener
 {
 
   private int userHeight;
   private int userWeight;
   private Gender userGender;
+  private TrainingType userTrainingType;
   private Calendar userDateOfBirthday;
-
   private DataInterface di;
   private UserModel user;
 
@@ -69,12 +73,16 @@ public class CalibrationActivity extends FragmentActivity implements
     userDateOfBirthday = Calendar.getInstance();
     userDateOfBirthday.setTime( user.getBirthday() );
 
+    // training type
+    userTrainingType = user.getTrainingType();
+
     getActionBar().setDisplayHomeAsUpEnabled( true );
     saveCalibrationValues();
     setUserHeigt();
     setUserWeight();
     setUserGender();
     setUserDateOfBirthday();
+    setUserTrainingType();
   }
 
   @Override
@@ -149,6 +157,25 @@ public class CalibrationActivity extends FragmentActivity implements
       public void onClick( View v )
       {
         showUserGenderPicker();
+      }
+    } );
+  }
+
+  /**
+   * Update the button with the stored value and save a new value if a new one
+   * is selected.
+   * 
+   */
+  private void setUserTrainingType()
+  {
+    Button buttonUserGender = (Button) findViewById( R.id.buttonUserTrainingType );
+    buttonUserGender.setText( calculateUserTrainingType( userTrainingType ) );
+    buttonUserGender.setOnClickListener( new View.OnClickListener()
+    {
+      @Override
+      public void onClick( View v )
+      {
+        showUserTrainingTypePicker();
       }
     } );
   }
@@ -329,6 +356,77 @@ public class CalibrationActivity extends FragmentActivity implements
   /**
    * Open the picker to select a new value.
    */
+  private void showUserTrainingTypePicker()
+  {
+    final Dialog dialog = new Dialog( CalibrationActivity.this );
+    dialog.setTitle( "Wähle Deine Trainingsart" );
+    dialog.setContentView( R.layout.training_type_picker_dialog );
+    Button buttonFinished = (Button) dialog
+        .findViewById( R.id.buttonFinishedTrainingType );
+
+    final NumberPicker numberPicker = (NumberPicker) dialog
+        .findViewById( R.id.numberPickerTrainingType );
+
+    numberPicker.setMinValue( 1 );
+    numberPicker.setMaxValue( 3 );
+
+    if ( TrainingType.POWER.equals( userTrainingType ) )
+    {
+      numberPicker.setValue( 1 );
+    }
+    else if ( TrainingType.ENDURANCE.equals( userTrainingType ) )
+    {
+      numberPicker.setValue( 2 );
+    }
+    else if ( TrainingType.LOSE_WEIGHT.equals( userTrainingType ) )
+    {
+      numberPicker.setValue( 3 );
+    }
+
+    String[] trainingTypes = { "Kraft", "Ausdauer", "Abnehmen" };
+    numberPicker.setWrapSelectorWheel( false );
+    numberPicker.setDisplayedValues( trainingTypes );
+    numberPicker
+        .setOnValueChangedListener( new NumberPicker.OnValueChangeListener()
+        {
+          @Override
+          public void onValueChange( NumberPicker picker, int oldPickerValue,
+              int newPickerValue )
+          {
+            setUserTrainingType( calclulateUserTrainingType( newPickerValue ) );
+          }
+        } );
+
+    buttonFinished.setOnClickListener( new View.OnClickListener()
+    {
+      @Override
+      public void onClick( View v )
+      {
+        Button buttonUserGender = (Button) findViewById( R.id.buttonUserTrainingType );
+
+        if ( numberPicker.getValue() == 1 )
+        {
+          buttonUserGender.setText( "Kraft" );
+        }
+        else if ( numberPicker.getValue() == 2 )
+        {
+          buttonUserGender.setText( "Ausdauer" );
+        }
+        else if ( numberPicker.getValue() == 3 )
+        {
+          buttonUserGender.setText( "Abnehmen" );
+        }
+
+        dialog.dismiss();
+
+      }
+    } );
+    dialog.show();
+  }
+
+  /**
+   * Open the picker to select a new value.
+   */
   private void showDatePickerDialogForDateOfBirthday()
   {
     DialogFragment newFragment = new DatePickerFragment();
@@ -358,11 +456,65 @@ public class CalibrationActivity extends FragmentActivity implements
 
   }
 
+  // /**
+  // * Convert the displayed value from string to enum.
+  // *
+  // * @param userTrainingType
+  // * 1 is power, 2 is and 2 is male.
+  // *
+  // * @return Calculated user gender value.
+  // */
+  // private TrainingType calclulateUserTrainingType( int userTrainingType )
+  // {
+  //
+  // if ( userTrainingType == 1 )
+  // {
+  // return TrainingType.POWER;
+  // }
+  // else if ( userTrainingType == 2 )
+  // {
+  // return TrainingType.ENDURANCE;
+  // }
+  // else if ( userTrainingType == 3 )
+  // {
+  // return TrainingType.LOSE_WEIGHT;
+  // }
+  // return null;
+  //
+  // }
+
+  /**
+   * Convert the displayed value from string to enum.
+   * 
+   * @param userTrainingType
+   *          1 is power, 2 is endurance and 3 is lose weight.
+   * 
+   * @return Calculated user training type value.
+   */
+  private TrainingType calclulateUserTrainingType( int userTrainingType )
+  {
+
+    if ( userTrainingType == 1 )
+    {
+      return TrainingType.POWER;
+    }
+    else if ( userTrainingType == 2 )
+    {
+      return TrainingType.ENDURANCE;
+    }
+    else if ( userTrainingType == 3 )
+    {
+      return TrainingType.LOSE_WEIGHT;
+    }
+    return null;
+
+  }
+
   /**
    * Convert the stored value from enum to string.
    * 
    * @param userGender
-   * @return
+   * @return The converted string.
    */
   private String calculateUserGender( Gender userGender )
   {
@@ -373,6 +525,29 @@ public class CalibrationActivity extends FragmentActivity implements
     else if ( Gender.male.equals( userGender ) )
     {
       return "männlich";
+    }
+    return null;
+  }
+
+  /**
+   * Convert the stored value from enum to string.
+   * 
+   * @param trainingType
+   * @return The converted string.
+   */
+  private String calculateUserTrainingType( TrainingType trainingType )
+  {
+    if ( TrainingType.POWER.equals( userTrainingType ) )
+    {
+      return "Kraft";
+    }
+    else if ( TrainingType.ENDURANCE.equals( userTrainingType ) )
+    {
+      return "Ausdauer";
+    }
+    else if ( TrainingType.LOSE_WEIGHT.equals( userTrainingType ) )
+    {
+      return "Abnehmen";
     }
     return null;
   }
@@ -391,10 +566,16 @@ public class CalibrationActivity extends FragmentActivity implements
         user.setHeight( userHeight );
         user.setGender( userGender );
         user.setBirthday( userDateOfBirthday.getTime() );
-        di.savaUserInstance( user );
+        // TODO @Tore: Methode aus kommentieren, es muss noch eine
+        // mapTrainingType in UserModel implementiert werden (siehe mapGender)
+        // und eine setTrainingType(TrainingType type) bis jetzt ist nur eine
+        // setTrainingType(int ...) drin
+        // user.setTrainingType( calculateUserTrainingType( userTrainingType )
+        // );
 
-        customToast( getResources().getString(
-            R.string.common_saved_values ) );
+        di.savaUserInstance( user );
+        Log.d( "Calibration", "Saved calibration values" );
+        customToast( getResources().getString( R.string.common_saved_values ) );
       }
     } );
   }
@@ -464,5 +645,23 @@ public class CalibrationActivity extends FragmentActivity implements
   private void setUserDateOfBirthday( Calendar userDateOfBirthday )
   {
     this.userDateOfBirthday = userDateOfBirthday;
+  }
+
+  public void setUserTrainingType( TrainingType userTrainingType )
+  {
+    this.userTrainingType = userTrainingType;
+  }
+
+  @Override
+  public void onItemSelected( AdapterView<?> parent, View view, int pos, long id )
+  {
+    parent.getItemAtPosition( pos );
+  }
+
+  @Override
+  public void onNothingSelected( AdapterView<?> arg0 )
+  {
+    // TODO Auto-generated method stub
+
   }
 }

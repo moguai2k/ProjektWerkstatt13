@@ -131,12 +131,6 @@ public class SportTestActivity extends FragmentActivity implements
       // Return a DummySectionFragment (defined as a static inner class
       // below) with the page number as its lone argument.
 
-      // Fragment fragment = new SportTestNoteFragment();
-      // Bundle args = new Bundle();
-      // args.putInt( SportTestNoteFragment.ARG_SECTION_NUMBER, position + 1 );
-      // fragment.setArguments( args );
-      // return fragment;
-
       Fragment fragment;
       switch ( position )
       {
@@ -152,11 +146,6 @@ public class SportTestActivity extends FragmentActivity implements
         default:
           throw new IllegalArgumentException( "Invalid section number" );
       }
-
-      // // set args if necessary
-      // Bundle args = new Bundle();
-      // args.putInt( DummySectionFragment.ARG_SECTION_NUMBER, position + 1 );
-      // fragment.setArguments( args );
 
       return fragment;
     }
@@ -175,11 +164,12 @@ public class SportTestActivity extends FragmentActivity implements
       switch ( position )
       {
         case 0:
-          return getString( R.string.sport_mode_title_sport_test ).toUpperCase( l );
+          return getString( R.string.sport_test_title_sport_test ).toUpperCase(
+              l );
         case 1:
-          return getString( R.string.sport_mode_title_perform ).toUpperCase( l );
+          return getString( R.string.sport_test_title_perform ).toUpperCase( l );
         case 2:
-          return getString( R.string.sport_mode_title_result ).toUpperCase( l );
+          return getString( R.string.sport_test_title_result ).toUpperCase( l );
       }
       return null;
     }

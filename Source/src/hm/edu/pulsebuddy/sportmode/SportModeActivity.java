@@ -1,4 +1,12 @@
-package hm.edu.pulsebuddy;
+package hm.edu.pulsebuddy.sportmode;
+
+import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.R.id;
+import hm.edu.pulsebuddy.R.layout;
+import hm.edu.pulsebuddy.R.menu;
+import hm.edu.pulsebuddy.R.string;
+import hm.edu.pulsebuddy.SportModeSportTestOverview;
+import hm.edu.pulsebuddy.SportModeWorkoutPlanFragment;
 
 import java.util.Locale;
 
@@ -19,7 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SportTestActivity extends FragmentActivity implements
+public class SportModeActivity extends FragmentActivity implements
     ActionBar.TabListener
 {
 
@@ -42,7 +50,7 @@ public class SportTestActivity extends FragmentActivity implements
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.activity_sport_test );
+    setContentView( R.layout.activity_sport_mode );
 
     // Set up the action bar.
     final ActionBar actionBar = getActionBar();
@@ -130,23 +138,18 @@ public class SportTestActivity extends FragmentActivity implements
       // getItem is called to instantiate the fragment for the given page.
       // Return a DummySectionFragment (defined as a static inner class
       // below) with the page number as its lone argument.
-
       Fragment fragment;
       switch ( position )
       {
         case 0:
-          fragment = new SportTestNoteFragment();
+          fragment = new SportModeWorkoutPlanFragment();
           break;
         case 1:
-          fragment = new SportTestStartFragment();
-          break;
-        case 2:
-          fragment = new SportTestResultFragment();
+          fragment = new SportModeSportTestOverview();
           break;
         default:
           throw new IllegalArgumentException( "Invalid section number" );
       }
-
       return fragment;
     }
 
@@ -154,7 +157,7 @@ public class SportTestActivity extends FragmentActivity implements
     public int getCount()
     {
       // Show 3 total pages.
-      return 3;
+      return 2;
     }
 
     @Override
@@ -164,14 +167,14 @@ public class SportTestActivity extends FragmentActivity implements
       switch ( position )
       {
         case 0:
-          return getString( R.string.sport_test_title_sport_test ).toUpperCase(
-              l );
+          return getString( R.string.sport_mode_title_workout_plan )
+              .toUpperCase( l );
         case 1:
-          return getString( R.string.sport_test_title_perform ).toUpperCase( l );
-        case 2:
-          return getString( R.string.sport_test_title_result ).toUpperCase( l );
+          return getString( R.string.sport_mode_title_sport_test_overview )
+              .toUpperCase( l );
       }
       return null;
     }
   }
+
 }

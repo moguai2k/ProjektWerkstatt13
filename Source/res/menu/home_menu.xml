@@ -16,6 +16,9 @@
         android:id="@+id/help"
         android:title="@string/help"/>
     <item
+	    android:id="@+id/trainingsplan"
+	    android:title="@string/trainingsplan"/>
+    <item
         android:id="@+id/ble_scan"
         android:title="@string/ble_title_devices"/>
 

@@ -1,8 +1,17 @@
-package hm.edu.pulsebuddy;
+package hm.edu.pulsebuddy.sportmode;
 
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
+
+import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.data.DataInterface;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.models.CoconiResultModel;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +32,10 @@ public class SportTestResultFragment extends Fragment implements
   public static final String ARG_SECTION_NUMBER = "section_number";
   private View view;
   private View layout;
+  
+  private final static String TAG = "SportTestResultFragment";
+  
+  private DataInterface di;
 
   public SportTestResultFragment()
   {
@@ -43,6 +56,8 @@ public class SportTestResultFragment extends Fragment implements
     Button buttonSave = (Button) view.findViewById( R.id.buttonSave );
     buttonSave.setOnClickListener( this );
 
+    di = DataManager.getDataInterface();
+    
     // TODO @Team: Methode um Sport Test abzubrechen wenn Läufer nicht mehr
     // kann. Anschließend wert in DB schrieben
 
@@ -68,10 +83,19 @@ public class SportTestResultFragment extends Fragment implements
 
   private void saveSportTestResult()
   {
-    // TODO @Tore save value in DB
-
+    Random r = new Random();
+    CoconiResultModel c = new CoconiResultModel( r.nextInt( 200 ), new Date() );
+    di.addCoconiResult( c );
+    
+    /*
+    ArrayList<CoconiResultModel> all = di.getCoconiTestResults();
+    for ( int i = 0; i < all.size(); i++ )
+    {
+      Log.d( TAG, "Coconi result pulse: " + all.get( i )._id );
+    }
+    */
+    
     customToast( getResources().getString( R.string.common_saved_values ) );
-
   }
 
   /**

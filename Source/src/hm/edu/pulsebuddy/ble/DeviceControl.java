@@ -5,6 +5,7 @@ import hm.edu.pulsebuddy.data.DataManager;
 
 import java.util.UUID;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -18,10 +19,6 @@ public class DeviceControl
 {
   private final static String TAG = "DeciveControl";
 
-  /* UUID Heart Rate Characteristic */
-  public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID
-      .fromString( SampleGattAttributes.HEART_RATE_MEASUREMENT );
-
   private Context context;
 
   private DataHandler dataHandler;
@@ -31,8 +28,17 @@ public class DeviceControl
 
   private BluetoothLeService bluetoothLeService;
 
-  @SuppressWarnings( "unused" )
   private Boolean connected = false;
+
+  /* UUID Heart Rate Service */
+  public final static UUID HR_SERVICE_UUID = UUID
+      .fromString( "0000180d-0000-1000-8000-00805f9b34fb" );
+
+  /* UUID Heart Rate Characteristic */
+  public final static UUID HR_CHAR_UUID = UUID
+      .fromString( "00002a37-0000-1000-8000-00805f9b34fb" );
+
+  public static final String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
 
   /* Code to manage Service lifecycle */
   private final ServiceConnection mServiceConnection = new ServiceConnection()
@@ -67,7 +73,6 @@ public class DeviceControl
     public void onReceive( Context context, Intent intent )
     {
       final String action = intent.getAction();
-      Log.d( TAG, action );
       if ( BluetoothLeService.ACTION_GATT_CONNECTED.equals( action ) )
       {
         connected = true;
@@ -76,12 +81,12 @@ public class DeviceControl
       else if ( BluetoothLeService.ACTION_GATT_DISCONNECTED.equals( action ) )
       {
         connected = false;
-        Log.w( TAG, "GATT disconnected" + deviceName );
+        Log.w( TAG, "GATT disconnected " + deviceName );
       }
+      /* Process the pulse value. */
       else if ( BluetoothLeService.ACTION_DATA_AVAILABLE.equals( action ) )
       {
-        int heartRate = intent.getIntExtra( BluetoothLeService.EXTRA_DATA,
-            0 );
+        int heartRate = intent.getIntExtra( BluetoothLeService.EXTRA_DATA, 0 );
         dataHandler.savePulseValue( heartRate );
       }
     }
@@ -90,7 +95,8 @@ public class DeviceControl
   /**
    * Ctor
    * 
-   * @param aContext The application context.
+   * @param aContext
+   *          The application context.
    */
   public DeviceControl( Context aContext )
   {
@@ -129,7 +135,7 @@ public class DeviceControl
 
     return true;
   }
-  
+
   /**
    * Stop the service.
    * 
@@ -137,11 +143,37 @@ public class DeviceControl
    */
   public Boolean stopService()
   {
-    bluetoothLeService.disconnect();
-    this.context.unregisterReceiver( mGattUpdateReceiver );
-    this.context.unbindService( mServiceConnection );
-    
+    if ( bluetoothLeService != null )
+    {
+      bluetoothLeService.disconnect();
+      this.context.unregisterReceiver( mGattUpdateReceiver );
+      this.context.unbindService( mServiceConnection );
+    }
     return true;
+  }
+
+  /**
+   * Heart rate sensor is connected.
+   * 
+   * @return true if a device is connected, false otherwise.
+   */
+  public Boolean isConnected()
+  {
+    Log.d( TAG, "isConnected " + connected );
+    return connected;
+  }
+  
+  /**
+   * Return the connected Bluetooth device.
+   * 
+   * @return The bluetooth device, null otherwise.
+   */
+  public BluetoothDevice getBluetoothDevice()
+  {
+    if ( connected )
+      return bluetoothLeService.getBluetoothDevice();
+    else 
+      return null;
   }
 
   private static IntentFilter makeGattUpdateIntentFilter()

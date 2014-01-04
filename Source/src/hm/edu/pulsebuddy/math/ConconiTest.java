@@ -22,25 +22,33 @@ public class ConconiTest
   
   /**
    * 
-   * @param pulse
-   * @return
+   * @param pulse (all measured pulse data)
+   * @return (deflection point)
    */
   public int getDeflectionPoint( int[] pulse )
-  {    
+  {
+    int maxPulse = 0;
+    
     for( int i=0; i < pulse.length; i++ ) {
       double rate = ( pulse[i+1] - pulse[i] ) *100 / pulse[i];
       int rateIndex = i;
       
+      if(pulse[i] > maxPulse)
+        maxPulse = pulse[i];
+      
       if(i>2 && rate < 1.0)
         return pulse[rateIndex];
     }
-    return 0;
+    if(maxPulse > 179) //if pulse 180 or higher - better catch in activity?
+      return getDeflectionPointFinally( pulse );
+    else 
+      return 0;
   }
   
   /**
    * 
-   * @param pulse
-   * @return
+   * @param pulse (all measured pulse data)
+   * @return (deflection point finally)
    */
   public int getDeflectionPointFinally( int[] pulse )
   {
@@ -57,6 +65,22 @@ public class ConconiTest
       }
     }
     return pulse[rateIndex];
+  }
+  
+  /**
+   * 
+   * @param pulse (last 3 pulse [190m 195m, 200m])
+   * @return (correct pulse, average)
+   */
+  public int getCorrectPulesToStore( int[] pulse )
+  {
+    int correctPulse = 0;
+    
+    for( int i=0; i < pulse.length; i++ ) {
+      correctPulse += pulse[i];
+    }
+    
+    return correctPulse / pulse.length;
   }
 
 }

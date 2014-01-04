@@ -5,7 +5,9 @@ import hm.edu.pulsebuddy.ble.DeviceControl;
 import hm.edu.pulsebuddy.ble.DeviceManager;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.data.DataHandler;
+import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.models.UserModel;
 import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.CalculationActivity;
@@ -13,6 +15,9 @@ import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
 import hm.edu.pulsebuddy.misc.MapsActivity;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
+import hm.edu.pulsebuddy.sportmode.SportModeActivity;
+import hm.edu.pulsebuddy.sportmode.SportTestActivity;
+import hm.edu.pulsebuddy.trainingsplan.TrainingsplanActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,14 +37,14 @@ import com.androidplot.xy.XYPlot;
 public class MainActivity extends Activity
 {
   private final static String TAG = BluetoothLeService.class.getSimpleName();
-  
+
   private LayoutInflater inflater;
   private View layout;
   private TextView toastText;
   private Redrawer redrawer = null;
 
-  @SuppressWarnings( "unused" )
   private DataHandler ds = null;
+  private DataInterface di = null;
   
   @SuppressWarnings( "unused" )
   private DeviceControl dc = null;
@@ -52,9 +57,12 @@ public class MainActivity extends Activity
 
     /* Important to be the first that is initiated. */
     ds = DataManager.getStorageInstance( this );
-    
+
     /* Device control for Bluetooth related settings. */
     dc = DeviceManager.getDeviceControlInstance( this );
+    
+    /* Data interface. */
+    di = ds.getDataInterface();
 
     XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
     // MultitouchPlot aprHistoryPlot = (MultitouchPlot)
@@ -95,6 +103,9 @@ public class MainActivity extends Activity
       case R.id.ble_scan:
         startActivity( new Intent( this, DeviceScanActivity.class ) );
         return true;
+      case R.id.trainingsplan:
+        startActivity( new Intent( this, TrainingsplanActivity.class ) );
+        return true;
       default:
         return super.onOptionsItemSelected( item );
     }
@@ -108,23 +119,21 @@ public class MainActivity extends Activity
         startActivity( new Intent( this, GraphDayActivity.class ) );
         break;
       case R.id.hs_sm:
-
-        startActivity( new Intent( this, SportModeActivity.class ) );
-
-        // TODO @Tore: Prüfen ob schon ein Conconi-Test Ergebnis vorliegt falls
-        // nein dann muss der Conconi-Test durchgeführt werden falls ja dann
-        // soll in den SportMode gewechselt werden.
-        // if ( userModel.getSportTestResult() > 0 )
-        // {
-        // startActivity( new Intent( this, SportModeActivity.class ) );
-        // }
-        // else
-        // {
-        // startActivity( new Intent( this, SportTestActivity.class ) );
-        // }
-
+        UserModel user = di.getUserInstance();
+        if ( user != null )
+        {
+          if ( user.finishedSportTest() )
+          {
+            Log.d(TAG, "User finished sport test. Start Sport Mode.");
+            startActivity( new Intent( this, SportModeActivity.class ) );
+          }
+          else
+          {
+            Log.d(TAG, "User needs to do a sport test. Start Sport Test.");
+            startActivity( new Intent( this, SportModeActivity.class ) );
+          }
+        }
         break;
-
     }
   }
 
@@ -147,10 +156,10 @@ public class MainActivity extends Activity
   @Override
   public void onDestroy()
   {
-    Log.d(TAG, "onDestroy");
+    Log.d( TAG, "onDestroy" );
     if ( redrawer != null )
-      redrawer.finish();      
-    
+      redrawer.finish();
+
     super.onDestroy();
   }
 

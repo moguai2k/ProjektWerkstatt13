@@ -105,4 +105,8 @@
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
 
+    <!-- Trainingsplan -->
+    <string name="trainingsplan">Trainingsplan</string>
+    <string name="title_activity_trainingsplan">Trainingsplan</string>
+
 </resources>

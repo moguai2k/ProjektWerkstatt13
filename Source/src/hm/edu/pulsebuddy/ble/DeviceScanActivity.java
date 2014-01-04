@@ -51,6 +51,12 @@ public class DeviceScanActivity extends Activity
   {
     super.onCreate( savedInstanceState );
 
+    Log.d( TAG, "onCreate" );
+
+    /* Get a device control instance. */
+    deviceControl = DeviceManager
+        .getDeviceControlInstance( getApplicationContext() );
+
     /* UI */
     requestWindowFeature( Window.FEATURE_INDETERMINATE_PROGRESS );
     setContentView( R.layout.device_list );
@@ -87,6 +93,8 @@ public class DeviceScanActivity extends Activity
   {
     super.onResume();
 
+    Log.d( TAG, "onResume" );
+
     /* Ensures Bluetooth is enabled on the device. If Bluetooth is not currently
      * enabled, fire an intent to display a dialog asking the user to grant
      * permission to enable it. */
@@ -114,6 +122,7 @@ public class DeviceScanActivity extends Activity
     {
       public void onClick( View paramView )
       {
+        deviceControl.stopService();
         mBluetoothAdapter.cancelDiscovery();
         mBluetoothAdapter.startDiscovery();
       }
@@ -133,20 +142,25 @@ public class DeviceScanActivity extends Activity
     listView.setAdapter( mDeviceAdapter );
     listView.setOnItemClickListener( mDeviceClickListener );
 
-    /* Add bonded devices to list on creation. */
-    for ( final BluetoothDevice bondedDevice : mBluetoothAdapter
-        .getBondedDevices() )
+    if ( deviceControl.isConnected() )
     {
-      Log.d( TAG, "Adding bonded device to list " + bondedDevice.getName() );
-      addDevice( bondedDevice );
-    }
-    /* Discover other devices. */
-    mBluetoothAdapter.cancelDiscovery();
-    mBluetoothAdapter.startDiscovery();
+      BluetoothDevice dev = deviceControl.getBluetoothDevice();
+      if ( dev != null )
+      {
+        Log.d( TAG, "Already connected decvice " + dev.getAddress() );
+        mTitleView.setText( dev.getName() + " connected." );
+        addDevice( deviceControl.getBluetoothDevice() );
+      }
+      else
+        Log.e( TAG, "Error getting connected Bluetooth device" );
 
-    /* Get a device control instance. */
-    deviceControl = DeviceManager
-        .getDeviceControlInstance( getApplicationContext() );
+    }
+    else
+    {
+      /* Discover other devices. */
+      mBluetoothAdapter.cancelDiscovery();
+      mBluetoothAdapter.startDiscovery();
+    }
   }
 
   @Override
@@ -185,11 +199,12 @@ public class DeviceScanActivity extends Activity
       /* Scanning for devices started. */
       if ( BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals( action ) )
       {
+        Log.d( TAG, "Scanning for devices" );
         setProgressBarIndeterminateVisibility( true );
         mTitleView.setText( "Scanning..." );
         if ( mDeviceList.size() == 0 )
         {
-          mEmptyList.setText( "No MIO Alpha found yet..." );
+          mEmptyList.setText( "No device found yet..." );
         }
       }
       /* Found a new device. */
@@ -197,6 +212,8 @@ public class DeviceScanActivity extends Activity
       {
         final BluetoothDevice device = (BluetoothDevice) aIntent
             .getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
+
+        Log.d( TAG, "Found device " + device.getAddress() );
 
         /* Add the device. */
         addDevice( device );
@@ -280,10 +297,18 @@ public class DeviceScanActivity extends Activity
       if ( device == null )
         return;
 
-      deviceControl.setDevice( device.getName(), device.getAddress() );
-      deviceControl.startService();
-
-      finish();
+      if ( deviceControl.isConnected() )
+      {
+        mTitleView.setText( "Already connected..." );
+        return;
+      }
+      else
+      {
+        mTitleView.setText( "Connecting..." );
+        deviceControl.setDevice( device.getName(), device.getAddress() );
+        deviceControl.startService();
+        // finish();
+      }
     }
   };
 

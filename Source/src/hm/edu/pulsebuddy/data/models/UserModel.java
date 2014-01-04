@@ -1,6 +1,7 @@
 package hm.edu.pulsebuddy.data.models;
 
 import hm.edu.pulsebuddy.common.Gender;
+import hm.edu.pulsebuddy.common.TrainingType;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,8 +23,15 @@ public class UserModel extends Persistent
   /* oO */
   private int activity;
   private int genre;
-
+  
   private short gender;
+  
+  /* Sport related values */
+  private int trainingType;
+  
+  /* Coconi */
+  private long deflecDate;
+  private int deflecPulse;
 
   public UserModel()
   {
@@ -36,6 +44,10 @@ public class UserModel extends Persistent
     this.height = 155;
     this.weight = 65;
     this.gender = 1;
+    
+    this.trainingType = 99;
+    this.deflecPulse = 0;
+    this.deflecDate = 0;
 
     Calendar c = Calendar.getInstance();
     c.set( 1985, Calendar.JANUARY, 1 );
@@ -151,6 +163,63 @@ public class UserModel extends Persistent
         return null;
     }
   }
+  
+  public TrainingType getTrainingType()
+  {
+    return mapToTrainingType( trainingType );
+  }
+  
+  public int getTrainingTypeAsInt()
+  {
+    return trainingType;
+  }
+
+  public void setTrainingType( int trainingType )
+  {
+    this.trainingType = trainingType;
+  }
+  
+  private TrainingType mapToTrainingType( int aTrainingType )
+  {
+    switch ( aTrainingType )
+    {
+      case 0:
+        return TrainingType.POWER;
+        
+      case 1:
+        return TrainingType.ENDURANCE;
+
+      case 2:
+        return TrainingType.ABATEMENT;
+
+      default:
+        return null;
+    }
+  }
+  
+  /* Coconi related. */
+  public int getDeflecPulse()
+  {
+    return deflecPulse;
+  }
+
+  public long getDeflecDate()
+  {
+    return deflecDate;
+  }
+  
+  public Boolean finishedSportTest()
+  {
+    if ( deflecPulse != 0 )
+      return true;
+    return false;
+  }
+
+  public void setCoconiDeflectionPoint( int aPulse, Date aDate )
+  {
+    this.deflecPulse = aPulse;
+    this.deflecDate = aDate.getTime();
+  }
 
   @Override
   public String toString()
@@ -158,7 +227,7 @@ public class UserModel extends Persistent
     return "UserModel [userName=" + userName + ", password=" + password
         + ", birthday=" + birthday + ", weight=" + weight + ", height="
         + height + ", activity=" + activity + ", genre=" + genre + ", gender="
-        + gender + "]";
+        + gender + ", trainingType=" + trainingType + ", deflecDate="
+        + deflecDate + ", deflecPulse=" + deflecPulse + "]";
   }
-
 }

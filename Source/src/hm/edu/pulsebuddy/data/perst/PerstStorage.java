@@ -2,6 +2,7 @@ package hm.edu.pulsebuddy.data.perst;
 
 import hm.edu.pulsebuddy.data.listeners.ActivityListener;
 import hm.edu.pulsebuddy.data.models.ActivityModel;
+import hm.edu.pulsebuddy.data.models.CoconiResultModel;
 import hm.edu.pulsebuddy.data.models.LocationModel;
 import hm.edu.pulsebuddy.data.models.Pulse;
 import hm.edu.pulsebuddy.data.models.UserModel;
@@ -326,7 +327,7 @@ public class PerstStorage
   }
 
   /**
-   * Synchronized method to update the user object.
+   * Method to update the user object.
    * 
    * @param aUser
    *          the user to be updated.
@@ -342,6 +343,41 @@ public class PerstStorage
     Log.d( TAG, "User: " + aUser.toString() );
 
     return success;
+  }
+
+  /****************************************************************************
+   * 
+   * Coconi related
+   * 
+   ***************************************************************************/
+
+  /**
+   * Add a coconi test result to the database.
+   * 
+   * @param aCoconiResult The result object.
+   * @return True on success, false otherwise.
+   */
+  public Boolean addCoconiResult( CoconiResultModel aCoconiResult )
+  {
+    root.coconiResult.append( aCoconiResult );
+    db.commit();
+    Log.d( TAG, "Added coconi result" );
+    return true;
+  }
+
+  /**
+   * Get all coconi test result objects.
+   * 
+   * @return List containing all coconi test results.
+   */
+  public ArrayList<CoconiResultModel> getCoconiTestResults()
+  {
+    ArrayList<CoconiResultModel> results = new ArrayList<CoconiResultModel>();
+    Iterator<CoconiResultModel> it = root.coconiResult.iterator();
+    Log.d( TAG, "Get all coconi test results, size: " + root.coconiResult.size() );
+    while ( it.hasNext() )
+      results.add( (CoconiResultModel) it.next() );
+    return results;
   }
 
   /****************************************************************************

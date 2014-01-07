@@ -77,10 +77,12 @@
     <string name="dayMode_to">bis</string>
     <string name="dayMode_endDate">Enddatum</string>
 
-    <!-- Sport Test -->
-    <string name="sport_test_title_sport_test">Sport Test</string>
+    <!-- Sport Mode -->
+    <string name="sport_mode_title_workout_plan">Trainingsplan</string>
+    <string name="sport_mode_title_sport_test_overview">Sport Test Überblick</string>
+    <string name="sport_mode_title_sport_test">Sport Test</string>
     <string name="sport_test_title_perform">Durchführen</string>
-    <string name="sport_test_title_result">Ergebnis</string>
+    <string name="sport_test_title_result">Historie</string>
     <string name="sport_mode_title_activity_sport_test_fragment">Sport Test</string>
     <string name="sport_mode_note">Hinweis</string>
     <string name="sport_mode_note_description">Bitte folge den Anweisungen um Dein persönliches Sportprofil anzulegen, anschließend wird Dein individueller Fitnessplan erstellt.</string>
@@ -88,19 +90,11 @@
     <string name="sport_mode_title_activity">Sport Mode</string>
     <string name="sport_mode_go">Leg los</string>
     <string name="sport_mode_running_state">Laufzustand</string>
-    <string name="sport_mode_sound_sign_left">((</string>
-    <string name="sport_mode_sound_sign_right">))</string>
     <string name="sport_mode_countdown">Countdown</string>
-    <string name="sport_mode_stop_running">Lauf stopen</string>
-    <string name="sport_mode_save_values">Speichern</string>
-    <string name="sport_mode_again">Nochmal</string>
-    <string name="sport_mode_result_label">Ergebnis:</string>
-    <string name="sport_mode_result_value">23</string>
-
-    <!-- Sport Mode -->
-    <string name="title_activity_sport_mode">Sport Mode</string>
-    <string name="sport_mode_title_workout_plan">Trainingsplan</string>
-    <string name="sport_mode_title_sport_test_overview">Sport Test Überblick</string>
+    <string name="sport_mode_stop_running">Lauf stoppen</string>
+    <string name="sport_mode_again">Sport Test nochmal</string>
+    <string name="sport_mode_historie_heading_date">Datum</string>
+    <string name="sport_mode_historie_heading_value">Ergebnis</string>
 
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>

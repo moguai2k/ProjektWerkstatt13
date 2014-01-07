@@ -211,7 +211,7 @@ public class CalibrationActivity extends FragmentActivity implements
   private void showUserHeightPicker()
   {
     final Dialog dialog = new Dialog( CalibrationActivity.this );
-    dialog.setTitle( "Wähle Dein Größe" );
+    dialog.setTitle( "Wähle Deine Größe" );
     dialog.setContentView( R.layout.height_picker_dialog );
     Button buttonFinished = (Button) dialog.findViewById( R.id.buttonFinished );
 

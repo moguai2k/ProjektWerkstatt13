@@ -1,5 +1,7 @@
 package hm.edu.pulsebuddy;
 
+import java.util.Random;
+
 import hm.edu.pulsebuddy.util.SportModeWorkoutPlanData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,15 +40,27 @@ public class SportModeWorkoutPlanFragment extends Fragment
     return view;
   }
 
+  // TODO @Tore: Dummy Daten mit echten Daten ersetzten
   public void createData()
   {
+
     for ( int j = 0; j < 6; j++ )
     {
-      SportModeWorkoutPlanData group = new SportModeWorkoutPlanData( "Test "
-          + j );
-      for ( int i = 0; i < 5; i++ )
+
+      int weekCount = j;
+      weekCount++;
+
+      SportModeWorkoutPlanData group = new SportModeWorkoutPlanData( weekCount
+          + ". Woche" );
+      for ( int i = 0; i < 7; i++ )
       {
-        group.children.add( "Sub Item" + i );
+        int dayCount = i;
+        dayCount++;
+
+        Random r = new Random();
+        int dummyPulseValue = r.nextInt( 170 - 30 ) + 65;
+
+        group.children.add( dayCount + ". Tag: " + dummyPulseValue + "bpm" );
       }
       groups.append( j, group );
     }

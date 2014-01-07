@@ -16,8 +16,6 @@ import hm.edu.pulsebuddy.misc.Help;
 import hm.edu.pulsebuddy.misc.MapsActivity;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
 import hm.edu.pulsebuddy.sportmode.SportModeActivity;
-import hm.edu.pulsebuddy.sportmode.SportTestActivity;
-import hm.edu.pulsebuddy.trainingsplan.TrainingsplanActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -103,9 +101,6 @@ public class MainActivity extends Activity
       case R.id.ble_scan:
         startActivity( new Intent( this, DeviceScanActivity.class ) );
         return true;
-      case R.id.trainingsplan:
-        startActivity( new Intent( this, TrainingsplanActivity.class ) );
-        return true;
       default:
         return super.onOptionsItemSelected( item );
     }
@@ -126,10 +121,11 @@ public class MainActivity extends Activity
           // TODO Fall unterscheidung notwendig: Falls sport test bereits
           // durchgefühgt wurde dann zum Trainingsplan Tab springen falls nicht
           // dann zum Sport Test Tab (erster Tab) springen
-          startActivity( new Intent( this, SportTestActivity.class ) );
+          startActivity( new Intent( this, SportModeActivity.class ) );
 
-          // TODO @Tore: Es gibt nur noch Sport Mode Activity, Sport Test wird
-          // zu Sport Mode hinzugefüght.
+          // TODO @Tore: Es gibt nur noch Sport Test Activity, Sport Mode wird
+          // zu Sport Test hinzugefügh und am schluss Sport Mode gelöscht und
+          // Sport Test zu Sport Mode umbenannt.
           // if ( user.finishedSportTest() )
           // {
           // Log.d( TAG, "User finished sport test. Start Sport Mode." );

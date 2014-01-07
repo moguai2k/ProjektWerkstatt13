@@ -2,7 +2,10 @@ package hm.edu.pulsebuddy.sportmode;
 
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.RunningState;
+import hm.edu.pulsebuddy.data.DataInterface;
+import hm.edu.pulsebuddy.data.models.CoconiResultModel;
 
+import java.util.Date;
 import java.util.Random;
 
 import android.os.Bundle;
@@ -14,24 +17,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
  * The user will receive during sports test instructions.
  */
-public class SportTestStartFragment extends Fragment implements
-    View.OnClickListener
+public class SportModeStartFragment extends Fragment
 {
-  private final static String TAG = "SportTestStartFragment";
+
+  private DataInterface di;
 
   /**
    * The fragment argument representing the section number for this fragment.
    */
   public static final String ARG_SECTION_NUMBER = "section_number";
-  private View view;
+  private View rootView;
   private RunningState runningState;
 
-  public SportTestStartFragment()
+  public SportModeStartFragment()
   {
   }
 
@@ -39,18 +43,20 @@ public class SportTestStartFragment extends Fragment implements
   public View onCreateView( LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState )
   {
-    view = inflater.inflate( R.layout.fragment_sport_test_start, container,
+    rootView = inflater.inflate( R.layout.fragment_sport_test_start, container,
         false );
-    Button buttonStop = (Button) view.findViewById( R.id.buttonStop );
-    buttonStop.setOnClickListener( this );
+    Button buttonStop = (Button) rootView.findViewById( R.id.buttonStop );
+    buttonStop.setOnClickListener( stopButtonClicked );
 
-    countdown( view );
+    Button startSportTestButton = (Button) rootView
+        .findViewById( R.id.buttonStartSportTest );
+    startSportTestButton.setOnClickListener( startButtonClicked );
 
     // TODO @Team methode ersetzten mit echten Hinweisen (schneller, Tempo
-    // halten, langsamer) für den Läufer
+    // halten, langsamer) f��r den L��ufer
     dummySetRunningState();
 
-    return view;
+    return rootView;
   }
 
   private void dummySetRunningState()
@@ -70,7 +76,7 @@ public class SportTestStartFragment extends Fragment implements
    */
   private void changeRunningState( RunningState runningState )
   {
-    TextView runningStateTextView = (TextView) view
+    TextView runningStateTextView = (TextView) rootView
         .findViewById( R.id.textViewRunningState );
 
     runningStateTextView.setText( calculateRunningState( runningState ) + "" );
@@ -103,10 +109,10 @@ public class SportTestStartFragment extends Fragment implements
   /**
    * Start running test after countdown.
    * 
-   * @param view
-   *          The tab view.
+   * @param rootView
+   *          The tab rootView.
    */
-  private void countdown( final View view )
+  private void countdown()
   {
     CountDownTimer counter = new CountDownTimer( 5000, 1000 )
     {
@@ -114,7 +120,7 @@ public class SportTestStartFragment extends Fragment implements
       @Override
       public void onTick( long millisUntilFinished )
       {
-        TextView countdownTimmer = (TextView) view
+        TextView countdownTimmer = (TextView) rootView
             .findViewById( R.id.textViewCountdown );
 
         AlphaAnimation fadeIn = new AlphaAnimation( 0.0f, 1.0f );
@@ -127,11 +133,11 @@ public class SportTestStartFragment extends Fragment implements
       @Override
       public void onFinish()
       {
-        fadeInFadeOut();
+        fadeInRuningState();
         fadeOutCountdown();
         fadeInStopButton();
 
-        // TODO @Team: hier methode einfügen um Lauftest zu starten bzw.
+        // TODO @Team: hier methode einf��gen um Lauftest zu starten bzw.
         // Aufzeichnung. Methode ofFinish wird
         // aufgerufen sobald der Countdown abgelaufen ist.
 
@@ -140,9 +146,9 @@ public class SportTestStartFragment extends Fragment implements
       /**
        * Fade in the running state
        */
-      private void fadeInFadeOut()
+      private void fadeInRuningState()
       {
-        TextView textViewRunningState = (TextView) view
+        TextView textViewRunningState = (TextView) rootView
             .findViewById( R.id.textViewRunningState );
         AlphaAnimation fadeInRunningStageTextView = new AlphaAnimation( 0.0f,
             1.0f );
@@ -158,7 +164,7 @@ public class SportTestStartFragment extends Fragment implements
        */
       private void fadeInStopButton()
       {
-        Button buttonStop = (Button) view.findViewById( R.id.buttonStop );
+        Button buttonStop = (Button) rootView.findViewById( R.id.buttonStop );
         AlphaAnimation fadeInStopButton = new AlphaAnimation( 0.0f, 1.0f );
         buttonStop.setAnimation( fadeInStopButton );
         fadeInStopButton.setDuration( 1200 );
@@ -171,7 +177,7 @@ public class SportTestStartFragment extends Fragment implements
        */
       private void fadeOutCountdown()
       {
-        TextView countdownTimmer = (TextView) view
+        TextView countdownTimmer = (TextView) rootView
             .findViewById( R.id.textViewCountdown );
 
         AlphaAnimation fadeOutCountdown = new AlphaAnimation( 1.0f, 0.0f );
@@ -185,11 +191,36 @@ public class SportTestStartFragment extends Fragment implements
     counter.start();
   }
 
-  @Override
-  public void onClick( View view )
+  //
+  /**
+   * Fade out the note text
+   */
+  private void fadeOutNoteText()
   {
-    Log.d( TAG, "onTestFinished -> switching to tab 3" );
-    getActivity().getActionBar().setSelectedNavigationItem( 2 );
+    LinearLayout noteLayout = (LinearLayout) rootView
+        .findViewById( R.id.linearLayoutNote );
+
+    AlphaAnimation fadeOutCountdown = new AlphaAnimation( 1.0f, 0.0f );
+    noteLayout.startAnimation( fadeOutCountdown );
+    fadeOutCountdown.setDuration( 800 );
+    fadeOutCountdown.setFillAfter( true );
+
+  }
+
+  /**
+   * Fade out the start button
+   */
+  private void fadeOutStartButton()
+  {
+    Button startSportTest = (Button) rootView
+        .findViewById( R.id.buttonStartSportTest );
+
+    AlphaAnimation fadeOutCountdown = new AlphaAnimation( 1.0f, 0.0f );
+    startSportTest.startAnimation( fadeOutCountdown );
+    fadeOutCountdown.setDuration( 800 );
+    fadeOutCountdown.setFillAfter( true );
+    startSportTest.setClickable( false );
+
   }
 
   public RunningState getRunningState()
@@ -201,5 +232,37 @@ public class SportTestStartFragment extends Fragment implements
   {
     this.runningState = runningState;
   }
+
+  View.OnClickListener startButtonClicked = new View.OnClickListener()
+  {
+    public void onClick( View v )
+    {
+      fadeOutStartButton();
+      fadeOutNoteText();
+      countdown();
+    }
+  };
+
+  View.OnClickListener stopButtonClicked = new View.OnClickListener()
+  {
+    public void onClick( View v )
+    {
+      // TODO @Tore ergebnis speicheren wenn "Lauf stoppen" geklickt wird. Den
+      // Code von aus SportModeResultFragment hab ich hierher verschoben da in
+      // den Historie den speicher Button gelöscht habe
+
+      // Random r = new Random();
+      // CoconiResultModel c = new CoconiResultModel( r.nextInt( 200 ), new
+      // Date() );
+      // di.addCoconiResult( c );
+
+      /* ArrayList<CoconiResultModel> all = di.getCoconiTestResults(); for ( int
+       * i = 0; i < all.size(); i++ ) { Log.d( TAG, "Coconi result pulse: " +
+       * all.get( i )._id ); } */
+
+      // switch to second tab "Trainingsplan"
+      getActivity().getActionBar().setSelectedNavigationItem( 1 );
+    }
+  };
 
 }

@@ -1,11 +1,6 @@
 package hm.edu.pulsebuddy.sportmode;
 
 import hm.edu.pulsebuddy.R;
-import hm.edu.pulsebuddy.R.id;
-import hm.edu.pulsebuddy.R.layout;
-import hm.edu.pulsebuddy.R.menu;
-import hm.edu.pulsebuddy.R.string;
-import hm.edu.pulsebuddy.SportModeSportTestOverview;
 import hm.edu.pulsebuddy.SportModeWorkoutPlanFragment;
 
 import java.util.Locale;
@@ -17,19 +12,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class SportModeActivity extends FragmentActivity implements
     ActionBar.TabListener
 {
+
+  SportModeStartFragment sportModeStartFragment = new SportModeStartFragment();
 
   /**
    * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -50,11 +40,12 @@ public class SportModeActivity extends FragmentActivity implements
   protected void onCreate( Bundle savedInstanceState )
   {
     super.onCreate( savedInstanceState );
-    setContentView( R.layout.activity_sport_mode );
+    setContentView( R.layout.activity_sport_test );
 
     // Set up the action bar.
     final ActionBar actionBar = getActionBar();
     actionBar.setNavigationMode( ActionBar.NAVIGATION_MODE_TABS );
+    getActionBar().setDisplayHomeAsUpEnabled( true );
 
     // Create the adapter that will return a fragment for each of the three
     // primary sections of the app.
@@ -91,13 +82,14 @@ public class SportModeActivity extends FragmentActivity implements
     }
   }
 
-  @Override
-  public boolean onCreateOptionsMenu( Menu menu )
-  {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate( R.menu.sport_mode, menu );
-    return true;
-  }
+  // disable settings
+  // @Override
+  // public boolean onCreateOptionsMenu( Menu menu )
+  // {
+  // // Inflate the menu; this adds items to the action bar if it is present.
+  // getMenuInflater().inflate( R.menu.sport_mode, menu );
+  // return true;
+  // }
 
   @Override
   public void onTabSelected( ActionBar.Tab tab,
@@ -138,18 +130,34 @@ public class SportModeActivity extends FragmentActivity implements
       // getItem is called to instantiate the fragment for the given page.
       // Return a DummySectionFragment (defined as a static inner class
       // below) with the page number as its lone argument.
+
+      // Fragment fragment = new SportTestNoteFragment();
+      // Bundle args = new Bundle();
+      // args.putInt( SportTestNoteFragment.ARG_SECTION_NUMBER, position + 1 );
+      // fragment.setArguments( args );
+      // return fragment;
+
       Fragment fragment;
       switch ( position )
       {
         case 0:
-          fragment = new SportModeWorkoutPlanFragment();
+          fragment = new SportModeStartFragment();
           break;
         case 1:
-          fragment = new SportModeSportTestOverview();
+          fragment = new SportModeWorkoutPlanFragment();
+          break;
+        case 2:
+          fragment = new SportModeResultFragment();
           break;
         default:
           throw new IllegalArgumentException( "Invalid section number" );
       }
+
+      // // set args if necessary
+      // Bundle args = new Bundle();
+      // args.putInt( DummySectionFragment.ARG_SECTION_NUMBER, position + 1 );
+      // fragment.setArguments( args );
+
       return fragment;
     }
 
@@ -157,7 +165,7 @@ public class SportModeActivity extends FragmentActivity implements
     public int getCount()
     {
       // Show 3 total pages.
-      return 2;
+      return 3;
     }
 
     @Override
@@ -167,11 +175,13 @@ public class SportModeActivity extends FragmentActivity implements
       switch ( position )
       {
         case 0:
+          return getString( R.string.sport_mode_title_sport_test ).toUpperCase(
+              l );
+        case 1:
           return getString( R.string.sport_mode_title_workout_plan )
               .toUpperCase( l );
-        case 1:
-          return getString( R.string.sport_mode_title_sport_test_overview )
-              .toUpperCase( l );
+        case 2:
+          return getString( R.string.sport_test_title_result ).toUpperCase( l );
       }
       return null;
     }

@@ -10,6 +10,9 @@
         android:id="@+id/calculation"
         android:title="@string/calculation"/>
     <item
+        android:id="@+id/calorieCalculator"
+        android:title="@string/calorieCalculator"/>
+    <item
         android:id="@+id/maps"
         android:title="@string/maps"/>
     <item

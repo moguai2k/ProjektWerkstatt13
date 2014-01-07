@@ -37,6 +37,7 @@
     <string name="settings">Einstellungen</string>
     <string name="calculation">Berechnung</string>
     <string name="calibration">Kalibrierung</string>
+    <string name="calorieCalculator">Kalorienrechner</string>
     <string name="home">Startseite</string>
     <string name="sm">Sport Mode</string>
     <string name="dm">Day Mode</string>
@@ -99,8 +100,18 @@
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Januar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
 
-    <!-- Trainingsplan -->
-    <string name="trainingsplan">Trainingsplan</string>
-    <string name="title_activity_trainingsplan">Trainingsplan</string>
+    <!-- calorie calculator -->
+    <string name="calorie_calculator_note">Wähle dein heutiges Essen aus:</string>
+    <string name="calorie_calculator_titel">Kalorienrechner</string>
+    <string name="calorie_calculator_appetizer">Vorspeise</string>
+    <string name="calorie_calculator_main_course">Hauptspeise</string>
+    <string name="calorie_calculator_dessert">Nachspeise</string>
+    <string name="calorie_calculator_basal_metabolism">Grundumsatz:</string>
+    <string name="calorie_calculator_current">Aktuell:</string>
+    <string name="calorie_calculator_still_left">Noch übrig:</string>
+    
+    <string name="calorie_calculator_basal_metabolism_value">0 kcal</string>
+    <string name="calorie_calculator_current_value">0 kcal</string>
+    <string name="calorie_calculator_still_left_value">0 kcal</string>
 
 </resources>

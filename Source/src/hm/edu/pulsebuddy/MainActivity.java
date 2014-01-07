@@ -92,6 +92,9 @@ public class MainActivity extends Activity
       case R.id.calculation:
         startActivity( new Intent( this, CalculationActivity.class ) );
         return true;
+      case R.id.calorieCalculator:
+        startActivity( new Intent( this, CalorieCalculatorActivity.class ) );
+        return true;
       case R.id.maps:
         startActivity( new Intent( this, MapsActivity.class ) );
         return true;

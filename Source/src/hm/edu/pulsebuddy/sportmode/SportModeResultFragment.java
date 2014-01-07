@@ -76,6 +76,7 @@ public class SportModeResultFragment extends Fragment implements
 
   }
 
+  // @Tore: Hier werte aus DB abfragen und in Tabelle eintragen
   private void addData()
   {
     TableLayout table = (TableLayout) view

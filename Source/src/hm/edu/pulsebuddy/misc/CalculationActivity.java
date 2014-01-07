@@ -34,8 +34,9 @@ public class CalculationActivity extends Activity
     int bmiColor = BMI.getColorForBMI( bmi );
     int bmiDescriptionLikeWHO = BMI.getWHODescriptionForBMI( bmi );
     int bmiDescriptionLikeDGE = BMI.getDGEDescriptionForBMI( bmi,
-        user.getGender() ); //TODO Josef noch nen zweiten BMI einbauen (Txtview)
-                            //BMI nach DGE mit diesem wert hier. Ty.
+        user.getGender() ); // TODO Josef noch nen zweiten BMI einbauen
+                            // (Txtview)
+                            // BMI nach DGE mit diesem wert hier. Ty.
 
     double bmr = BMR.getBMR( user.getWeight(), user.getHeight(),
         MathUtilities.getAge( user.getBirthday() ), user.getGender() );

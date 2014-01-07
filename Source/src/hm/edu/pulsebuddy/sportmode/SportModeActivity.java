@@ -1,7 +1,9 @@
 package hm.edu.pulsebuddy.sportmode;
 
 import hm.edu.pulsebuddy.R;
-import hm.edu.pulsebuddy.SportModeWorkoutPlanFragment;
+import hm.edu.pulsebuddy.misc.SportModeResultFragment;
+import hm.edu.pulsebuddy.misc.SportModeStartFragment;
+import hm.edu.pulsebuddy.misc.SportModeWorkoutPlanFragment;
 
 import java.util.Locale;
 
@@ -13,7 +15,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 
 public class SportModeActivity extends FragmentActivity implements
     ActionBar.TabListener

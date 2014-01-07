@@ -77,12 +77,17 @@ public class CalibrationActivity extends FragmentActivity implements
     userTrainingType = user.getTrainingType();
 
     getActionBar().setDisplayHomeAsUpEnabled( true );
+
+    //TODO Tore Dummywerte aus DB bzw.UserModel raus! Dafür hier hin, hardcoded
+    //Atm Problem, dass man nicht "Bearbeiten" bei Kalibrierung seiht, 
+    //falls keine Daten in der DB sind. Dummywerte sollen nur bei den Pickern sein
     saveCalibrationValues();
-    setUserHeigt();
+    setUserHeight();
     setUserWeight();
     setUserGender();
     setUserDateOfBirthday();
     setUserTrainingType();
+
   }
 
   @Override
@@ -103,7 +108,7 @@ public class CalibrationActivity extends FragmentActivity implements
    * is selected.
    * 
    */
-  private void setUserHeigt()
+  private void setUserHeight()
   {
     Button buttonUserHeight = (Button) findViewById( R.id.buttonUserHeight );
 
@@ -370,15 +375,15 @@ public class CalibrationActivity extends FragmentActivity implements
     numberPicker.setMinValue( 1 );
     numberPicker.setMaxValue( 3 );
 
-    if ( TrainingType.POWER.equals( userTrainingType ) )
+    if ( TrainingType.ENDURANCE.equals( userTrainingType ) )
     {
       numberPicker.setValue( 1 );
     }
-    else if ( TrainingType.ENDURANCE.equals( userTrainingType ) )
+    else if ( TrainingType.LOSE_WEIGHT.equals( userTrainingType ) )
     {
       numberPicker.setValue( 2 );
     }
-    else if ( TrainingType.LOSE_WEIGHT.equals( userTrainingType ) )
+    else if ( TrainingType.POWER.equals( userTrainingType ) )
     {
       numberPicker.setValue( 3 );
     }
@@ -496,18 +501,17 @@ public class CalibrationActivity extends FragmentActivity implements
 
     if ( userTrainingType == 1 )
     {
-      return TrainingType.POWER;
+      return TrainingType.ENDURANCE;
     }
     else if ( userTrainingType == 2 )
     {
-      return TrainingType.ENDURANCE;
+      return TrainingType.LOSE_WEIGHT;
     }
     else if ( userTrainingType == 3 )
     {
-      return TrainingType.LOSE_WEIGHT;
+      return TrainingType.POWER;
     }
     return null;
-
   }
 
   /**

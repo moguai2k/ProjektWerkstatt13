@@ -1,5 +1,6 @@
-package hm.edu.pulsebuddy;
+package hm.edu.pulsebuddy.sportmode;
 
+import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.data.SportModeWorkoutPlanData;
 import android.app.Activity;
 import android.content.Context;

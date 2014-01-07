@@ -184,13 +184,13 @@ public class UserModel extends Persistent
     switch ( aTrainingType )
     {
       case 1:
-        return TrainingType.POWER;
-        
-      case 2:
         return TrainingType.ENDURANCE;
 
-      case 3:
+      case 2:
         return TrainingType.LOSE_WEIGHT;
+        
+      case 3:
+        return TrainingType.POWER;
 
       default:
         return null;

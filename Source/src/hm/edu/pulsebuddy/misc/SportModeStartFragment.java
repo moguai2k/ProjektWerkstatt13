@@ -1,17 +1,14 @@
-package hm.edu.pulsebuddy.sportmode;
+package hm.edu.pulsebuddy.misc;
 
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.RunningState;
 import hm.edu.pulsebuddy.data.DataInterface;
-import hm.edu.pulsebuddy.data.models.CoconiResultModel;
 
-import java.util.Date;
 import java.util.Random;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

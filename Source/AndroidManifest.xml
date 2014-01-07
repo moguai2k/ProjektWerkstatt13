@@ -101,7 +101,7 @@
             android:label="@string/sport_mode_title_activity_sport_test_fragment"
             android:screenOrientation="portrait" />
         <activity
-            android:name="hm.edu.pulsebuddy.CalorieCalculatorActivity"
+            android:name="hm.edu.pulsebuddy.misc.CalorieCalculatorActivity"
             android:label="@string/calorie_calculator_titel"
             android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
             android:screenOrientation="portrait" />

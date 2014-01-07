@@ -1,8 +1,11 @@
-package hm.edu.pulsebuddy;
+package hm.edu.pulsebuddy.misc;
+
+import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.data.SportModeWorkoutPlanData;
+import hm.edu.pulsebuddy.sportmode.SportModeWorkoutPlanAdapter;
 
 import java.util.Random;
 
-import hm.edu.pulsebuddy.data.SportModeWorkoutPlanData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;

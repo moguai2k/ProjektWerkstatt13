@@ -1,6 +1,6 @@
 package hm.edu.pulsebuddy;
 
-import hm.edu.pulsebuddy.util.SportModeWorkoutPlanData;
+import hm.edu.pulsebuddy.data.SportModeWorkoutPlanData;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;

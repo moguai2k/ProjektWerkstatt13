@@ -4,8 +4,11 @@
 	<color name="gray_">#c4caca</color>
 	<color name="black">#000000</color>
 	<color name="white">#FFFFFF</color>
+	
 	<color name="red">#C00</color>
-	<color name="yellow">#CC0</color>
+	<color name="yellow">#ffc600</color>
+  <color name="green">#04bc04</color>
+	
 	<color name="grey">#a3a3a3</color>
 	<color name="dark_grey">#595959</color>
 	<color name="blue">#00C</color>
@@ -13,10 +16,9 @@
 	<color name="low_yellow">#CFF0</color>
 	<color name="dark_blue">#006</color>
 	<color name="transparent">#00000000</color>
-    <color name="bg">#c9c9c9</color>
-    <color name="green">#98ba28</color>
+  <color name="bg">#c9c9c9</color>
     
-    <color name="background_holo_light">#fff3f3f3</color>
+  <color name="background_holo_light">#fff3f3f3</color>
 	
 
 	<!-- how to use -->

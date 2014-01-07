@@ -2,7 +2,7 @@ package hm.edu.pulsebuddy;
 
 import java.util.Random;
 
-import hm.edu.pulsebuddy.util.SportModeWorkoutPlanData;
+import hm.edu.pulsebuddy.data.SportModeWorkoutPlanData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -60,7 +60,7 @@ public class SportModeWorkoutPlanFragment extends Fragment
         Random r = new Random();
         int dummyPulseValue = r.nextInt( 170 - 30 ) + 65;
 
-        group.children.add( dayCount + ". Tag: " + dummyPulseValue + "bpm" );
+        group.children.add( dayCount + ". Tag: " + dummyPulseValue + " bpm" );
       }
       groups.append( j, group );
     }

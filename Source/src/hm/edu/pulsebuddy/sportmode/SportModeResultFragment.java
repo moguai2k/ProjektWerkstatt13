@@ -92,7 +92,7 @@ public class SportModeResultFragment extends Fragment implements
     dateHeading.setTextSize( 18 );
 
     TextView resultHeading = new TextView( getActivity() );
-    resultHeading.setText( "Ergebnis" );
+    resultHeading.setText( "Conconi-Ergebnis" );
     resultHeading.setTypeface( null, Typeface.BOLD );
     resultHeading.setTextSize( 18 );
 
@@ -102,7 +102,7 @@ public class SportModeResultFragment extends Fragment implements
     table.addView( tableRowHeading );
 
     // values
-    for ( int i = 1; i <= 30; i++ )
+    for ( int i = 10; i <= 30; i++ )
     {
       TableRow tableRowValue = new TableRow( getActivity() );
 
@@ -113,7 +113,7 @@ public class SportModeResultFragment extends Fragment implements
 
       // dummy Value
       Random r = new Random();
-      int dummySportTestValue = r.nextInt( 30 - 5 ) + 5;
+      int dummySportTestValue = 180 - r.nextInt( 40 );
 
       // result values
       TextView resultValue = new TextView( getActivity() );

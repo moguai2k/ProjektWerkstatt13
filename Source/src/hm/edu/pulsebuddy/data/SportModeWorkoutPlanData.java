@@ -1,4 +1,4 @@
-package hm.edu.pulsebuddy.util;
+package hm.edu.pulsebuddy.data;
 
 import java.util.ArrayList;
 import java.util.List;

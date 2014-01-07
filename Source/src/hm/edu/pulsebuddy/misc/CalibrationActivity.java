@@ -383,7 +383,7 @@ public class CalibrationActivity extends FragmentActivity implements
       numberPicker.setValue( 3 );
     }
 
-    String[] trainingTypes = { "Kraft", "Ausdauer", "Abnehmen" };
+    String[] trainingTypes = { "Ausdauer", "Abnehmen", "Kraft" };
     numberPicker.setWrapSelectorWheel( false );
     numberPicker.setDisplayedValues( trainingTypes );
     numberPicker
@@ -406,15 +406,15 @@ public class CalibrationActivity extends FragmentActivity implements
 
         if ( numberPicker.getValue() == 1 )
         {
-          buttonUserGender.setText( "Kraft" );
+          buttonUserGender.setText( "Ausdauer" );
         }
         else if ( numberPicker.getValue() == 2 )
         {
-          buttonUserGender.setText( "Ausdauer" );
+          buttonUserGender.setText( "Abnehmen" );
         }
         else if ( numberPicker.getValue() == 3 )
         {
-          buttonUserGender.setText( "Abnehmen" );
+          buttonUserGender.setText( "Kraft" );
         }
 
         dialog.dismiss();
@@ -537,17 +537,17 @@ public class CalibrationActivity extends FragmentActivity implements
    */
   private String calculateUserTrainingType( TrainingType trainingType )
   {
-    if ( TrainingType.POWER.equals( userTrainingType ) )
-    {
-      return "Kraft";
-    }
-    else if ( TrainingType.ENDURANCE.equals( userTrainingType ) )
+    if ( TrainingType.ENDURANCE.equals( userTrainingType ) )
     {
       return "Ausdauer";
     }
     else if ( TrainingType.LOSE_WEIGHT.equals( userTrainingType ) )
     {
       return "Abnehmen";
+    }
+    else if ( TrainingType.POWER.equals( userTrainingType ) )
+    {
+      return "Kraft";
     }
     return null;
   }

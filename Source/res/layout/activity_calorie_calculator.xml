@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="left"
+    android:gravity="center_horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -19,17 +19,18 @@
 
     <GridLayout
         android:id="@+id/gridLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewNote"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:columnCount="3" >
+        android:columnCount="3"
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/textViewMainCourse"
             android:layout_column="1"
-            android:layout_gravity="left|top"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_row="1"
             android:text="@string/calorie_calculator_main_course"
@@ -38,7 +39,7 @@
         <TextView
             android:id="@+id/textViewAppetizer"
             android:layout_column="0"
-            android:layout_gravity="center_horizontal|top"
+            android:layout_gravity="center_horizontal"
             android:layout_row="1"
             android:text="@string/calorie_calculator_appetizer"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -48,30 +49,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="0"
-            android:layout_gravity="center_horizontal|top"
+            android:layout_gravity="center_horizontal"
             android:layout_row="0"
             android:background="@null"
             android:contentDescription="@string/calorie_calculator_appetizer"
             android:src="@drawable/appetizer" />
 
-        <ImageButton
-            android:id="@+id/imageButtonMainCourse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_row="0"
-            android:background="@null"
-            android:contentDescription="@string/calorie_calculator_appetizer"
-            android:src="@drawable/main_course" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal"
+            android:layout_row="2"
+            android:text="@string/calorie_calculator_appetizer_value"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <ImageButton
             android:id="@+id/imageButtonDessert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:layout_gravity="center_horizontal|top"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_row="0"
             android:background="@null"
@@ -81,11 +78,40 @@
         <TextView
             android:id="@+id/textViewDessert"
             android:layout_column="2"
-            android:layout_gravity="left|top"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_row="1"
             android:text="@string/calorie_calculator_dessert"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_column="2"
+            android:layout_gravity="center_horizontal"
+            android:layout_row="2"
+            android:text="@string/calorie_calculator_dessert_value"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_row="2"
+            android:text="@string/calorie_calculator_main_course_value"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ImageButton
+            android:id="@+id/imageButtonMainCourse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_row="0"
+            android:background="@null"
+            android:contentDescription="@string/calorie_calculator_appetizer"
+            android:src="@drawable/main_course" />
     </GridLayout>
 
     <TextView
@@ -138,25 +164,8 @@
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_row="1"
             android:text="@string/calorie_calculator_current_value"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_column="0"
-            android:layout_gravity="left|top"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_row="2"
-            android:text="@string/calorie_calculator_still_left"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/textViewStillLeft"
-            android:layout_column="0"
-            android:layout_gravity="right|top"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_row="2"
-            android:text="@string/calorie_calculator_still_left_value"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/green" />
     </GridLayout>
 
 </RelativeLayout>

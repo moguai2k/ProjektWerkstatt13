@@ -55,8 +55,6 @@ public class CalorieCalculatorActivity extends Activity
         int curentCalc = calculateCurrentCalorie( appetizerCalorie );
         setCurrentCalorie( curentCalc );
 
-        int stillLeftCal = calculateStillLeftCalorie( appetizerCalorie );
-        setStillLeftCalorie( stillLeftCal );
       }
 
     } );
@@ -85,7 +83,7 @@ public class CalorieCalculatorActivity extends Activity
   }
 
   // @Tore, @Team: mit den setter Methoden kann der Grundumsatzt, Aktuelle
-  // Kalorienstand und noch übrige Kalorien gesetzt werden.
+  // Kalorienstand gesetzt werden.
   private void setBasalMetabolismCalorie( int basalMetabolismCalorie )
   {
     TextView basalMetabolism = (TextView) findViewById( R.id.textViewBasalMetabolism );
@@ -97,39 +95,13 @@ public class CalorieCalculatorActivity extends Activity
   {
     TextView currentValue = (TextView) findViewById( R.id.textViewCurrentValue );
     currentValue.setText( currentCalorie + "" );
-
-  }
-
-  private void setStillLeftCalorie( int stillLeftCalorie )
-  {
-    TextView stillLeftValue = (TextView) findViewById( R.id.textViewStillLeft );
-    stillLeftValue.setText( stillLeftCalorie + "" );
-
   }
 
   private int calculateCurrentCalorie( int addCalorie )
   {
-
     currentCalorie = currentCalorie + addCalorie;
 
     return currentCalorie;
-
   }
-
-  private int calculateStillLeftCalorie( int reduceCalorie )
-  {
-
-    stillLeftCalorie = basalMetabolismCalorie - reduceCalorie;
-
-    return stillLeftCalorie;
-
-  }
-
-  // private int calculateStillLeftCalorie( int basalMetabolismCalorie,
-  // int reduceCalorie )
-  // {
-  // return basalMetabolismCalorie - reduceCalorie;
-  //
-  // }
 
 }

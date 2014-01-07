@@ -103,15 +103,15 @@
     <!-- calorie calculator -->
     <string name="calorie_calculator_note">Wähle dein heutiges Essen aus:</string>
     <string name="calorie_calculator_titel">Kalorienrechner</string>
-    <string name="calorie_calculator_appetizer">Vorspeise</string>
+    <string name="calorie_calculator_appetizer">Vorspeise </string>
+    <string name="calorie_calculator_appetizer_value">(100 kcal)</string>
     <string name="calorie_calculator_main_course">Hauptspeise</string>
+    <string name="calorie_calculator_main_course_value">(1000 kcal)</string>
     <string name="calorie_calculator_dessert">Nachspeise</string>
+    <string name="calorie_calculator_dessert_value">(300 kcal)</string>
     <string name="calorie_calculator_basal_metabolism">Grundumsatz:</string>
     <string name="calorie_calculator_current">Aktuell:</string>
-    <string name="calorie_calculator_still_left">Noch übrig:</string>
-    
     <string name="calorie_calculator_basal_metabolism_value">0 kcal</string>
     <string name="calorie_calculator_current_value">0 kcal</string>
-    <string name="calorie_calculator_still_left_value">0 kcal</string>
 
 </resources>

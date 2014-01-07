@@ -19,7 +19,7 @@
 
     <GridLayout
         android:id="@+id/gridLayout1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewNote"
         android:layout_centerHorizontal="true"

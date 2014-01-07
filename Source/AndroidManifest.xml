@@ -120,7 +120,9 @@
 
         <activity
             android:name="hm.edu.pulsebuddy.CalorieCalculatorActivity"
-            android:label="@string/calorie_calculator_titel" >
+            android:label="@string/calorie_calculator_titel"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity" >
+>
         </activity>
     </application>
 

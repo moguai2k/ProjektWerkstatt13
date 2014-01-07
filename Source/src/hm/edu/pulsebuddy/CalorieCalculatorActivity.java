@@ -24,6 +24,7 @@ public class CalorieCalculatorActivity extends Activity
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.activity_calorie_calculator );
+    getActionBar().setDisplayHomeAsUpEnabled( true );
     addListenerOnButton();
     setBasalMetabolismCalorie( basalMetabolismCalorie );
 

@@ -1,99 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center" >
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <GridLayout
-        android:id="@+id/gridLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" >
+    <!-- The main content view -->
 
-        <TextView
-            android:id="@+id/currentPulse"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/legend_text_font_size"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:text="@string/zero_pulse"
-            android:textColor="@color/red"
-            android:textSize="20pt"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:contentDescription="@string/hello_world"
-            android:src="@drawable/pbbig" />
-    </GridLayout>
-
-    <LinearLayout
-        android:id="@+id/controls_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/gridLayout2"
-        android:layout_below="@+id/gridLayout1"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <!-- <hm.edu.pulsebuddy.graph.MultitouchPlot -->
-
-        <com.androidplot.xy.XYPlot
-            android:id="@+id/aprHistoryPlot"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            androidPlot.backgroundPaint.color="@color/transparent"
-            androidPlot.borderPaint.color="@color/transparent"
-            androidPlot.domainLabelWidget.labelPaint.color="@color/red"
-            androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/domain_label_font_size"
-            androidPlot.graphWidget.backgroundPaint.color="@color/transparent"
-            androidPlot.graphWidget.gridBackgroundPaint.color="@color/transparent"
-            androidPlot.graphWidget.marginBottom="25dp"
-            androidPlot.graphWidget.marginLeft="15dp"
-            androidPlot.graphWidget.marginRight="10dp"
-            androidPlot.graphWidget.marginTop="20dp"
-            androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/range_tick_label_font_size"
-            androidPlot.rangeLabelWidget.labelPaint.color="@color/red"
-            androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
-            androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size"
-            androidplot.renderMode="use_background_thread" />
-    </LinearLayout>
-
-    <GridLayout
-        android:id="@+id/gridLayout2"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" >
+        android:layout_height="match_parent"
+        android:gravity="center" >
 
-        <Button
-            android:id="@+id/hs_dm"
-            style="@style/ButtonsMenuSmall"
+        <GridLayout
+            android:id="@+id/gridLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:onClick="onButtonClick"
-            android:text="@string/dm" />
+            android:layout_centerHorizontal="true" >
 
-        <Button
-            android:id="@+id/hs_sm"
-            style="@style/ButtonsMenuSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:onClick="onButtonClick"
-            android:text="@string/sm" />
-    </GridLayout>
+            <TextView
+                android:id="@+id/currentPulse"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/legend_text_font_size"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:text="@string/zero_pulse"
+                android:textColor="@color/red"
+                android:textSize="20pt"
+                android:textStyle="bold" />
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/pbbig" />
+        </GridLayout>
+
+        <LinearLayout
+            android:id="@+id/controls_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/gridLayout2"
+            android:layout_below="@+id/gridLayout1"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <!-- <hm.edu.pulsebuddy.graph.MultitouchPlot -->
+
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/aprHistoryPlot"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                androidPlot.backgroundPaint.color="@color/transparent"
+                androidPlot.borderPaint.color="@color/transparent"
+                androidPlot.domainLabelWidget.labelPaint.color="@color/red"
+                androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/domain_label_font_size"
+                androidPlot.graphWidget.backgroundPaint.color="@color/transparent"
+                androidPlot.graphWidget.gridBackgroundPaint.color="@color/transparent"
+                androidPlot.graphWidget.marginBottom="25dp"
+                androidPlot.graphWidget.marginLeft="15dp"
+                androidPlot.graphWidget.marginRight="10dp"
+                androidPlot.graphWidget.marginTop="20dp"
+                androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/range_tick_label_font_size"
+                androidPlot.rangeLabelWidget.labelPaint.color="@color/red"
+                androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
+                androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size"
+                androidplot.renderMode="use_background_thread" />
+        </LinearLayout>
+
+        <GridLayout
+            android:id="@+id/gridLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" >
+        </GridLayout>
+    </RelativeLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

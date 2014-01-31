@@ -114,4 +114,13 @@
     <string name="calorie_calculator_basal_metabolism_value">0 kcal</string>
     <string name="calorie_calculator_current_value">0 kcal</string>
 
+    <!-- Swipe menu -->
+    <string-array name="planets_array">
+        <item>Day Mode</item>
+        <item>Sport Mode</item>
+        <item>Karte</item>
+        <item>Kalorienrechner</item>
+        <item>Berechnung</item>
+    </string-array>
+
 </resources>

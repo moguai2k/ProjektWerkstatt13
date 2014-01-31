@@ -7,15 +7,6 @@
         android:id="@+id/calibration"
         android:title="@string/calibration"/>
     <item
-        android:id="@+id/calculation"
-        android:title="@string/calculation"/>
-    <item
-        android:id="@+id/calorieCalculator"
-        android:title="@string/calorieCalculator"/>
-    <item
-        android:id="@+id/maps"
-        android:title="@string/maps"/>
-    <item
         android:id="@+id/help"
         android:title="@string/help"/>
     <item

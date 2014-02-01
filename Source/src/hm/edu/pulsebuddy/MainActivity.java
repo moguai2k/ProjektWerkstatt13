@@ -18,7 +18,9 @@ import hm.edu.pulsebuddy.misc.SettingsActivity;
 import hm.edu.pulsebuddy.sportmode.SportModeActivity;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,13 +41,13 @@ import com.androidplot.xy.XYPlot;
 public class MainActivity extends Activity
 {
 
-  private String[] mPlanetTitles;
+  private final static String TAG = BluetoothLeService.class.getSimpleName();
 
-  // TODO @Josef ggf. für swipe menu button benötigt, sonst löschen
+  private String[] mMenuTitles;
+
   private DrawerLayout mDrawerLayout;
   private ListView mDrawerList;
-
-  private final static String TAG = BluetoothLeService.class.getSimpleName();
+  private ActionBarDrawerToggle mDrawerToggle;
 
   private LayoutInflater inflater;
   private View layout;
@@ -64,17 +66,14 @@ public class MainActivity extends Activity
     super.onCreate( savedInstanceState );
 
     setContentView( R.layout.activity_main );
-    // setContentView( R.layout.activity_main );
 
-    mPlanetTitles = getResources().getStringArray( R.array.planets_array );
-
+    mMenuTitles = getResources().getStringArray( R.array.menu_array );
     mDrawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
-
     mDrawerList = (ListView) findViewById( R.id.left_drawer );
 
     // Set the adapter for the list view
     mDrawerList.setAdapter( new ArrayAdapter<String>( this,
-        R.layout.drawer_list_item, mPlanetTitles ) );
+        R.layout.drawer_list_item, mMenuTitles ) );
 
     // The click listner for ListView in the navigation drawer
     class DrawerItemClickListener implements ListView.OnItemClickListener
@@ -130,7 +129,30 @@ public class MainActivity extends Activity
     // Set the list's click listener
     mDrawerList.setOnItemClickListener( new DrawerItemClickListener() );
 
-    /* The click listner for ListView in the navigation drawer */
+    mDrawerToggle = new ActionBarDrawerToggle( this, mDrawerLayout,
+        R.drawable.ic_drawer, R.string.drawer_open, R.string.app_name )
+    {
+
+      /** Called when a drawer has settled in a completely closed state. */
+      public void onDrawerClosed( View view )
+      {
+        super.onDrawerClosed( view );
+        getActionBar().setTitle( R.string.app_name );
+      }
+
+      /** Called when a drawer has settled in a completely open state. */
+      public void onDrawerOpened( View drawerView )
+      {
+        super.onDrawerOpened( drawerView );
+        getActionBar().setTitle( R.string.drawer_open );
+      }
+    };
+
+    // Set the drawer toggle as the DrawerListener
+    mDrawerLayout.setDrawerListener( mDrawerToggle );
+
+    getActionBar().setDisplayHomeAsUpEnabled( true );
+    getActionBar().setHomeButtonEnabled( true );
 
     /* Important to be the first that is initiated. */
     ds = DataManager.getStorageInstance( this );
@@ -150,6 +172,21 @@ public class MainActivity extends Activity
   }
 
   @Override
+  protected void onPostCreate( Bundle savedInstanceState )
+  {
+    super.onPostCreate( savedInstanceState );
+    // Sync the toggle state after onRestoreInstanceState has occurred.
+    mDrawerToggle.syncState();
+  }
+
+  @Override
+  public void onConfigurationChanged( Configuration newConfig )
+  {
+    super.onConfigurationChanged( newConfig );
+    mDrawerToggle.onConfigurationChanged( newConfig );
+  }
+
+  @Override
   public boolean onCreateOptionsMenu( Menu menu )
   {
     MenuInflater inflater = getMenuInflater();
@@ -160,6 +197,12 @@ public class MainActivity extends Activity
   @Override
   public boolean onOptionsItemSelected( MenuItem item )
   {
+    // Pass the event to ActionBarDrawerToggle, if it returns
+    // true, then it has handled the app icon touch event
+    if ( mDrawerToggle.onOptionsItemSelected( item ) )
+    {
+      return true;
+    }
     switch ( item.getItemId() )
     {
       case R.id.settings:

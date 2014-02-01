@@ -122,7 +122,7 @@ public class MapsActivity extends Activity implements ActivityListener
 
     LatLng loc = new LatLng( aLocation.getLatitude(), aLocation.getLongitude() );
     Marker marker = map.addMarker( new MarkerOptions().position( loc ).icon(
-        BitmapDescriptorFactory.fromResource( R.drawable.pb ) ) );
+        BitmapDescriptorFactory.fromResource( R.drawable.ic_pb ) ) );
 
     if ( aTitle != null )
       marker.setTitle( aTitle );

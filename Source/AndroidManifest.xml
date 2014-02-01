@@ -35,7 +35,7 @@
     <application
         android:allowBackup="true"
         android:debuggable="true"
-        android:icon="@drawable/pb"
+        android:icon="@drawable/ic_pb"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

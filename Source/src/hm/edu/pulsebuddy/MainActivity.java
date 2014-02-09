@@ -169,6 +169,7 @@ public class MainActivity extends Activity
     TextView tv = (TextView) findViewById( R.id.currentPulse );
 
     mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
+    mainPlot.setResume(true);
   }
 
   @Override

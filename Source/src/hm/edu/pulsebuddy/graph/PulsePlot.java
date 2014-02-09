@@ -115,6 +115,7 @@ public class PulsePlot implements PulseChangedListener
 
     aprHistoryPlot.redraw();
     
+    dopt = null;
     dopt = new DemoOptimizer();
     dopt.execute();
   }

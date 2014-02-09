@@ -36,33 +36,13 @@
         androidPlot.titleWidget.labelPaint.color="@color/red"
         androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/gridLayout1"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" >
-
-        <Button
-            android:id="@+id/resetButton"
-            style="@style/ButtonsMenuSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/reset" />
-
-    </LinearLayout>
-
     <GridLayout
         android:id="@+id/gridLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:columnCount="3" >
 
         <Button

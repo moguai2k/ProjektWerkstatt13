@@ -52,6 +52,7 @@ public class MainActivity extends Activity
   private View layout;
   private TextView toastText;
   private Redrawer redrawer = null;
+  private PulsePlot mainPlot = null;
 
   private DataHandler ds = null;
   private DataInterface di = null;
@@ -65,6 +66,7 @@ public class MainActivity extends Activity
     super.onCreate( savedInstanceState );
 
     setContentView( R.layout.activity_main );
+    //ThreadControl tControl = new ThreadControl();
 
     mMenuTitles = getResources().getStringArray( R.array.menu_array );
     mDrawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
@@ -166,7 +168,7 @@ public class MainActivity extends Activity
     // findViewById(R.id.aprHistoryPlot);
     TextView tv = (TextView) findViewById( R.id.currentPulse );
 
-    new PulsePlot( aprHistoryPlot, tv, redrawer );
+    mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
   }
 
   @Override
@@ -224,6 +226,7 @@ public class MainActivity extends Activity
   public void onResume()
   {
     super.onResume();
+    mainPlot.setResume(true);
     if ( redrawer != null )
       redrawer.start();
   }
@@ -233,6 +236,7 @@ public class MainActivity extends Activity
   {
     if ( redrawer != null )
       redrawer.pause();
+    mainPlot.setResume(false);
     super.onPause();
   }
 
@@ -240,6 +244,7 @@ public class MainActivity extends Activity
   public void onDestroy()
   {
     Log.d( TAG, "onDestroy" );
+    mainPlot.setResume(false);
     if ( redrawer != null )
       redrawer.finish();
 

@@ -3,18 +3,15 @@ package hm.edu.pulsebuddy.misc;
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
-import hm.edu.pulsebuddy.sportmode.SportModeActivity;
 
 import java.util.Random;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,8 +20,7 @@ import android.widget.TextView;
  * A dummy fragment representing a section of the app, but that simply displays
  * dummy text.
  */
-public class SportModeResultFragment extends Fragment implements
-    View.OnClickListener
+public class SportModeResultFragment extends Fragment
 {
   /**
    * The fragment argument representing the section number for this fragment.
@@ -49,28 +45,11 @@ public class SportModeResultFragment extends Fragment implements
     layout = inflater.inflate( R.layout.custom_toast,
         (ViewGroup) view.findViewById( R.id.toast_layout ) );
 
-    Button buttonAgain = (Button) view.findViewById( R.id.buttonAgain );
-    buttonAgain.setOnClickListener( this );
-
     di = DataManager.getDataInterface();
 
     addData();
 
     return view;
-  }
-
-  @Override
-  public void onClick( View view )
-  {
-    switch ( view.getId() )
-    {
-      case R.id.buttonAgain:
-        Intent intent = new Intent( getActivity(), SportModeActivity.class );
-        startActivity( intent );
-        break;
-      default:
-    }
-
   }
 
   // @Tore: Hier werte aus DB abfragen und in Tabelle eintragen

@@ -32,6 +32,7 @@ public class PulsePlot implements PulseChangedListener
   // private MultitouchPlot aprHistoryPlot = null;
   private SimpleXYSeries rollHistorySeries = null;
   private TextView tv = null;
+  private DemoOptimizer dopt = null;
 
   private DataHandler ds = null;
   
@@ -114,7 +115,8 @@ public class PulsePlot implements PulseChangedListener
 
     aprHistoryPlot.redraw();
     
-    new DemoPulseGenerator().execute();
+    dopt = new DemoOptimizer();
+    dopt.execute();
   }
 
   @Override
@@ -126,18 +128,24 @@ public class PulsePlot implements PulseChangedListener
     pulseValues.add( aPulse.getValue() );
   }
   
+  public void setResume (boolean resume) {
+	  dopt.setResume(resume);
+  }
+  
   /**
-   * Demo pulse generator.
+   * pulse optimizer
    */
-  private class DemoPulseGenerator extends AsyncTask<Void, Integer, String>
+  private class DemoOptimizer extends AsyncTask<Void, Integer, String>
   {
+	public boolean resume = true;
+	  
     @Override
     protected String doInBackground( Void... params )
-    { 
+    {
       int steps = 10;
       int timeBetweenSteps = 1000 / steps;
       
-      while ( true )
+      while ( resume )
       {
         if ( nextPulse == 0 )
         {
@@ -203,6 +211,7 @@ public class PulsePlot implements PulseChangedListener
           e.printStackTrace();
         }
       }
+	return null;
     }
 
     protected void onProgressUpdate( Integer... aPulse )
@@ -218,7 +227,11 @@ public class PulsePlot implements PulseChangedListener
     @Override
     protected void onPostExecute( String result )
     {
-      
     }
+    
+    public void setResume (boolean resume) {
+  	  this.resume = resume;
+    }
+    
   }
 }

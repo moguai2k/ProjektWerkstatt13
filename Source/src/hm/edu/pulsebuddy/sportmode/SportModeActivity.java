@@ -188,4 +188,8 @@ public class SportModeActivity extends FragmentActivity implements
     }
   }
 
+  protected void onDestroy() {
+	    super.onDestroy();
+	}
+  
 }

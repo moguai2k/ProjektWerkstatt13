@@ -361,7 +361,6 @@ public class SportModeStartFragment extends Fragment implements TextToSpeech.OnI
 		@Override
 		public void onDestroy() {
 		    if (tts != null) {
-		    	tts = null;
 		        tts.stop();
 		        tts.shutdown();
 		    }

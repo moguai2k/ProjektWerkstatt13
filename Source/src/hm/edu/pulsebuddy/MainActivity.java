@@ -94,6 +94,7 @@ public class MainActivity extends Activity
             Intent dayMode = new Intent( MainActivity.this,
                 GraphDayActivity.class );
             startActivity( dayMode );
+            mDrawerLayout.closeDrawers();
             break;
           case 1:
             Intent sportMode = new Intent( MainActivity.this,
@@ -104,20 +105,24 @@ public class MainActivity extends Activity
             // falls nicht dann zum Sport Test Tab (erster Tab) springen
 
             startActivity( sportMode );
+            mDrawerLayout.closeDrawers();
             break;
           case 2:
             Intent map = new Intent( MainActivity.this, MapsActivity.class );
             startActivity( map );
+            mDrawerLayout.closeDrawers();
             break;
           case 3:
             Intent calculation = new Intent( MainActivity.this,
                 CalculationActivity.class );
             startActivity( calculation );
+            mDrawerLayout.closeDrawers();
             break;
           case 4:
             Intent calorie = new Intent( MainActivity.this,
                 CalorieCalculatorActivity.class );
             startActivity( calorie );
+            mDrawerLayout.closeDrawers();
             break;
 
           default:

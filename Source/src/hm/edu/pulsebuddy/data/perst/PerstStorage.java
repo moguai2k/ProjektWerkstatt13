@@ -22,6 +22,8 @@ import org.garret.perst.Storage;
 import org.garret.perst.StorageFactory;
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
+import org.rrd4j.core.FetchData;
+import org.rrd4j.core.FetchRequest;
 import org.rrd4j.core.RrdDb;
 import org.rrd4j.core.RrdDef;
 import org.rrd4j.core.Sample;
@@ -101,8 +103,7 @@ public class PerstStorage
 
       /* Sun Jan 11 1970 16:46:44 GMT+0100 (CET) */
       rrdDef.setStartTime( 920804400L );
-      rrdDef.addDatasource( "pulse", DsType.COUNTER, 600, Double.NaN,
-          Double.NaN );
+      rrdDef.addDatasource( "pulse", DsType.GAUGE, 2, Double.NaN, Double.NaN );
       /* one averages the data every time it is read (e.g. there's nothing to
        * average) and keeps 24 samples (24 times 5 minutes is 2 hours) */
       rrdDef.addArchive( ConsolFun.AVERAGE, 0.5, 1, 24 );
@@ -160,8 +161,28 @@ public class PerstStorage
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    
+    long startTime = date - ( 12 * 60 * 60L );
+    FetchRequest fetchRequest = rrdDb.createFetchRequest( ConsolFun.MAX,
+        startTime, date );
+    Log.d( TAG, fetchRequest.dump() );
 
     return success;
+  }
+  
+  /**
+   * Returns all pulses.
+   * 
+   * @return All available pulses.
+   */
+  public ArrayList<Pulse> getAllPulses()
+  {
+    ArrayList<Pulse> pulses = new ArrayList<Pulse>();
+    Iterator<Pulse> it = root.pulses.iterator();
+    Log.d( TAG, "Get all pulses, size: " + root.pulses.size() );
+    while ( it.hasNext() )
+      pulses.add( (Pulse) it.next() );
+    return pulses;
   }
 
   /**
@@ -354,7 +375,8 @@ public class PerstStorage
   /**
    * Add a coconi test result to the database.
    * 
-   * @param aCoconiResult The result object.
+   * @param aCoconiResult
+   *          The result object.
    * @return True on success, false otherwise.
    */
   public Boolean addCoconiResult( CoconiResultModel aCoconiResult )
@@ -374,7 +396,8 @@ public class PerstStorage
   {
     ArrayList<CoconiResultModel> results = new ArrayList<CoconiResultModel>();
     Iterator<CoconiResultModel> it = root.coconiResult.iterator();
-    Log.d( TAG, "Get all coconi test results, size: " + root.coconiResult.size() );
+    Log.d( TAG,
+        "Get all coconi test results, size: " + root.coconiResult.size() );
     while ( it.hasNext() )
       results.add( (CoconiResultModel) it.next() );
     return results;

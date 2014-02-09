@@ -4,13 +4,19 @@ import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.common.DatePickerFragment;
 import hm.edu.pulsebuddy.common.DatePickerFragment.DateListener;
+import hm.edu.pulsebuddy.data.DataHandler;
+import hm.edu.pulsebuddy.data.DataInterface;
+import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.data.models.Pulse;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
@@ -48,6 +54,12 @@ public class GraphDayActivity extends FragmentActivity implements
   private PointF maxXY;
   final String startDateTag = "startDateTag";
   final String endDateTag = "endDateTag";
+  
+  /* NEW */
+  private DataInterface di;
+  private DataHandler dh;
+  private ArrayList<Pulse> mPulses;
+
 
   public void onCreate( Bundle savedInstanceState )
   {
@@ -88,7 +100,6 @@ public class GraphDayActivity extends FragmentActivity implements
     series = new SimpleXYSeries[ 1 ];
     int scale = 200;
     series[ 0 ] = new SimpleXYSeries( "S" );
-    populateSeries( series[ 0 ], scale );
     aprHistoryPlot.addSeries(
         series[ 0 ],
         new LineAndPointFormatter( Color.rgb( 0, 0, 0 ), null, Color.rgb( 255,
@@ -99,6 +110,12 @@ public class GraphDayActivity extends FragmentActivity implements
         aprHistoryPlot.getCalculatedMinY().floatValue() );
     maxXY = new PointF( aprHistoryPlot.getCalculatedMaxX().floatValue(),
         aprHistoryPlot.getCalculatedMaxY().floatValue() );
+    
+    dh = DataManager.getStorageInstance();
+    di = DataManager.getDataInterface();
+    mPulses = di.getAllPulses();
+    
+    populateSeries( series[ 0 ], 0 );
   }
 
   @Override
@@ -132,11 +149,21 @@ public class GraphDayActivity extends FragmentActivity implements
 
   private void populateSeries( SimpleXYSeries series, int max )
   {
+    if ( mPulses.size() > 0 )
+    {
+      for ( Pulse p : mPulses )
+      {
+        series.addLast( p.getTime(), p.getValue() );
+      }
+    }
+    
+    /*
     Random r = new Random();
     for ( int i = 0; i < SERIES_SIZE; i++ )
     {
       series.addLast( i, r.nextInt( max ) );
     }
+    */
   }
 
   static final int NONE = 0;

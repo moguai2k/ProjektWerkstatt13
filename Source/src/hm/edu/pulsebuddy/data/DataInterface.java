@@ -4,6 +4,7 @@ import hm.edu.pulsebuddy.data.listeners.ActivityListener;
 import hm.edu.pulsebuddy.data.models.ActivityModel;
 import hm.edu.pulsebuddy.data.models.CoconiResultModel;
 import hm.edu.pulsebuddy.data.models.LocationModel;
+import hm.edu.pulsebuddy.data.models.Pulse;
 import hm.edu.pulsebuddy.data.models.UserModel;
 import hm.edu.pulsebuddy.data.perst.PerstStorage;
 import hm.edu.pulsebuddy.location.LocationUtils;
@@ -32,6 +33,23 @@ public class DataInterface implements ActivityListener
   {
     perst = aPerstStoreage;
   }
+  
+  /****************************************************************************
+   * 
+   * Pulse related
+   * 
+   ***************************************************************************/
+  
+  /**
+   * Return all available pulse values.
+   * 
+   * @return All available pulse values.
+   */
+  public ArrayList<Pulse> getAllPulses()
+  {
+    return perst.getAllPulses();
+  }
+  
 
   /****************************************************************************
    * 

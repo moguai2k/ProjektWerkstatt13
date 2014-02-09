@@ -74,6 +74,7 @@
             android:text="@string/sport_mode_note_warning" />
     </LinearLayout>
 
+    
     <Button
         android:id="@+id/buttonStartSportTest"
         style="@style/ButtonsMenuSmall"
@@ -82,5 +83,14 @@
         android:layout_alignLeft="@+id/buttonStop"
         android:layout_alignParentBottom="true"
         android:text="@string/sport_mode_go" />
+
+    <Button
+        android:id="@+id/buttonChange"
+        style="@style/ButtonsMenuSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonStop"
+        android:layout_above="@+id/buttonStop"
+        android:text="@string/sport_mode_demo" />
 
 </RelativeLayout>

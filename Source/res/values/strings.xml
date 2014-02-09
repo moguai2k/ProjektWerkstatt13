@@ -96,6 +96,7 @@
     <string name="sport_mode_again">Sport Test nochmal</string>
     <string name="sport_mode_historie_heading_date">Datum</string>
     <string name="sport_mode_historie_heading_value">Ergebnis</string>
+    <string name="sport_mode_demo">Tempo ändern</string>
 
     <!-- Misc -->
     <string name="help_txt">Hier werden ab Februar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>

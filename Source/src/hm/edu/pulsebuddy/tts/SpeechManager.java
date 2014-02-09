@@ -6,7 +6,7 @@ public class SpeechManager
 {
   private static SpeechOutput spInstance;
   
-  public static SpeechOutput getSpeechInstance(Context context){
+  public SpeechOutput getSpeechInstance(Context context){
     if( spInstance == null ){
       spInstance = new SpeechOutput( context ); 
     }

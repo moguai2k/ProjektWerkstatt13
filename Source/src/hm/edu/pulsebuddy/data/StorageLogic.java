@@ -37,10 +37,7 @@ public class StorageLogic
       return true;
     }
     else
-    {
-      this.lastPulseValue = aPulseValue;
       return false;
-    }
   }
 
   /**
@@ -48,7 +45,7 @@ public class StorageLogic
    * 
    * @param aActivity
    *          the activity to be checked.
-   * @return true if it should be saved, false otehrwise.
+   * @return true if it should be saved, false otherwise.
    */
   public Boolean activityToBeSaved( ActivityModel aActivity )
   {

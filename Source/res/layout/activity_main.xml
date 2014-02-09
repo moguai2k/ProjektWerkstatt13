@@ -69,9 +69,12 @@
                 androidPlot.graphWidget.marginRight="10dp"
                 androidPlot.graphWidget.marginTop="20dp"
                 androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/range_tick_label_font_size"
+                androidPlot.graphWidget.rangeOriginLabelPaint.textSize="@dimen/range_tick_label_font_size"             
                 androidPlot.rangeLabelWidget.labelPaint.color="@color/red"
                 androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
-                androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size"
+                androidPlot.titleWidget.labelPaint.textSize="@dimen/range_label_font_size"
+                androidPlot.graphWidget.gridLinePaint.color="@color/red"
+                androidPlot.titleWidget.labelPaint.color="@color/red"
                 androidplot.renderMode="use_background_thread" />
         </LinearLayout>
 

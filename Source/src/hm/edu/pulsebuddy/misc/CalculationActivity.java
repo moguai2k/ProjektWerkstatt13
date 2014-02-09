@@ -26,7 +26,9 @@ public class CalculationActivity extends Activity
     super.onCreate( savedInstanceState );
     setContentView( R.layout.calculation );
     getActionBar().setDisplayHomeAsUpEnabled( true );
-
+    
+//    getActionBar().setHomeButtonEnabled( true );
+    
     di = DataManager.getDataInterface();
     user = di.getUserInstance();
 

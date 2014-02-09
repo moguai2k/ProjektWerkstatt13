@@ -10,8 +10,9 @@
         android:layout_height="200dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:contentDescription="@string/hello_world"
-        android:src="@drawable/pbbig" />
+        android:src="@drawable/ic_pb_big" />
 
     <TextView
         android:id="@+id/editText1"

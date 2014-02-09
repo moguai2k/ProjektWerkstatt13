@@ -16,7 +16,7 @@
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="unknown_service">Unknown service</string>
     <string name="zero_pulse">0</string>
-    <string name="maps">Location / Activity</string>
+    <string name="maps">Activity Mode</string>
     <string name="maptype">Ändere Kartenart</string>
     <string name="graph_day">Zeige Tagesanzeige</string>
     <string name="reset">Reset</string>
@@ -35,7 +35,7 @@
     <string name="menu_stop">Stop</string>
     <string name="help">Hilfe</string>
     <string name="settings">Einstellungen</string>
-    <string name="calculation">Berechnung</string>
+    <string name="calculation">Calculation Mode</string>
     <string name="calibration">Kalibrierung</string>
     <string name="calorieCalculator">Kalorienrechner</string>
     <string name="home">Startseite</string>
@@ -99,7 +99,7 @@
     <string name="sport_mode_demo">Tempo ändern</string>
 
     <!-- Misc -->
-    <string name="help_txt">Hier werden ab Februar 2014 Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
+    <string name="help_txt">Hier werden ab Release Informationen rund um die Funktionalität \nund die Verwendung von <b>PulseBuddy</b> zur Verfügung gestellt. \n\nWeitere Informationen unter <a ref="http://www.pulsebuddy.de">http://www.pulsebuddy.de</a></string>
 
     <!-- calorie calculator -->
     <string name="calorie_calculator_note">Wähle dein heutiges Essen aus:</string>
@@ -111,7 +111,7 @@
     <string name="calorie_calculator_dessert">Nachspeise</string>
     <string name="calorie_calculator_dessert_value">(300 kcal)</string>
     <string name="calorie_calculator_basal_metabolism">Grundumsatz:</string>
-    <string name="calorie_calculator_current">Aktuell:</string>
+    <string name="calorie_calculator_current">Kalorien aktuell:</string>
     <string name="calorie_calculator_basal_metabolism_value">0 kcal</string>
     <string name="calorie_calculator_current_value">0 kcal</string>
 
@@ -119,9 +119,8 @@
     <string-array name="menu_array">
         <item>Day Mode</item>
         <item>Sport Mode</item>
-        <item>Karte</item>
-        <item>Berechnung</item>
-        <item>Kalorienrechner</item>
+        <item>Activity Mode</item>
+        <item>Calculation Mode</item>
     </string-array>
 
     <string name="drawer_open">Wähle im Menü</string>

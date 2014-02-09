@@ -3,9 +3,7 @@ package hm.edu.pulsebuddy.misc;
 import hm.edu.pulsebuddy.R;
 import hm.edu.pulsebuddy.common.RunningState;
 import hm.edu.pulsebuddy.data.DataInterface;
-
 import java.util.Locale;
-
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
@@ -24,7 +22,6 @@ import android.widget.TextView;
  */
 public class SportModeStartFragment extends Fragment implements TextToSpeech.OnInitListener
 {
-
   private DataInterface di;
 
   /**
@@ -44,6 +41,7 @@ public class SportModeStartFragment extends Fragment implements TextToSpeech.OnI
   {
     rootView = inflater.inflate( R.layout.fragment_sport_test_start, container,
         false );
+    
     Button buttonStop = (Button) rootView.findViewById( R.id.buttonStop );
     buttonStop.setOnClickListener( stopButtonClicked );
     buttonStop.setVisibility( View.INVISIBLE );
@@ -56,8 +54,8 @@ public class SportModeStartFragment extends Fragment implements TextToSpeech.OnI
         .findViewById( R.id.buttonStartSportTest );
     startSportTestButton.setOnClickListener( startButtonClicked );
     
-    tts = new TextToSpeech(getActivity(), this);
-
+    tts = new TextToSpeech(getActivity(), this); 
+    
     // TODO @Team methode ersetzten mit echten Hinweisen (schneller, Tempo
     // halten, langsamer) f��r den L��ufer
     dummySetRunningState();
@@ -318,24 +316,9 @@ public class SportModeStartFragment extends Fragment implements TextToSpeech.OnI
   private static final String walkFaster = "Laufe etwas schneller!";
   private static final String walkSlower = "Laufe etwas langsamer!";
   private static final String holdSpeed = "Halte dein Tempo!";
+  private boolean ttsInitialized = false;
   
-  public void onInit(int status) {
-	  
-      if (status == TextToSpeech.SUCCESS) {
-
-          int result = tts.setLanguage(Locale.GERMAN);
-
-          if (result == TextToSpeech.LANG_MISSING_DATA
-                  || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-              Log.e("TTS", "This Language is not supported");
-          }
-      } else {
-          Log.e("TTS", "Initilization Failed!");
-      }
-
-  }
-  
-  public void walkFaster(){
+	  public void walkFaster(){
 	    sayText( walkFaster );
 	  }
 	  
@@ -356,16 +339,32 @@ public class SportModeStartFragment extends Fragment implements TextToSpeech.OnI
 	  }
 	  
 	  public void sayText(String text) {
-	      tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+		if(ttsInitialized)
+	      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null); //QUEUE_ADD
 	  }
 	  
-	    @Override
-	    public void onDestroy() {
-	        if (tts != null) {
-	            tts.stop();
-	            tts.shutdown();
-	        }
-	        super.onDestroy();
-	    }
-
+		@Override
+		public void onInit(int status) {
+		    if (status == TextToSpeech.SUCCESS) {
+		    	ttsInitialized = true;
+		        int result = tts.setLanguage(Locale.GERMAN);
+		        Log.d("TTS", "Text-To-Speech engine is Ready");
+		        
+		        if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+		          Log.e("TTS", "Language not supported, or missing language Data.");
+		        }
+		      } else {
+		    	  Log.e("TTS", "Initilization Failed!");
+		      }
+		}
+	  
+		@Override
+		public void onDestroy() {
+		    if (tts != null) {
+		    	tts = null;
+		        tts.stop();
+		        tts.shutdown();
+		    }
+		    super.onDestroy();
+		}
 }

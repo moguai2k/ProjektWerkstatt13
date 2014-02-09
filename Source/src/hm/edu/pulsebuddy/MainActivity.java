@@ -11,7 +11,6 @@ import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.CalculationActivity;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
-import hm.edu.pulsebuddy.misc.CalorieCalculatorActivity;
 import hm.edu.pulsebuddy.misc.Help;
 import hm.edu.pulsebuddy.misc.MapsActivity;
 import hm.edu.pulsebuddy.misc.SettingsActivity;
@@ -116,12 +115,6 @@ public class MainActivity extends Activity
             Intent calculation = new Intent( MainActivity.this,
                 CalculationActivity.class );
             startActivity( calculation );
-            mDrawerLayout.closeDrawers();
-            break;
-          case 4:
-            Intent calorie = new Intent( MainActivity.this,
-                CalorieCalculatorActivity.class );
-            startActivity( calorie );
             mDrawerLayout.closeDrawers();
             break;
 

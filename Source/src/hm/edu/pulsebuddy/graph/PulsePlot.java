@@ -76,12 +76,12 @@ public class PulsePlot implements PulseChangedListener
     // aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
     // aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
     
-    aprHistoryPlot.getGraphWidget().getRangeOriginLinePaint()
+    aprHistoryPlot.getGraphWidget().getRangeOriginLinePaint() //lines
     .setColor( Color.rgb( 192, 192, 192 ) );
-    aprHistoryPlot.getGraphWidget().getRangeOriginLabelPaint()
-    .setColor( Color.rgb( 204, 0, 0 ) );
-    aprHistoryPlot.getGraphWidget().getRangeLabelPaint()
-    .setColor( Color.rgb( 204, 0, 0 ) );
+    aprHistoryPlot.getGraphWidget().getRangeOriginLabelPaint() //label/line zero
+    .setColor( Color.rgb( 192, 192, 192 ) );
+    aprHistoryPlot.getGraphWidget().getRangeLabelPaint() //labeles
+    .setColor( Color.rgb( 192, 192, 192 ) );
 
     aprHistoryPlot.setRangeBoundaries( 25, PULSE, BoundaryMode.FIXED );
     aprHistoryPlot.setDomainBoundaries( 0, SECONDS, BoundaryMode.FIXED );

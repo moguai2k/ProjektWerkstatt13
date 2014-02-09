@@ -120,8 +120,8 @@
         <item>Day Mode</item>
         <item>Sport Mode</item>
         <item>Karte</item>
-        <item>Kalorienrechner</item>
         <item>Berechnung</item>
+        <item>Kalorienrechner</item>
     </string-array>
 
     <string name="drawer_open">Wähle im Menü</string>

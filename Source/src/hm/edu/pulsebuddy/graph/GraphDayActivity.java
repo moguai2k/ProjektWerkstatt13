@@ -1,8 +1,12 @@
 package hm.edu.pulsebuddy.graph;
 
 import hm.edu.pulsebuddy.R;
+import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.common.DatePickerFragment;
 import hm.edu.pulsebuddy.common.DatePickerFragment.DateListener;
+import hm.edu.pulsebuddy.misc.CalibrationActivity;
+import hm.edu.pulsebuddy.misc.Help;
+import hm.edu.pulsebuddy.misc.SettingsActivity;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -10,12 +14,17 @@ import java.util.Calendar;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
 import android.util.FloatMath;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -26,6 +35,7 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
+import com.google.android.gms.maps.GoogleMap;
 
 public class GraphDayActivity extends FragmentActivity implements
     OnTouchListener, DateListener
@@ -43,20 +53,6 @@ public class GraphDayActivity extends FragmentActivity implements
   {
     super.onCreate( savedInstanceState );
     setContentView( R.layout.graph_day );
-    resetButton = (Button) findViewById( R.id.resetButton );
-    resetButton.setOnClickListener( new View.OnClickListener()
-    {
-      @Override
-      public void onClick( View view )
-      {
-        minXY.x = series[ 0 ].getX( 0 ).floatValue();
-        maxXY.x = series[ 0 ].getX( series[ 0 ].size() - 1 ).floatValue();
-        aprHistoryPlot.setDomainBoundaries( minXY.x, maxXY.x,
-            BoundaryMode.FIXED );
-
-        aprHistoryPlot.redraw();
-      }
-    } );
     aprHistoryPlot = (XYPlot) findViewById( R.id.dayGraphPlot );
     aprHistoryPlot.setOnTouchListener( this );
     aprHistoryPlot.getGraphWidget().setTicksPerRangeLabel( 2 );
@@ -103,6 +99,35 @@ public class GraphDayActivity extends FragmentActivity implements
         aprHistoryPlot.getCalculatedMinY().floatValue() );
     maxXY = new PointF( aprHistoryPlot.getCalculatedMaxX().floatValue(),
         aprHistoryPlot.getCalculatedMaxY().floatValue() );
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu( Menu menu )
+  {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate( R.menu.day_menu, menu );
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected( MenuItem item )
+  {
+    switch ( item.getItemId() )
+    {
+      case R.id.reset_graph:
+        resetGraph();
+      default:
+        return super.onOptionsItemSelected( item );
+    }
+  }
+
+  private void resetGraph()
+  {
+    minXY.x = series[ 0 ].getX( 0 ).floatValue();
+    maxXY.x = series[ 0 ].getX( series[ 0 ].size() - 1 ).floatValue();
+    aprHistoryPlot.setDomainBoundaries( minXY.x, maxXY.x, BoundaryMode.FIXED );
+
+    aprHistoryPlot.redraw();
   }
 
   private void populateSeries( SimpleXYSeries series, int max )

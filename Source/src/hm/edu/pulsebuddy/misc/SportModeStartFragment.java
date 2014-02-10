@@ -311,7 +311,7 @@ public class SportModeStartFragment extends Fragment implements TextToSpeech.OnI
   
   //TTS
   private TextToSpeech tts = null;
-  private static final String testStart = "Der Test beginnt! Laufe bitte los!";
+  private static final String testStart = "Der Test beginnt jetzt! Laufe bitte los!";
   private static final String testEnd = "Das wars, der Test ist vorbei!";
   private static final String walkFaster = "Laufe etwas schneller!";
   private static final String walkSlower = "Laufe etwas langsamer!";

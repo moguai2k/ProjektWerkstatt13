@@ -32,12 +32,12 @@ public class PulsePlot implements PulseChangedListener
   // private MultitouchPlot aprHistoryPlot = null;
   private SimpleXYSeries rollHistorySeries = null;
   private TextView tv = null;
-  private DemoOptimizer dopt = null;
+  private PulseOptimizer dopt = null;
 
   private DataHandler ds = null;
-
+  
   private Queue<Integer> pulseValues = new LinkedList<Integer>();
-
+  
   private double lastPulse = 0;
   private double nextPulse = 0;
 
@@ -60,7 +60,7 @@ public class PulsePlot implements PulseChangedListener
   {
     rollHistorySeries = new SimpleXYSeries( "Puls" );
     rollHistorySeries.useImplicitXVals();
-
+    
     aprHistoryPlot.setDrawDomainOriginEnabled( false );
     aprHistoryPlot.setBackgroundPaint( null );
     aprHistoryPlot.getGraphWidget().setBackgroundPaint( null );
@@ -69,21 +69,20 @@ public class PulsePlot implements PulseChangedListener
     aprHistoryPlot.getGraphWidget().setDomainOriginLabelPaint( null );
     aprHistoryPlot.getGraphWidget().setDomainGridLinePaint( null );
     aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint( null );
-    // aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint( null );
-
-    // aprHistoryPlot.getGraphWidget().setTicksPerRangeLabel( 2 ); 1 ... 3 ... 5
+    //aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint( null );
+    
+    //aprHistoryPlot.getGraphWidget().setTicksPerRangeLabel( 2 ); 1 ... 3 ... 5
     aprHistoryPlot.getGraphWidget().setRangeLabelWidth( 50 );
 
     // aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
     // aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
-
-    aprHistoryPlot.getGraphWidget().getRangeOriginLinePaint() // lines
-        .setColor( Color.rgb( 192, 192, 192 ) );
-    aprHistoryPlot.getGraphWidget().getRangeOriginLabelPaint() // label/line
-                                                               // zero
-        .setColor( Color.rgb( 192, 192, 192 ) );
-    aprHistoryPlot.getGraphWidget().getRangeLabelPaint() // labeles
-        .setColor( Color.rgb( 192, 192, 192 ) );
+    
+    aprHistoryPlot.getGraphWidget().getRangeOriginLinePaint() //lines
+    .setColor( Color.rgb( 192, 192, 192 ) );
+    aprHistoryPlot.getGraphWidget().getRangeOriginLabelPaint() //label/line zero
+    .setColor( Color.rgb( 192, 192, 192 ) );
+    aprHistoryPlot.getGraphWidget().getRangeLabelPaint() //labeles
+    .setColor( Color.rgb( 192, 192, 192 ) );
 
     aprHistoryPlot.setRangeBoundaries( 25, PULSE, BoundaryMode.FIXED );
     aprHistoryPlot.setDomainBoundaries( 0, SECONDS, BoundaryMode.FIXED );
@@ -103,7 +102,7 @@ public class PulsePlot implements PulseChangedListener
     aprHistoryPlot.setDomainValueFormat( new DecimalFormat( "#" ) );
 
     // aprHistoryPlot.setTicksPerRangeLabel(3);
-    // aprHistoryPlot.setDomainLabel( "Zeit" );
+    //aprHistoryPlot.setDomainLabel( "Zeit" );
     aprHistoryPlot.getDomainLabelWidget().pack();
     aprHistoryPlot.setRangeLabel( "Puls" );
     aprHistoryPlot.getRangeLabelWidget().pack();
@@ -115,9 +114,8 @@ public class PulsePlot implements PulseChangedListener
     redrawer.start();
 
     aprHistoryPlot.redraw();
-
-    dopt = null;
-    dopt = new DemoOptimizer();
+    
+    dopt = new PulseOptimizer();
     dopt.execute();
   }
 
@@ -126,28 +124,27 @@ public class PulsePlot implements PulseChangedListener
   {
     if ( rollHistorySeries.size() > SECONDS )
       rollHistorySeries.removeFirst();
-
+      
     pulseValues.add( aPulse.getValue() );
   }
-
-  public void setResume( boolean resume )
-  {
-    dopt.setResume( resume );
+  
+  public void setResume (boolean resume) {
+	  dopt.setResume(resume);
   }
-
+  
   /**
    * pulse optimizer
    */
-  private class DemoOptimizer extends AsyncTask<Void, Integer, String>
+  private class PulseOptimizer extends AsyncTask<Void, Integer, String>
   {
-    public boolean resume = true;
-
+	public boolean resume = true;
+	  
     @Override
     protected String doInBackground( Void... params )
     {
       int steps = 10;
       int timeBetweenSteps = 1000 / steps;
-
+      
       while ( resume )
       {
         if ( nextPulse == 0 )
@@ -160,16 +157,15 @@ public class PulsePlot implements PulseChangedListener
           if ( pulseValues.peek() != null )
           {
             double avgPulseSteps = 0.0;
-
+            
             lastPulse = nextPulse;
             nextPulse = pulseValues.poll();
             double currentPulse = lastPulse;
-
-            int minPulse = (int) ( (int) ( lastPulse / 10 ) * 10 ) - 25;
-            int maxPulse = (int) ( (int) ( lastPulse / 10 ) * 10 ) + 25;
-            aprHistoryPlot.setRangeBoundaries( minPulse, maxPulse,
-                BoundaryMode.FIXED );
-
+            
+            int minPulse = (int) ( (int) (lastPulse / 10) * 10 ) -25;
+            int maxPulse = (int) ( (int) (lastPulse / 10) * 10 ) +25; 
+            aprHistoryPlot.setRangeBoundaries( minPulse, maxPulse, BoundaryMode.FIXED );
+                 
             if ( nextPulse > lastPulse )
             { // +pulse
               avgPulseSteps = ( nextPulse - lastPulse ) / steps;
@@ -178,8 +174,8 @@ public class PulsePlot implements PulseChangedListener
             { // -pulse
               avgPulseSteps = ( lastPulse - nextPulse ) / steps;
             }
-
-            publishProgress( (int) currentPulse );
+            
+            publishProgress((int)currentPulse);
 
             for ( int i = 0; i < 9; i++ )
             {
@@ -191,18 +187,17 @@ public class PulsePlot implements PulseChangedListener
               { // -pulse
                 currentPulse -= avgPulseSteps;
               }
-
+              
               publishProgress( (int) ( (double) Math.round( currentPulse * 10 ) / 10 ) );
-
+              
               try
               {
                 Thread.sleep( timeBetweenSteps );
               }
               catch ( InterruptedException e )
               {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-              }
+            	  //
+              }     
             }
           }
         }
@@ -215,29 +210,27 @@ public class PulsePlot implements PulseChangedListener
           e.printStackTrace();
         }
       }
-      return null;
+	return null;
     }
 
     protected void onProgressUpdate( Integer... aPulse )
     {
       tv.setText( "" + aPulse[ 0 ] );
-
+      
       if ( rollHistorySeries.size() > SECONDS )
         rollHistorySeries.removeFirst();
-
-      rollHistorySeries.addLast( null,
-          (int) ( (double) Math.round( aPulse[ 0 ] * 10 ) / 10 ) );
+      
+      rollHistorySeries.addLast( null, (int) ( (double) Math.round( aPulse[ 0 ] * 10 ) / 10 ) );
     }
 
     @Override
     protected void onPostExecute( String result )
     {
     }
-
-    public void setResume( boolean resume )
-    {
-      this.resume = resume;
+    
+    public void setResume (boolean resume) {
+  	  this.resume = resume;
     }
-
+    
   }
 }

@@ -9,7 +9,6 @@ import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
-import hm.edu.pulsebuddy.graph.DaymodeActivity;
 import hm.edu.pulsebuddy.misc.CalculationActivity;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
 import hm.edu.pulsebuddy.misc.Help;
@@ -67,7 +66,7 @@ public class MainActivity extends Activity
     super.onCreate( savedInstanceState );
 
     setContentView( R.layout.activity_main );
-    // ThreadControl tControl = new ThreadControl();
+    //ThreadControl tControl = new ThreadControl();
 
     mMenuTitles = getResources().getStringArray( R.array.menu_array );
     mDrawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
@@ -93,16 +92,11 @@ public class MainActivity extends Activity
         switch ( position )
         {
           case 0:
-            //Intent dayMode = new Intent( MainActivity.this,
-            //    GraphDayActivity.class );
-            
             Intent dayMode = new Intent( MainActivity.this,
-                DaymodeActivity.class );
-            
+                GraphDayActivity.class );
             startActivity( dayMode );
             mDrawerLayout.closeDrawers();
             break;
-            
           case 1:
             Intent sportMode = new Intent( MainActivity.this,
                 SportModeActivity.class );
@@ -128,6 +122,7 @@ public class MainActivity extends Activity
 
           default:
         }
+
       }
     }
 
@@ -168,13 +163,11 @@ public class MainActivity extends Activity
     /* Data interface. */
     di = ds.getDataInterface();
 
-    XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
+    //XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
     // MultitouchPlot aprHistoryPlot = (MultitouchPlot)
     // findViewById(R.id.aprHistoryPlot);
-    TextView tv = (TextView) findViewById( R.id.currentPulse );
-
-    mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
-    mainPlot.setResume( true );
+    //TextView tv = (TextView) findViewById( R.id.currentPulse );
+    //mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
   }
 
   @Override
@@ -232,7 +225,9 @@ public class MainActivity extends Activity
   public void onResume()
   {
     super.onResume();
-    mainPlot.setResume( true );
+    XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
+    TextView tv = (TextView) findViewById( R.id.currentPulse );
+    mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
     if ( redrawer != null )
       redrawer.start();
   }
@@ -242,7 +237,7 @@ public class MainActivity extends Activity
   {
     if ( redrawer != null )
       redrawer.pause();
-    mainPlot.setResume( false );
+    mainPlot.setResume(false);
     super.onPause();
   }
 
@@ -250,7 +245,7 @@ public class MainActivity extends Activity
   public void onDestroy()
   {
     Log.d( TAG, "onDestroy" );
-    mainPlot.setResume( false );
+    mainPlot.setResume(false);
     if ( redrawer != null )
       redrawer.finish();
 

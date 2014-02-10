@@ -6,6 +6,7 @@ import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.listeners.ActivityListener;
 import hm.edu.pulsebuddy.data.models.ActivityModel;
 import hm.edu.pulsebuddy.data.models.LocationModel;
+import hm.edu.pulsebuddy.data.models.Pulse;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,7 @@ public class MapsActivity extends Activity implements ActivityListener
     map = ( (MapFragment) getFragmentManager().findFragmentById( R.id.map ) )
         .getMap();
 
+    /*
     ArrayList<LocationModel> locations = di
         .getAllLocations( DISTANCE_BETWEEN_LOCATIONS );
     for ( int i = 0; i < locations.size(); i++ )
@@ -68,6 +70,7 @@ public class MapsActivity extends Activity implements ActivityListener
       if ( l != null )
         setLocationOnMap( l, "Location " + i + " " );
     }
+    */
 
     /* LocationModel l = di.getLastLocation( 0 ); if ( l != null )
      * setLocationOnMap( l, null ); else { map.moveCamera(
@@ -139,9 +142,13 @@ public class MapsActivity extends Activity implements ActivityListener
   public void handleRelevantActivity( ActivityModel aActivity )
   {
     String[] values = di.getLastActivities( NUMBER_ACTITIY_ENTRIES );
+
+    ArrayList<Pulse> pulses = di.getAllPulses();
+    Pulse last = pulses.get( pulses.size() - 1 );
+
     adapter.setValues( values );
-    setLocationOnMap( di.getLastLocation( 5 ),
-        values[ 0 ] );
+    setLocationOnMap( di.getLastLocation( 0 ),
+        values[ 0 ] + ", Pulse: " + last.getValue() );
   }
 
   private class MapsAdapter extends BaseAdapter

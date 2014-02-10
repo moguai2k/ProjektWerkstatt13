@@ -7,6 +7,7 @@ import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
+import hm.edu.pulsebuddy.graph.DaymodeActivity;
 import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.CalculationActivity;
@@ -93,7 +94,7 @@ public class MainActivity extends Activity
         {
           case 0:
             Intent dayMode = new Intent( MainActivity.this,
-                GraphDayActivity.class );
+                DaymodeActivity.class );
             startActivity( dayMode );
             mDrawerLayout.closeDrawers();
             break;

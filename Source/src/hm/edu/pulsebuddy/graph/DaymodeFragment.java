@@ -91,14 +91,15 @@ public class DaymodeFragment extends Fragment implements OnClickListener {
 		mDataset = new XYMultipleSeriesDataset();
 		mRenderer = new XYMultipleSeriesRenderer();
 
-		mRenderer.setLabelsColor(Color.RED);
-		mRenderer.setAxesColor(Color.RED);
-		mRenderer.setGridColor(Color.rgb(136, 136, 136));
+		mRenderer.setLabelsColor(Color.BLACK);
+		mRenderer.setAxesColor(Color.BLACK);
+		//mRenderer.setGridColor(Color.rgb(136, 136, 136));
 		mRenderer.setBackgroundColor(Color.WHITE);
 		mRenderer.setApplyBackgroundColor(true);
 
 		mRenderer.setMarginsColor(Color.WHITE);
-		mRenderer.setXLabelsColor(Color.RED);
+		mRenderer.setXLabelsColor(Color.BLACK);
+		mRenderer.setYLabelsColor(0,Color.BLACK);
 
 		mRenderer.setLegendTextSize(20);
 		mRenderer.setLabelsTextSize(20);
@@ -149,7 +150,7 @@ public class DaymodeFragment extends Fragment implements OnClickListener {
 		mViewZoomOut.setOnClickListener(this);
 		mViewZoomReset.setOnClickListener(this);
 
-		pulseSeries = new TimeSeries("Saved Pulses");
+		pulseSeries = new TimeSeries("Pulse");
 		if (mPulses.size() > 0) {
 			for (Pulse p : mPulses) {
 				pulseSeries.add(new Date(p.getTime()), p.getValue());
@@ -157,10 +158,11 @@ public class DaymodeFragment extends Fragment implements OnClickListener {
 		}
 		mDataset.addSeries(pulseSeries);
 
+		//graph itself
 		XYSeriesRenderer pulseRenderer = new XYSeriesRenderer();
 		pulseRenderer.setDisplayChartValues(true);
 		pulseRenderer.setChartValuesTextSize(25);
-		pulseRenderer.setPointStyle(PointStyle.DIAMOND);
+		pulseRenderer.setPointStyle(PointStyle.CIRCLE);
 		pulseRenderer.setColor(Color.RED);
 		pulseRenderer.setFillPoints(true);
 		pulseRenderer.setLineWidth(3);

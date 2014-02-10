@@ -6,7 +6,6 @@ package hm.edu.pulsebuddy.common;
  * @author josefbichlmeier
  * 
  */
-public enum RunningState
-{
-  faster, keep, slower
+public enum RunningState {
+	faster, keep, slower
 }

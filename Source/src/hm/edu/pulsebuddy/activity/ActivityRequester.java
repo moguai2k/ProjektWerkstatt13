@@ -23,190 +23,169 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.ActivityRecognitionClient;
 
 public class ActivityRequester implements ConnectionCallbacks,
-    OnConnectionFailedListener
-{
-  private static final String TAG = "activity.activityRequester";
+		OnConnectionFailedListener {
+	private static final String TAG = "activity.activityRequester";
 
-  private Context context;
+	private Context context;
 
-  /* The Google Play Services Activity Client */
-  private ActivityRecognitionClient activityClient;
+	/* The Google Play Services Activity Client */
+	private ActivityRecognitionClient activityClient;
 
-  /* The current pending intent */
-  private PendingIntent pIntent;
+	/* The current pending intent */
+	private PendingIntent pIntent;
 
-  /* Detection intervall in millis */
-  private static final int detectionIntervalMillis = 5000;
+	/* Detection intervall in millis */
+	private static final int detectionIntervalMillis = 5000;
 
-  private Boolean isConnected = false;
-  
-  private LocalBroadcastManager locBroadcastManager;
+	private Boolean isConnected = false;
 
-  private List<ActivityChangedListener> _listeners = new ArrayList<ActivityChangedListener>();
+	private LocalBroadcastManager locBroadcastManager;
 
-  /**
-   * Constructor
-   * 
-   * @param context
-   *          the application context.
-   */
-  public ActivityRequester( Context context )
-  {
-    /* The application context. */
-    this.context = context;
+	private List<ActivityChangedListener> _listeners = new ArrayList<ActivityChangedListener>();
 
-    /* Create a new activity client, using this class to handle the callbacks. */
-    activityClient = new ActivityRecognitionClient( this.context, this, this );
+	/**
+	 * Constructor
+	 * 
+	 * @param context
+	 *            the application context.
+	 */
+	public ActivityRequester(Context context) {
+		/* The application context. */
+		this.context = context;
 
-    activityClient.connect();
-    
-    locBroadcastManager = LocalBroadcastManager.getInstance( context );
-  }
+		/*
+		 * Create a new activity client, using this class to handle the
+		 * callbacks.
+		 */
+		activityClient = new ActivityRecognitionClient(this.context, this, this);
 
-  /**
-   * TEST
-   */
-  public void stopRequester()
-  {
-    LocalBroadcastManager.getInstance( this.context ).unregisterReceiver(
-        messageReceiver );
-  }
+		activityClient.connect();
 
-  /**
-   * Add a activity changed listener.
-   * 
-   * @param listener
-   */
-  public synchronized void addActivityChangedListener(
-      ActivityChangedListener listener )
-  {
-    _listeners.add( listener );
-    
-    locBroadcastManager.registerReceiver(
-        messageReceiver,
-        new IntentFilter(
-            "hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA" ) );
+		locBroadcastManager = LocalBroadcastManager.getInstance(context);
+	}
 
-    if ( !_listeners.isEmpty() && isConnected )
-    {
-      startUpdates();
-    }
-  }
+	/**
+	 * TEST
+	 */
+	public void stopRequester() {
+		LocalBroadcastManager.getInstance(this.context).unregisterReceiver(
+				messageReceiver);
+	}
 
-  /**
-   * Remove a previously added activity listener.
-   * 
-   * @param listener
-   */
-  public synchronized void removeActivityChangedListener(
-      ActivityChangedListener listener )
-  {
-    _listeners.remove( listener );
-    if ( _listeners.isEmpty() )
-    {
-      stopUpdates();
-    }
-  }
+	/**
+	 * Add a activity changed listener.
+	 * 
+	 * @param listener
+	 */
+	public synchronized void addActivityChangedListener(
+			ActivityChangedListener listener) {
+		_listeners.add(listener);
 
-  @Override
-  public void onConnectionFailed( ConnectionResult result )
-  {
-    Log.e( TAG, "Connection failed" );
-  }
+		locBroadcastManager.registerReceiver(messageReceiver, new IntentFilter(
+				"hm.edu.pulsebuddy.activity.ACTIVITY_RECOGNITION_DATA"));
 
-  @Override
-  public void onConnected( Bundle connectionHint )
-  {
-    isConnected = true;
-    if ( _listeners.isEmpty() )
-      stopUpdates();
-    else
-      startUpdates();
-  }
+		if (!_listeners.isEmpty() && isConnected) {
+			startUpdates();
+		}
+	}
 
-  @Override
-  public void onDisconnected()
-  {
-    Log.e( TAG, "Disconnected" );
-    isConnected = false;
-  }
+	/**
+	 * Remove a previously added activity listener.
+	 * 
+	 * @param listener
+	 */
+	public synchronized void removeActivityChangedListener(
+			ActivityChangedListener listener) {
+		_listeners.remove(listener);
+		if (_listeners.isEmpty()) {
+			stopUpdates();
+		}
+	}
 
-  /* PRIVATE */
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		Log.e(TAG, "Connection failed");
+	}
 
-  private BroadcastReceiver messageReceiver = new BroadcastReceiver()
-  {
-    @Override
-    public void onReceive( Context context, Intent intent )
-    {
-      Serializable ser = intent.getExtras().getSerializable(
-          "hm.edu.pulsebuddy.model.ActivityModel" );
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		isConnected = true;
+		if (_listeners.isEmpty())
+			stopUpdates();
+		else
+			startUpdates();
+	}
 
-      ActivityModel activity = (ActivityModel) ser;
-      notifyActivityChanged( activity );
-    }
-  };
+	@Override
+	public void onDisconnected() {
+		Log.e(TAG, "Disconnected");
+		isConnected = false;
+	}
 
-  private void startUpdates()
-  {
-    if ( servicesConnected() && isConnected )
-    {
-      Log.d( TAG, "Starting updates" );
+	/* PRIVATE */
 
-      Intent intent = new Intent( context,
-          ActivityRecognitionIntentService.class );
+	private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Serializable ser = intent.getExtras().getSerializable(
+					"hm.edu.pulsebuddy.model.ActivityModel");
 
-      pIntent = PendingIntent.getService( context, 0, intent,
-          PendingIntent.FLAG_UPDATE_CURRENT );
+			ActivityModel activity = (ActivityModel) ser;
+			notifyActivityChanged(activity);
+		}
+	};
 
-      activityClient.requestActivityUpdates( detectionIntervalMillis, pIntent );
-    }
-  }
+	private void startUpdates() {
+		if (servicesConnected() && isConnected) {
+			Log.d(TAG, "Starting updates");
 
-  private void stopUpdates()
-  {
-    if ( isConnected )
-    {
-      if ( pIntent != null )
-      {
-        Log.d( TAG, "Stopping updates" );
-        activityClient.removeActivityUpdates( pIntent );
-      }      
-    }
-  }
+			Intent intent = new Intent(context,
+					ActivityRecognitionIntentService.class);
 
-  /**
-   * 
-   * @param aActivity
-   *          the activity to be notified
-   */
-  private synchronized void notifyActivityChanged( ActivityModel aActivity )
-  {
-    Iterator<ActivityChangedListener> i = _listeners.iterator();
-    while ( i.hasNext() )
-    {
-      ( (ActivityChangedListener) i.next() )
-          .handleActivityChangedEvent( aActivity );
-    }
-  }
+			pIntent = PendingIntent.getService(context, 0, intent,
+					PendingIntent.FLAG_UPDATE_CURRENT);
 
-  /**
-   * Verify that Google Play services is available before making a request.
-   */
-  private boolean servicesConnected()
-  {
+			activityClient.requestActivityUpdates(detectionIntervalMillis,
+					pIntent);
+		}
+	}
 
-    /* Check that Google Play services is available */
-    int resultCode = GooglePlayServicesUtil
-        .isGooglePlayServicesAvailable( this.context );
+	private void stopUpdates() {
+		if (isConnected) {
+			if (pIntent != null) {
+				Log.d(TAG, "Stopping updates");
+				activityClient.removeActivityUpdates(pIntent);
+			}
+		}
+	}
 
-    /* If Google Play services is available */
-    if ( ConnectionResult.SUCCESS == resultCode )
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
+	/**
+	 * 
+	 * @param aActivity
+	 *            the activity to be notified
+	 */
+	private synchronized void notifyActivityChanged(ActivityModel aActivity) {
+		Iterator<ActivityChangedListener> i = _listeners.iterator();
+		while (i.hasNext()) {
+			((ActivityChangedListener) i.next())
+					.handleActivityChangedEvent(aActivity);
+		}
+	}
+
+	/**
+	 * Verify that Google Play services is available before making a request.
+	 */
+	private boolean servicesConnected() {
+
+		/* Check that Google Play services is available */
+		int resultCode = GooglePlayServicesUtil
+				.isGooglePlayServicesAvailable(this.context);
+
+		/* If Google Play services is available */
+		if (ConnectionResult.SUCCESS == resultCode) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

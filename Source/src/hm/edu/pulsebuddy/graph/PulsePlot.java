@@ -23,214 +23,192 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYStepMode;
 
-public class PulsePlot implements PulseChangedListener
-{
-  private Redrawer redrawer;
-  private static final int SECONDS = 240;
-  private static final int PULSE = 160;
-  private XYPlot aprHistoryPlot = null;
-  // private MultitouchPlot aprHistoryPlot = null;
-  private SimpleXYSeries rollHistorySeries = null;
-  private TextView tv = null;
-  private PulseOptimizer dopt = null;
+public class PulsePlot implements PulseChangedListener {
+	private Redrawer redrawer;
+	private static final int SECONDS = 240;
+	private static final int PULSE = 160;
+	private XYPlot aprHistoryPlot = null;
+	// private MultitouchPlot aprHistoryPlot = null;
+	private SimpleXYSeries rollHistorySeries = null;
+	private TextView tv = null;
+	private PulseOptimizer dopt = null;
 
-  private DataHandler ds = null;
-  
-  private Queue<Integer> pulseValues = new LinkedList<Integer>();
-  
-  private double lastPulse = 0;
-  private double nextPulse = 0;
+	private DataHandler ds = null;
 
-  public PulsePlot( XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer )
-  {
-    // public PulsePlot(MultitouchPlot aprHistoryPlot, TextView tv, Redrawer
-    // redrawer) {
-    this.aprHistoryPlot = aprHistoryPlot;
-    this.tv = tv;
-    this.redrawer = redrawer;
+	private Queue<Integer> pulseValues = new LinkedList<Integer>();
 
-    ds = DataManager.getStorageInstance();
-    if ( ds != null )
-      ds.addPulseChangedListener( this );
+	private double lastPulse = 0;
+	private double nextPulse = 0;
 
-    graphIt();
-  }
+	public PulsePlot(XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer) {
+		// public PulsePlot(MultitouchPlot aprHistoryPlot, TextView tv, Redrawer
+		// redrawer) {
+		this.aprHistoryPlot = aprHistoryPlot;
+		this.tv = tv;
+		this.redrawer = redrawer;
 
-  public void graphIt()
-  {
-    rollHistorySeries = new SimpleXYSeries( "Puls" );
-    rollHistorySeries.useImplicitXVals();
-    
-    aprHistoryPlot.setDrawDomainOriginEnabled( false );
-    aprHistoryPlot.setBackgroundPaint( null );
-    aprHistoryPlot.getGraphWidget().setBackgroundPaint( null );
-    aprHistoryPlot.getGraphWidget().setGridBackgroundPaint( null );
-    aprHistoryPlot.getGraphWidget().setDomainLabelPaint( null );
-    aprHistoryPlot.getGraphWidget().setDomainOriginLabelPaint( null );
-    aprHistoryPlot.getGraphWidget().setDomainGridLinePaint( null );
-    aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint( null );
-    //aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint( null );
-    
-    //aprHistoryPlot.getGraphWidget().setTicksPerRangeLabel( 2 ); 1 ... 3 ... 5
-    aprHistoryPlot.getGraphWidget().setRangeLabelWidth( 50 );
+		ds = DataManager.getStorageInstance();
+		if (ds != null)
+			ds.addPulseChangedListener(this);
 
-    // aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
-    // aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
-    
-    aprHistoryPlot.getGraphWidget().getRangeOriginLinePaint() //lines
-    .setColor( Color.rgb( 192, 192, 192 ) );
-    aprHistoryPlot.getGraphWidget().getRangeOriginLabelPaint() //label/line zero
-    .setColor( Color.rgb( 192, 192, 192 ) );
-    aprHistoryPlot.getGraphWidget().getRangeLabelPaint() //labeles
-    .setColor( Color.rgb( 192, 192, 192 ) );
+		graphIt();
+	}
 
-    aprHistoryPlot.setRangeBoundaries( 25, PULSE, BoundaryMode.FIXED );
-    aprHistoryPlot.setDomainBoundaries( 0, SECONDS, BoundaryMode.FIXED );
+	public void graphIt() {
+		rollHistorySeries = new SimpleXYSeries("Puls");
+		rollHistorySeries.useImplicitXVals();
 
-    LineAndPointFormatter lineAndPointFormatter = new LineAndPointFormatter(
-        Color.rgb( 204, 0, 0 ), null, null, null );
-    Paint paint = lineAndPointFormatter.getLinePaint();
-    paint.setStrokeWidth( 12 );
-    lineAndPointFormatter.setLinePaint( paint );
+		aprHistoryPlot.setDrawDomainOriginEnabled(false);
+		aprHistoryPlot.setBackgroundPaint(null);
+		aprHistoryPlot.getGraphWidget().setBackgroundPaint(null);
+		aprHistoryPlot.getGraphWidget().setGridBackgroundPaint(null);
+		aprHistoryPlot.getGraphWidget().setDomainLabelPaint(null);
+		aprHistoryPlot.getGraphWidget().setDomainOriginLabelPaint(null);
+		aprHistoryPlot.getGraphWidget().setDomainGridLinePaint(null);
+		aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint(null);
+		// aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint( null );
 
-    aprHistoryPlot.addSeries( rollHistorySeries, lineAndPointFormatter );
-    aprHistoryPlot.setDomainStepMode( XYStepMode.INCREMENT_BY_VAL );
-    aprHistoryPlot.setDomainStepValue( SECONDS / 6 );
-    aprHistoryPlot.setRangeStepMode( XYStepMode.INCREMENT_BY_VAL );
-    aprHistoryPlot.setRangeStepValue( 10.0d );
-    aprHistoryPlot.setRangeValueFormat( new DecimalFormat( "#" ) );
-    aprHistoryPlot.setDomainValueFormat( new DecimalFormat( "#" ) );
+		// aprHistoryPlot.getGraphWidget().setTicksPerRangeLabel( 2 ); 1 ... 3
+		// ... 5
+		aprHistoryPlot.getGraphWidget().setRangeLabelWidth(50);
 
-    // aprHistoryPlot.setTicksPerRangeLabel(3);
-    //aprHistoryPlot.setDomainLabel( "Zeit" );
-    aprHistoryPlot.getDomainLabelWidget().pack();
-    aprHistoryPlot.setRangeLabel( "Puls" );
-    aprHistoryPlot.getRangeLabelWidget().pack();
+		// aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
+		// aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
 
-    aprHistoryPlot.getLayoutManager().remove( aprHistoryPlot.getLegendWidget() );
+		aprHistoryPlot.getGraphWidget().getRangeOriginLinePaint() // lines
+				.setColor(Color.rgb(192, 192, 192));
+		aprHistoryPlot.getGraphWidget().getRangeOriginLabelPaint() // label/line
+																	// zero
+				.setColor(Color.rgb(192, 192, 192));
+		aprHistoryPlot.getGraphWidget().getRangeLabelPaint() // labeles
+				.setColor(Color.rgb(192, 192, 192));
 
-    redrawer = new Redrawer( Arrays.asList( new Plot[] { aprHistoryPlot } ),
-        100, false );
-    redrawer.start();
+		aprHistoryPlot.setRangeBoundaries(25, PULSE, BoundaryMode.FIXED);
+		aprHistoryPlot.setDomainBoundaries(0, SECONDS, BoundaryMode.FIXED);
 
-    aprHistoryPlot.redraw();
-    
-    dopt = new PulseOptimizer();
-    dopt.execute();
-  }
+		LineAndPointFormatter lineAndPointFormatter = new LineAndPointFormatter(
+				Color.rgb(204, 0, 0), null, null, null);
+		Paint paint = lineAndPointFormatter.getLinePaint();
+		paint.setStrokeWidth(12);
+		lineAndPointFormatter.setLinePaint(paint);
 
-  @Override
-  public void handlePulseChangedEvent( Pulse aPulse )
-  {
-    if ( rollHistorySeries.size() > SECONDS )
-      rollHistorySeries.removeFirst();
-      
-    pulseValues.add( aPulse.getValue() );
-  }
-  
-  public void setResume (boolean resume) {
-	  dopt.setResume(resume);
-  }
-  
-  /**
-   * pulse optimizer
-   */
-  private class PulseOptimizer extends AsyncTask<Void, Integer, String>
-  {
-	public boolean resume = true;
-	  
-    @Override
-    protected String doInBackground( Void... params )
-    {
-      int steps = 10;
-      int timeBetweenSteps = 1000 / steps;
-      
-      while ( resume )
-      {
-        if ( nextPulse == 0 )
-        {
-          if ( pulseValues.peek() != null )
-            nextPulse = pulseValues.poll();
-        }
-        else
-        {
-          if ( pulseValues.peek() != null )
-          {
-            double avgPulseSteps = 0.0;
-            
-            lastPulse = nextPulse;
-            nextPulse = pulseValues.poll();
-            double currentPulse = lastPulse;
-            
-            int minPulse = (int) ( (int) (lastPulse / 10) * 10 ) -25;
-            int maxPulse = (int) ( (int) (lastPulse / 10) * 10 ) +25; 
-            aprHistoryPlot.setRangeBoundaries( minPulse, maxPulse, BoundaryMode.FIXED );
-                 
-            if ( nextPulse > lastPulse )
-            { // +pulse
-              avgPulseSteps = ( nextPulse - lastPulse ) / steps;
-            }
-            else
-            { // -pulse
-              avgPulseSteps = ( lastPulse - nextPulse ) / steps;
-            }
-            
-            publishProgress((int)currentPulse);
+		aprHistoryPlot.addSeries(rollHistorySeries, lineAndPointFormatter);
+		aprHistoryPlot.setDomainStepMode(XYStepMode.INCREMENT_BY_VAL);
+		aprHistoryPlot.setDomainStepValue(SECONDS / 6);
+		aprHistoryPlot.setRangeStepMode(XYStepMode.INCREMENT_BY_VAL);
+		aprHistoryPlot.setRangeStepValue(10.0d);
+		aprHistoryPlot.setRangeValueFormat(new DecimalFormat("#"));
+		aprHistoryPlot.setDomainValueFormat(new DecimalFormat("#"));
 
-            for ( int i = 0; i < 9; i++ )
-            {
-              if ( nextPulse > lastPulse )
-              { // +pulse
-                currentPulse += avgPulseSteps;
-              }
-              else
-              { // -pulse
-                currentPulse -= avgPulseSteps;
-              }
-              
-              publishProgress( (int) ( (double) Math.round( currentPulse * 10 ) / 10 ) );
-              
-              try
-              {
-                Thread.sleep( timeBetweenSteps );
-              }
-              catch ( InterruptedException e )
-              {
-            	  //
-              }     
-            }
-          }
-        }
-        try
-        {
-          Thread.sleep( 100 );
-        }
-        catch ( InterruptedException e )
-        {
-          e.printStackTrace();
-        }
-      }
-	return null;
-    }
+		aprHistoryPlot.getDomainLabelWidget().pack();
+		aprHistoryPlot.setRangeLabel("Puls");
+		aprHistoryPlot.getRangeLabelWidget().pack();
 
-    protected void onProgressUpdate( Integer... aPulse )
-    {
-      tv.setText( "" + aPulse[ 0 ] );
-      
-      if ( rollHistorySeries.size() > SECONDS )
-        rollHistorySeries.removeFirst();
-      
-      rollHistorySeries.addLast( null, (int) ( (double) Math.round( aPulse[ 0 ] * 10 ) / 10 ) );
-    }
+		aprHistoryPlot.getLayoutManager().remove(
+				aprHistoryPlot.getLegendWidget());
 
-    @Override
-    protected void onPostExecute( String result )
-    {
-    }
-    
-    public void setResume (boolean resume) {
-  	  this.resume = resume;
-    }
-    
-  }
+		redrawer = new Redrawer(Arrays.asList(new Plot[] { aprHistoryPlot }),
+				100, false);
+		redrawer.start();
+
+		aprHistoryPlot.redraw();
+
+		dopt = new PulseOptimizer();
+		dopt.execute();
+	}
+
+	@Override
+	public void handlePulseChangedEvent(Pulse aPulse) {
+		if (rollHistorySeries.size() > SECONDS)
+			rollHistorySeries.removeFirst();
+
+		pulseValues.add(aPulse.getValue());
+	}
+
+	public void setResume(boolean resume) {
+		dopt.setResume(resume);
+	}
+
+	/**
+	 * pulse optimizer
+	 */
+	private class PulseOptimizer extends AsyncTask<Void, Integer, String> {
+		public boolean resume = true;
+
+		@Override
+		protected String doInBackground(Void... params) {
+			int steps = 10;
+			int timeBetweenSteps = 1000 / steps;
+
+			while (resume) {
+				if (nextPulse == 0) {
+					if (pulseValues.peek() != null)
+						nextPulse = pulseValues.poll();
+				} else {
+					if (pulseValues.peek() != null) {
+						double avgPulseSteps = 0.0;
+
+						lastPulse = nextPulse;
+						nextPulse = pulseValues.poll();
+						double currentPulse = lastPulse;
+
+						int minPulse = (int) ((int) (lastPulse / 10) * 10) - 25;
+						int maxPulse = (int) ((int) (lastPulse / 10) * 10) + 25;
+						aprHistoryPlot.setRangeBoundaries(minPulse, maxPulse,
+								BoundaryMode.FIXED);
+
+						if (nextPulse > lastPulse) { // +pulse
+							avgPulseSteps = (nextPulse - lastPulse) / steps;
+						} else { // -pulse
+							avgPulseSteps = (lastPulse - nextPulse) / steps;
+						}
+
+						publishProgress((int) currentPulse);
+
+						for (int i = 0; i < 9; i++) {
+							if (nextPulse > lastPulse) { // +pulse
+								currentPulse += avgPulseSteps;
+							} else { // -pulse
+								currentPulse -= avgPulseSteps;
+							}
+
+							publishProgress((int) ((double) Math
+									.round(currentPulse * 10) / 10));
+
+							try {
+								Thread.sleep(timeBetweenSteps);
+							} catch (InterruptedException e) {
+								//
+							}
+						}
+					}
+				}
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
+
+		protected void onProgressUpdate(Integer... aPulse) {
+			tv.setText("" + aPulse[0]);
+
+			if (rollHistorySeries.size() > SECONDS)
+				rollHistorySeries.removeFirst();
+
+			rollHistorySeries.addLast(null,
+					(int) ((double) Math.round(aPulse[0] * 10) / 10));
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+		}
+
+		public void setResume(boolean resume) {
+			this.resume = resume;
+		}
+
+	}
 }

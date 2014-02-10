@@ -10,40 +10,41 @@ import org.garret.perst.FieldIndex;
 import org.garret.perst.Storage;
 import org.garret.perst.TimeSeries;
 
-public class PerstRootClass
-{
-  public TimeSeries<Pulse> pulses;
-  public TimeSeries<LocationModel> locations;
-  public TimeSeries<ActivityModel> activities;
+public class PerstRootClass {
+	public TimeSeries<Pulse> pulses;
+	public TimeSeries<LocationModel> locations;
+	public TimeSeries<ActivityModel> activities;
 
-  public FieldIndex<UserModel> user;
-  public FieldIndex<CoconiResultModel> coconiResult;
+	public FieldIndex<UserModel> user;
+	public FieldIndex<CoconiResultModel> coconiResult;
 
-  public PerstRootClass( Storage db )
-  {
-    /* Create time series for the pulse objects. */
-    this.pulses = db.createTimeSeries( PulseBlock.class,
-        (long) PulseBlock.N_ELEMS_PER_BLOCK * ( 24 * 60 * 60 * 1000 ) * 2 );
+	public PerstRootClass(Storage db) {
+		/* Create time series for the pulse objects. */
+		this.pulses = db
+				.createTimeSeries(PulseBlock.class,
+						(long) PulseBlock.N_ELEMS_PER_BLOCK
+								* (24 * 60 * 60 * 1000) * 2);
 
-    /* Create time series for the location objects. */
-    this.locations = db.createTimeSeries( LocationBlock.class,
-        (long) LocationBlock.N_ELEMS_PER_BLOCK * ( 24 * 60 * 60 * 1000 ) * 2 );
+		/* Create time series for the location objects. */
+		this.locations = db.createTimeSeries(LocationBlock.class,
+				(long) LocationBlock.N_ELEMS_PER_BLOCK * (24 * 60 * 60 * 1000)
+						* 2);
 
-    /* Create time series for the activity objects. */
-    this.activities = db.createTimeSeries( ActivityBlock.class,
-        (long) ActivityBlock.N_ELEMS_PER_BLOCK * ( 24 * 60 * 60 * 1000 ) * 2 );
+		/* Create time series for the activity objects. */
+		this.activities = db.createTimeSeries(ActivityBlock.class,
+				(long) ActivityBlock.N_ELEMS_PER_BLOCK * (24 * 60 * 60 * 1000)
+						* 2);
 
-    /* Create user object index. */
-    this.user = db.createFieldIndex( UserModel.class, "intIndex", true );
+		/* Create user object index. */
+		this.user = db.createFieldIndex(UserModel.class, "intIndex", true);
 
-    /* Create index for the coconi test results. */
-    this.coconiResult = db.createFieldIndex( CoconiResultModel.class, "_id",
-        true );
+		/* Create index for the coconi test results. */
+		this.coconiResult = db.createFieldIndex(CoconiResultModel.class, "_id",
+				true);
 
-  }
+	}
 
-  public PerstRootClass()
-  {
-  }
+	public PerstRootClass() {
+	}
 
 }

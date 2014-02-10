@@ -6,18 +6,11 @@ import hm.edu.pulsebuddy.common.Gender;
 /**
  * How to use
  * 
- * Common 
- * ------
- * getBMI( userWeight, userHeight ) 
- * getColorForBMI( bmiValue )
+ * Common ------ getBMI( userWeight, userHeight ) getColorForBMI( bmiValue )
  * 
- * WHO-BMI 
- * ------
- * getWHODescriptionForBMI( bmiValue )
+ * WHO-BMI ------ getWHODescriptionForBMI( bmiValue )
  * 
- * DGI-BMI
- * ------ 
- * getDGEDescriptionForBMI( bmiValue, userGender )
+ * DGI-BMI ------ getDGEDescriptionForBMI( bmiValue, userGender )
  */
 
 public class BMI {
@@ -28,11 +21,12 @@ public class BMI {
 	 * @return
 	 */
 	public static double getBMI(int weight, int height) {
-		//height usually in cm, BMI needs meter, so /100 /100 => /10000
+		// height usually in cm, BMI needs meter, so /100 /100 => /10000
 		// check for http://en.wikipedia.org/wiki/Body_mass_index
-	  double weight2 = weight;
-	  double height2 = height;
-		return (double) Math.round( ( weight2 / ( ( height2 * height2) / 10000 ) ) *10 ) / 10;
+		double weight2 = weight;
+		double height2 = height;
+		return (double) Math
+				.round((weight2 / ((height2 * height2) / 10000)) * 10) / 10;
 	}
 
 	public static int getDGEDescriptionForBMI(double bmiValue, Gender gender) {

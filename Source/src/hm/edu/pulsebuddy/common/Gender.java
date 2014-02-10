@@ -6,7 +6,6 @@ package hm.edu.pulsebuddy.common;
  * @author josefbichlmeier
  * 
  */
-public enum Gender
-{
-  female, male
+public enum Gender {
+	female, male
 }

@@ -15,129 +15,121 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
 public class LocationRequester implements LocationListener,
-    GooglePlayServicesClient.ConnectionCallbacks,
-    GooglePlayServicesClient.OnConnectionFailedListener
-{
-  private static final String TAG = "location.locationRequester";
+		GooglePlayServicesClient.ConnectionCallbacks,
+		GooglePlayServicesClient.OnConnectionFailedListener {
+	private static final String TAG = "location.locationRequester";
 
-  /* A request to connect to Location Services */
-  private LocationRequest locationRequest;
+	/* A request to connect to Location Services */
+	private LocationRequest locationRequest;
 
-  /* Stores the current instantiation of the location client in this object */
-  private LocationClient locationClient;
+	/* Stores the current instantiation of the location client in this object */
+	private LocationClient locationClient;
 
-  /* The application context */
-  private Context context;
+	/* The application context */
+	private Context context;
 
-  /**
-   * Constructor
-   * 
-   * @param context
-   *          the application context.
-   */
-  public LocationRequester( Context context )
-  {
-    /* The application context. */
-    this.context = context;
+	/**
+	 * Constructor
+	 * 
+	 * @param context
+	 *            the application context.
+	 */
+	public LocationRequester(Context context) {
+		/* The application context. */
+		this.context = context;
 
-    /* Create a new global location parameters object */
-    locationRequest = LocationRequest.create();
+		/* Create a new global location parameters object */
+		locationRequest = LocationRequest.create();
 
-    /* Update interval */
-    locationRequest.setInterval( LocationUtils.UPDATE_INTERVAL_IN_MILLISECONDS );
+		/* Update interval */
+		locationRequest
+				.setInterval(LocationUtils.UPDATE_INTERVAL_IN_MILLISECONDS);
 
-    /* Use high accuracy */
-    locationRequest.setPriority( LocationRequest.PRIORITY_HIGH_ACCURACY );
+		/* Use high accuracy */
+		locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-    /* Set the interval ceiling to one minute */
-    locationRequest
-        .setFastestInterval( LocationUtils.FAST_INTERVAL_CEILING_IN_MILLISECONDS );
+		/* Set the interval ceiling to one minute */
+		locationRequest
+				.setFastestInterval(LocationUtils.FAST_INTERVAL_CEILING_IN_MILLISECONDS);
 
-    /* Create a new location client, using this class to handle the callbacks. */
-    locationClient = new LocationClient( this.context, this, this );
+		/*
+		 * Create a new location client, using this class to handle the
+		 * callbacks.
+		 */
+		locationClient = new LocationClient(this.context, this, this);
 
-    locationClient.connect();
-  }
+		locationClient.connect();
+	}
 
-  /**
-   * Get the current location, related to the Google Play Services.
-   * 
-   * @return LocationModel
-   */
-  public LocationModel getCurrentLocation()
-  {
-    /* If Google Play Services is available */
-    if ( servicesConnected() )
-    {
-      /* Get the current location */
-      Location currentLocation = locationClient.getLastLocation();
+	/**
+	 * Get the current location, related to the Google Play Services.
+	 * 
+	 * @return LocationModel
+	 */
+	public LocationModel getCurrentLocation() {
+		/* If Google Play Services is available */
+		if (servicesConnected()) {
+			/* Get the current location */
+			Location currentLocation = locationClient.getLastLocation();
 
-      if(currentLocation == null)
-    	  return null;
-      
-      LocationModel l = new LocationModel();
-      l.setElevation( currentLocation.getAltitude() );
-      l.setSpeed( currentLocation.getSpeed() );
-      l.setLatitude( currentLocation.getLatitude() );
-      l.setLongitude( currentLocation.getLongitude() );
-      l.setTime( currentLocation.getTime() );
-      Log.d( TAG, l.toString() );
+			if (currentLocation == null)
+				return null;
 
-      return l;
-    }
+			LocationModel l = new LocationModel();
+			l.setElevation(currentLocation.getAltitude());
+			l.setSpeed(currentLocation.getSpeed());
+			l.setLatitude(currentLocation.getLatitude());
+			l.setLongitude(currentLocation.getLongitude());
+			l.setTime(currentLocation.getTime());
+			Log.d(TAG, l.toString());
 
-    return null;
-  }
+			return l;
+		}
 
-  /**
-   * Verify that Google Play services is available before making a request.
-   */
-  private boolean servicesConnected()
-  {
+		return null;
+	}
 
-    /* Check that Google Play services is available */
-    int resultCode = GooglePlayServicesUtil
-        .isGooglePlayServicesAvailable( this.context );
+	/**
+	 * Verify that Google Play services is available before making a request.
+	 */
+	private boolean servicesConnected() {
 
-    /* If Google Play services is available */
-    if ( ConnectionResult.SUCCESS == resultCode )
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
+		/* Check that Google Play services is available */
+		int resultCode = GooglePlayServicesUtil
+				.isGooglePlayServicesAvailable(this.context);
 
-  @Override
-  public void onConnectionFailed( ConnectionResult result )
-  {
-    // TODO Auto-generated method stub
+		/* If Google Play services is available */
+		if (ConnectionResult.SUCCESS == resultCode) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-  }
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		// TODO Auto-generated method stub
 
-  @Override
-  public void onConnected( Bundle connectionHint )
-  {
-    // TODO Auto-generated method stub
+	}
 
-  }
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		// TODO Auto-generated method stub
 
-  @Override
-  public void onDisconnected()
-  {
-    // TODO Auto-generated method stub
+	}
 
-  }
+	@Override
+	public void onDisconnected() {
+		// TODO Auto-generated method stub
 
-  @Override
-  public void onLocationChanged( Location location )
-  {
-    String msg = "Updated Location: "
-        + Double.toString( location.getLatitude() ) + ","
-        + Double.toString( location.getLongitude() ) + ","
-        + location.getSpeed();
-    Toast.makeText( this.context, msg, Toast.LENGTH_SHORT ).show();
-  }
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		String msg = "Updated Location: "
+				+ Double.toString(location.getLatitude()) + ","
+				+ Double.toString(location.getLongitude()) + ","
+				+ location.getSpeed();
+		Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
+	}
 }

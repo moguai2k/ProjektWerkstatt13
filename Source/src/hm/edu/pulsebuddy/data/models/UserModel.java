@@ -8,226 +8,194 @@ import java.util.Date;
 
 import org.garret.perst.Persistent;
 
-public class UserModel extends Persistent
-{
-  public static final int intIndex = 1;
+public class UserModel extends Persistent {
+	public static final int intIndex = 1;
 
-  private String userName;
-  private String password;
+	private String userName;
+	private String password;
 
-  private long birthday;
+	private long birthday;
 
-  private int weight;
-  private int height;
+	private int weight;
+	private int height;
 
-  /* oO */
-  private int activity;
-  private int genre;
-  
-  private short gender;
-  
-  /* Sport related values */
-  private int trainingType;
-  
-  /* Coconi */
-  private long deflecDate;
-  private int deflecPulse;
+	/* oO */
+	private int activity;
+	private int genre;
 
-  public UserModel()
-  {
-  }
+	private short gender;
 
-  public UserModel( String userName )
-  {
-    this.userName = userName;
-    
-    this.height = 155;
-    this.weight = 65;
-    this.gender = 1;
-    
-    this.trainingType = 1;
-    this.deflecPulse = 0;
-    this.deflecDate = 0;
+	/* Sport related values */
+	private int trainingType;
 
-    Calendar c = Calendar.getInstance();
-    c.set( 1985, Calendar.JANUARY, 1 );
-    this.birthday = c.getTimeInMillis();
-  }
+	/* Coconi */
+	private long deflecDate;
+	private int deflecPulse;
 
-  public String getUserName()
-  {
-    return userName;
-  }
+	public UserModel() {
+	}
 
-  public void setUserName( String userName )
-  {
-    this.userName = userName;
-  }
+	public UserModel(String userName) {
+		this.userName = userName;
 
-  public String getPassword()
-  {
-    return password;
-  }
+		this.height = 155;
+		this.weight = 65;
+		this.gender = 1;
 
-  public void setPassword( String password )
-  {
-    this.password = password;
-  }
+		this.trainingType = 1;
+		this.deflecPulse = 0;
+		this.deflecDate = 0;
 
-  public Date getBirthday()
-  {
-    return new Date( this.birthday );
-  }
+		Calendar c = Calendar.getInstance();
+		c.set(1985, Calendar.JANUARY, 1);
+		this.birthday = c.getTimeInMillis();
+	}
 
-  public void setBirthday( Date birthday )
-  {
-    this.birthday = birthday.getTime();
-  }
+	public String getUserName() {
+		return userName;
+	}
 
-  public int getWeight()
-  {
-    return weight;
-  }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-  public void setWeight( int weight )
-  {
-    this.weight = weight;
-  }
+	public String getPassword() {
+		return password;
+	}
 
-  public int getHeight()
-  {
-    return height;
-  }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-  public void setHeight( int height )
-  {
-    this.height = height;
-  }
+	public Date getBirthday() {
+		return new Date(this.birthday);
+	}
 
-  public int getActivity()
-  {
-    return activity;
-  }
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday.getTime();
+	}
 
-  public void setActivity( int activity )
-  {
-    this.activity = activity;
-  }
+	public int getWeight() {
+		return weight;
+	}
 
-  public int getGenre()
-  {
-    return genre;
-  }
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
 
-  public void setGenre( int genre )
-  {
-    this.genre = genre;
-  }
+	public int getHeight() {
+		return height;
+	}
 
-  public Gender getGender()
-  {
-    return mapToGender( this.gender );
-  }
+	public void setHeight(int height) {
+		this.height = height;
+	}
 
-  public void setGender( Gender gender )
-  {
-    this.gender = mapGender( gender );
-  }
+	public int getActivity() {
+		return activity;
+	}
 
-  private short mapGender( Gender gender )
-  {
-    switch ( gender )
-    {
-      case female:
-        return 1;
+	public void setActivity(int activity) {
+		this.activity = activity;
+	}
 
-      case male:
-        return 2;
+	public int getGenre() {
+		return genre;
+	}
 
-      default:
-        return 0;
-    }
-  }
+	public void setGenre(int genre) {
+		this.genre = genre;
+	}
 
-  private Gender mapToGender( short gender )
-  {
-    switch ( gender )
-    {
-      case 1:
-        return Gender.female;
+	public Gender getGender() {
+		return mapToGender(this.gender);
+	}
 
-      case 2:
-        return Gender.male;
+	public void setGender(Gender gender) {
+		this.gender = mapGender(gender);
+	}
 
-      default:
-        return null;
-    }
-  }
-  
-  public TrainingType getTrainingType()
-  {
-    return mapToTrainingType( trainingType );
-  }
-  
-  public int getTrainingTypeAsInt()
-  {
-    return trainingType;
-  }
+	private short mapGender(Gender gender) {
+		switch (gender) {
+		case female:
+			return 1;
 
-  public void setTrainingType( int trainingType )
-  {
-    this.trainingType = trainingType;
-  }
-  
-  private TrainingType mapToTrainingType( int aTrainingType )
-  {
-    switch ( aTrainingType )
-    {
-      case 1:
-        return TrainingType.ENDURANCE;
+		case male:
+			return 2;
 
-      case 2:
-        return TrainingType.LOSE_WEIGHT;
-        
-      case 3:
-        return TrainingType.POWER;
+		default:
+			return 0;
+		}
+	}
 
-      default:
-        return null;
-    }
-  }
-  
-  /* Coconi related. */
-  public int getDeflecPulse()
-  {
-    return deflecPulse;
-  }
+	private Gender mapToGender(short gender) {
+		switch (gender) {
+		case 1:
+			return Gender.female;
 
-  public long getDeflecDate()
-  {
-    return deflecDate;
-  }
-  
-  public Boolean finishedSportTest()
-  {
-    if ( deflecPulse != 0 )
-      return true;
-    return false;
-  }
+		case 2:
+			return Gender.male;
 
-  public void setCoconiDeflectionPoint( int aPulse, Date aDate )
-  {
-    this.deflecPulse = aPulse;
-    this.deflecDate = aDate.getTime();
-  }
+		default:
+			return null;
+		}
+	}
 
-  @Override
-  public String toString()
-  {
-    return "UserModel [userName=" + userName + ", password=" + password
-        + ", birthday=" + birthday + ", weight=" + weight + ", height="
-        + height + ", activity=" + activity + ", genre=" + genre + ", gender="
-        + gender + ", trainingType=" + trainingType + ", deflecDate="
-        + deflecDate + ", deflecPulse=" + deflecPulse + "]";
-  }
+	public TrainingType getTrainingType() {
+		return mapToTrainingType(trainingType);
+	}
+
+	public int getTrainingTypeAsInt() {
+		return trainingType;
+	}
+
+	public void setTrainingType(int trainingType) {
+		this.trainingType = trainingType;
+	}
+
+	private TrainingType mapToTrainingType(int aTrainingType) {
+		switch (aTrainingType) {
+		case 1:
+			return TrainingType.ENDURANCE;
+
+		case 2:
+			return TrainingType.LOSE_WEIGHT;
+
+		case 3:
+			return TrainingType.POWER;
+
+		default:
+			return null;
+		}
+	}
+
+	/* Coconi related. */
+	public int getDeflecPulse() {
+		return deflecPulse;
+	}
+
+	public long getDeflecDate() {
+		return deflecDate;
+	}
+
+	public Boolean finishedSportTest() {
+		if (deflecPulse != 0)
+			return true;
+		return false;
+	}
+
+	public void setCoconiDeflectionPoint(int aPulse, Date aDate) {
+		this.deflecPulse = aPulse;
+		this.deflecDate = aDate.getTime();
+	}
+
+	@Override
+	public String toString() {
+		return "UserModel [userName=" + userName + ", password=" + password
+				+ ", birthday=" + birthday + ", weight=" + weight + ", height="
+				+ height + ", activity=" + activity + ", genre=" + genre
+				+ ", gender=" + gender + ", trainingType=" + trainingType
+				+ ", deflecDate=" + deflecDate + ", deflecPulse=" + deflecPulse
+				+ "]";
+	}
 }

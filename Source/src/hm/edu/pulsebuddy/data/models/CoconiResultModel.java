@@ -4,47 +4,39 @@ import java.util.Date;
 
 import org.garret.perst.Persistent;
 
-public class CoconiResultModel extends Persistent
-{
-  public int _id;
-  
-  private int pulse;
-  private long date;
-  
-  public CoconiResultModel()
-  {
-  }
-  
-  public CoconiResultModel( int aPulse, Date aDate )
-  {
-    this.pulse = aPulse;
-    this.date = aDate.getTime();
-  }
+public class CoconiResultModel extends Persistent {
+	public int _id;
 
-  public int getPulse()
-  {
-    return pulse;
-  }
+	private int pulse;
+	private long date;
 
-  public void setPulse( int pulse )
-  {
-    this.pulse = pulse;
-  }
+	public CoconiResultModel() {
+	}
 
-  public long getDate()
-  {
-    return date;
-  }
+	public CoconiResultModel(int aPulse, Date aDate) {
+		this.pulse = aPulse;
+		this.date = aDate.getTime();
+	}
 
-  public void setDate( long date )
-  {
-    this.date = date;
-  }
+	public int getPulse() {
+		return pulse;
+	}
 
-  @Override
-  public String toString()
-  {
-    return "CoconiResult [_id=" + _id + ", pulse=" + pulse + ", date=" + date
-        + "]";
-  }
+	public void setPulse(int pulse) {
+		this.pulse = pulse;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
+	}
+
+	@Override
+	public String toString() {
+		return "CoconiResult [_id=" + _id + ", pulse=" + pulse + ", date="
+				+ date + "]";
+	}
 }

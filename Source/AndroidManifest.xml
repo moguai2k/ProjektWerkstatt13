@@ -100,6 +100,12 @@
             android:configChanges="orientation"
             android:label="@string/sport_mode_title_activity_sport_test_fragment"
             android:screenOrientation="portrait" />
+        
+        <activity
+            android:name="hm.edu.pulsebuddy.graph.DaymodeActivity"
+            android:label="@string/dm"
+            android:parentActivityName="hm.edu.pulsebuddy.MainActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="hm.edu.pulsebuddy.ble.BluetoothLeService"

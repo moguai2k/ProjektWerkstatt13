@@ -20,24 +20,24 @@
 
         <Button
             android:id="@+id/zoom_in"
-            style="?android:attr/buttonStyleSmall"
+            style="@style/ButtonsMenuSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+" />
+            android:text="  +  " />
 
         <Button
             android:id="@+id/zoom_reset"
-            style="?android:attr/buttonStyleSmall"
+            style="@style/ButtonsMenuSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="R" />
+            android:text="Reset" />
 
         <Button
             android:id="@+id/zoom_out"
-            style="?android:attr/buttonStyleSmall"
+            style="@style/ButtonsMenuSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-" />
+            android:text="  -  " />
     </LinearLayout>
 
 </LinearLayout>

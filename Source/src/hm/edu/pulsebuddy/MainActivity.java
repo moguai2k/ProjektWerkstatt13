@@ -226,7 +226,13 @@ public class MainActivity extends Activity
   public void onResume()
   {
     super.onResume();
+    if ( redrawer != null ) {
+        redrawer.finish();
+        redrawer = null;
+    }
+    
     XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
+    aprHistoryPlot.clear();
     TextView tv = (TextView) findViewById( R.id.currentPulse );
     mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
     if ( redrawer != null )
@@ -236,9 +242,13 @@ public class MainActivity extends Activity
   @Override
   public void onPause()
   {
-    if ( redrawer != null )
-      redrawer.pause();
+    if ( redrawer != null ) {
+        //redrawer.pause();
+        redrawer.finish();
+        redrawer = null;
+    }
     mainPlot.setResume(false);
+    mainPlot = null;
     super.onPause();
   }
 
@@ -246,7 +256,8 @@ public class MainActivity extends Activity
   public void onDestroy()
   {
     Log.d( TAG, "onDestroy" );
-    mainPlot.setResume(false);
+    if ( mainPlot != null )
+    	mainPlot.setResume(false);
     if ( redrawer != null )
       redrawer.finish();
 

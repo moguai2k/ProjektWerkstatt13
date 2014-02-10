@@ -1,32 +1,24 @@
 package hm.edu.pulsebuddy.graph;
 
 import hm.edu.pulsebuddy.R;
-import hm.edu.pulsebuddy.ble.DeviceScanActivity;
 import hm.edu.pulsebuddy.common.DatePickerFragment;
 import hm.edu.pulsebuddy.common.DatePickerFragment.DateListener;
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.data.models.Pulse;
-import hm.edu.pulsebuddy.misc.CalibrationActivity;
-import hm.edu.pulsebuddy.misc.Help;
-import hm.edu.pulsebuddy.misc.SettingsActivity;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +33,6 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
-import com.google.android.gms.maps.GoogleMap;
 
 public class GraphDayActivity extends FragmentActivity implements
     OnTouchListener, DateListener

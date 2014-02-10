@@ -1,7 +1,6 @@
 package hm.edu.pulsebuddy.graph;
 
 import hm.edu.pulsebuddy.R;
-import hm.edu.pulsebuddy.ble.BluetoothLeService;
 import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
@@ -11,8 +10,6 @@ import hm.edu.pulsebuddy.data.models.Pulse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -27,7 +24,6 @@ import org.achartengine.tools.ZoomListener;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -186,13 +182,6 @@ public class DaymodeFragment extends Fragment implements OnClickListener,
     mViewZoomOut.setOnClickListener( this );
     mViewZoomReset.setOnClickListener( this );
 
-    XYSeriesRenderer pulseRenderer = new XYSeriesRenderer();
-    pulseRenderer.setDisplayChartValues( true );
-    pulseRenderer.setChartValuesTextSize( 25 );
-    pulseRenderer.setPointStyle( PointStyle.CIRCLE );
-    pulseRenderer.setColor( Color.RED );
-    pulseRenderer.setFillPoints( true );
-    pulseRenderer.setLineWidth( 3 );
     TimeSeries pulseSeries = new TimeSeries( "Saved Pulses" );
     if ( mPulses.size() > 0 )
     {
@@ -202,16 +191,19 @@ public class DaymodeFragment extends Fragment implements OnClickListener,
       }
     }
     mDataset.addSeries( pulseSeries );
-    mRenderer.addSeriesRenderer( pulseRenderer );
 
     /* For the current pulses */
     mCurrentPulseRenderer = new XYSeriesRenderer();
+    
+    XYSeriesRenderer pulseRenderer = new XYSeriesRenderer();
     pulseRenderer.setDisplayChartValues( true );
     pulseRenderer.setChartValuesTextSize( 25 );
-    pulseRenderer.setPointStyle( PointStyle.CIRCLE );
+    pulseRenderer.setPointStyle( PointStyle.DIAMOND );
     pulseRenderer.setColor( Color.RED );
     pulseRenderer.setFillPoints( true );
     pulseRenderer.setLineWidth( 3 );
+    
+    mRenderer.addSeriesRenderer( pulseRenderer );
   }
 
   @Override
@@ -225,37 +217,12 @@ public class DaymodeFragment extends Fragment implements OnClickListener,
     }
   }
 
-  private TimeSeries createNewTimeSeries( final String title, final Date time,
-      final double value, final String item, final int color )
-  {
-    Log.d( TAG, "Create new time series " + title );
-    final TimeSeries series = new TimeSeries( title );
-    series.add( time, value );
-    mSeries.put( item, series );
-    mDataset.addSeries( series );
-    mRenderer.addSeriesRenderer( getSeriesRenderer( color ) );
-
-    return series;
-  }
-
   private void scrollGraph( final long time )
   {
     final double[] limits = new double[] { time - TEN_SEC * mZoomLevel,
         time + TWO_SEC * mZoomLevel, mYAxisMin - mYAxisPadding,
         mYAxisMax + mYAxisPadding };
     mRenderer.setRange( limits );
-  }
-
-  private XYSeriesRenderer getSeriesRenderer( final int color )
-  {
-    final XYSeriesRenderer r = new XYSeriesRenderer();
-    r.setDisplayChartValues( true );
-    r.setChartValuesTextSize( 30 );
-    r.setPointStyle( PointStyle.CIRCLE );
-    r.setColor( color );
-    r.setFillPoints( true );
-    r.setLineWidth( 4 );
-    return r;
   }
 
   @Override

@@ -163,13 +163,11 @@ public class MainActivity extends Activity
     /* Data interface. */
     di = ds.getDataInterface();
 
-    XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
+    //XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
     // MultitouchPlot aprHistoryPlot = (MultitouchPlot)
     // findViewById(R.id.aprHistoryPlot);
-    TextView tv = (TextView) findViewById( R.id.currentPulse );
-
-    mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
-    mainPlot.setResume(true);
+    //TextView tv = (TextView) findViewById( R.id.currentPulse );
+    //mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
   }
 
   @Override
@@ -227,7 +225,9 @@ public class MainActivity extends Activity
   public void onResume()
   {
     super.onResume();
-    mainPlot.setResume(true);
+    XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
+    TextView tv = (TextView) findViewById( R.id.currentPulse );
+    mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
     if ( redrawer != null )
       redrawer.start();
   }

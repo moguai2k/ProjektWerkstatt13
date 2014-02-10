@@ -32,7 +32,7 @@ public class PulsePlot implements PulseChangedListener
   // private MultitouchPlot aprHistoryPlot = null;
   private SimpleXYSeries rollHistorySeries = null;
   private TextView tv = null;
-  private DemoOptimizer dopt = null;
+  private PulseOptimizer dopt = null;
 
   private DataHandler ds = null;
   
@@ -115,8 +115,7 @@ public class PulsePlot implements PulseChangedListener
 
     aprHistoryPlot.redraw();
     
-    dopt = null;
-    dopt = new DemoOptimizer();
+    dopt = new PulseOptimizer();
     dopt.execute();
   }
 
@@ -136,7 +135,7 @@ public class PulsePlot implements PulseChangedListener
   /**
    * pulse optimizer
    */
-  private class DemoOptimizer extends AsyncTask<Void, Integer, String>
+  private class PulseOptimizer extends AsyncTask<Void, Integer, String>
   {
 	public boolean resume = true;
 	  
@@ -197,8 +196,7 @@ public class PulsePlot implements PulseChangedListener
               }
               catch ( InterruptedException e )
               {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            	  //
               }     
             }
           }

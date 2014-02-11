@@ -164,8 +164,7 @@
 	            android:layout_marginTop="@dimen/activity_horizontal_margin"
 	            android:layout_row="1"
 	            android:text="@string/textViewBMRResult"
-	            android:textAppearance="?android:attr/textAppearanceMedium"
-	            android:textColor="@color/green" />
+	            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 	        <TextView
 	            android:id="@+id/labelBMRE"

@@ -31,6 +31,7 @@ public class CalculationActivity extends Activity {
 	int stillLeftCalorie = 0;
 
 	double bmr = 0;
+	double bmre = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,6 @@ public class CalculationActivity extends Activity {
 				MathUtilities.getAge(user.getBirthday()), user.getGender());
 		this.bmr = bmr;
 
-		// setBasalMetabolismCalorie( bmr );
-		setCurrentCalorie(0); // TODO Tore: user.getCalories brauchen wir hier
-								// TODO Tore: speichern pro klick muss dann auch
-								// ren
-
 		double bmi = BMI.getBMI(user.getWeight(), user.getHeight());
 		int bmiColor = BMI.getColorForBMI(bmi);
 		int bmiDescriptionLikeWHO = BMI.getWHODescriptionForBMI(bmi);
@@ -59,7 +55,12 @@ public class CalculationActivity extends Activity {
 									// (Txtview)
 									// BMI nach DGE mit diesem wert hier. Ty.
 
-		double bmre = BMR.getBMRE(bmr, ENERGY_REQUIREMENTS_AS_STUDENT);
+		bmre = BMR.getBMRE(bmr, ENERGY_REQUIREMENTS_AS_STUDENT);
+		
+		// setBasalMetabolismCalorie( bmr );
+		setCurrentCalorie(0); // TODO Tore: user.getCalories brauchen wir hier
+								// TODO Tore: speichern pro klick muss dann auch
+								// ren
 
 		setBMIValue(bmi);
 		setBMIDescription(bmiDescriptionLikeWHO);
@@ -85,6 +86,9 @@ public class CalculationActivity extends Activity {
 	public void setBMIColor(int bmiColor) {
 		TextView textView = (TextView) findViewById(R.id.textViewBMIValue);
 		textView.setTextColor(getResources().getColor(bmiColor));
+
+		TextView textView2 = (TextView) findViewById(R.id.textViewBMIRecommendation);
+		textView2.setTextColor(getResources().getColor(bmiColor));
 	}
 
 	/**
@@ -162,8 +166,8 @@ public class CalculationActivity extends Activity {
 	 */
 
 	private void setCurrentCalorie(int currentCalorie) {
-		int caloriesColor = CalorieCalc
-				.getColorForCalories(bmr, currentCalorie);
+		int caloriesColor = CalorieCalc.getColorForCalories(bmre,
+				currentCalorie);
 		TextView currentValue = (TextView) findViewById(R.id.textViewCurrentValue);
 		currentValue.setTextColor(getResources().getColor(caloriesColor));
 		currentValue.setText(currentCalorie + " kcal");

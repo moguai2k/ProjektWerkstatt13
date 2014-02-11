@@ -70,7 +70,7 @@
     <string name="textViewBMREResult">0</string>
     <string name="textViewBMRResult">0</string>
     <string name="labelBMR">Grundumsatz:</string>
-    <string name="labelBMRE">Grundumsatzenergie:</string>
+    <string name="labelBMRE">Leistungsumsatz:</string>
     <string name="buttonfinished">Fertig</string>
 
     <!-- Day-Mode -->

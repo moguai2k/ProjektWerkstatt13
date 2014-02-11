@@ -33,10 +33,11 @@ public class CalorieCalc {
 		}
 	}
 
-	public static int getColorForCalories(double bmr, double current) {
-		if (bmr + 750 < current) {
+	public static int getColorForCalories(double bmre, double current) {
+		Log.d("bmre", bmre +"   "+current);
+		if (bmre + 750 < (double) current) {
 			return R.color.red;
-		} else if (bmr > (double) current) {
+		} else if (bmre > (double) current) {
 			return R.color.green;
 		} else {
 			return R.color.yellow;

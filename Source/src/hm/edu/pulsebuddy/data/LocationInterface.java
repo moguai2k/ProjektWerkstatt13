@@ -16,7 +16,7 @@ import android.util.Log;
 public class LocationInterface implements OnSharedPreferenceChangeListener {
 	private static final String TAG = "data.location";
 
-	private static final int EXECUTION_DELAY = 60000;
+	private static final int EXECUTION_DELAY = 10000;
 
 	/* The application context */
 	private Context context;

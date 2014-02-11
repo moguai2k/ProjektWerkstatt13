@@ -22,7 +22,6 @@ import org.garret.perst.Storage;
 import org.garret.perst.StorageFactory;
 import org.rrd4j.ConsolFun;
 import org.rrd4j.DsType;
-import org.rrd4j.core.FetchData;
 import org.rrd4j.core.FetchRequest;
 import org.rrd4j.core.RrdDb;
 import org.rrd4j.core.RrdDef;
@@ -32,6 +31,12 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class PerstStorage {
 	private static final String TAG = "perst.storage";
 

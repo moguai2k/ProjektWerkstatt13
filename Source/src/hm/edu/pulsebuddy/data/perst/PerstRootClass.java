@@ -10,6 +10,12 @@ import org.garret.perst.FieldIndex;
 import org.garret.perst.Storage;
 import org.garret.perst.TimeSeries;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class PerstRootClass {
 	public TimeSeries<Pulse> pulses;
 	public TimeSeries<LocationModel> locations;

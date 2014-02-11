@@ -31,12 +31,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class DaymodeFragment extends Fragment implements OnClickListener {
 	private final static String TAG = "Daymode";
-
-	// private static Random RAND = new Random();
 	private static final String TIME = "H:mm:ss";
-
 	private View mViewZoomIn;
 	private View mViewZoomOut;
 	private View mViewZoomReset;
@@ -46,7 +49,6 @@ public class DaymodeFragment extends Fragment implements OnClickListener {
 	private TimeSeries pulseSeries;
 	private double minXRange;
 	private double maxXRange;
-
 	private DataInterface di;
 	private DataHandler dh;
 	private ArrayList<Pulse> mPulses;
@@ -93,13 +95,12 @@ public class DaymodeFragment extends Fragment implements OnClickListener {
 
 		mRenderer.setLabelsColor(Color.BLACK);
 		mRenderer.setAxesColor(Color.BLACK);
-		//mRenderer.setGridColor(Color.rgb(136, 136, 136));
 		mRenderer.setBackgroundColor(Color.WHITE);
 		mRenderer.setApplyBackgroundColor(true);
 
 		mRenderer.setMarginsColor(Color.WHITE);
 		mRenderer.setXLabelsColor(Color.BLACK);
-		mRenderer.setYLabelsColor(0,Color.BLACK);
+		mRenderer.setYLabelsColor(0, Color.BLACK);
 
 		mRenderer.setLegendTextSize(20);
 		mRenderer.setLabelsTextSize(20);
@@ -158,7 +159,7 @@ public class DaymodeFragment extends Fragment implements OnClickListener {
 		}
 		mDataset.addSeries(pulseSeries);
 
-		//graph itself
+		// graph itself
 		XYSeriesRenderer pulseRenderer = new XYSeriesRenderer();
 		pulseRenderer.setDisplayChartValues(true);
 		pulseRenderer.setChartValuesTextSize(25);

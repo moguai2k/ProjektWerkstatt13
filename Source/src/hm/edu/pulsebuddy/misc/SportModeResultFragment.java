@@ -19,6 +19,10 @@ import android.widget.TextView;
 /**
  * A dummy fragment representing a section of the app, but that simply displays
  * dummy text.
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
  */
 public class SportModeResultFragment extends Fragment {
 	/**
@@ -96,63 +100,6 @@ public class SportModeResultFragment extends Fragment {
 			tableRowValue.addView(resultValue);
 
 			table.addView(tableRowValue);
-
 		}
-
-		// TableRow tableRowValues = new TableRow( getActivity() );
-		//
-		// // date values
-		// TextView dateValues = new TextView( getActivity() );
-		// dateValues.setText( 01 + ".12.2013" );
-		// dateValues.setPadding( 0, 0, 40, 0 );
-		// dateValues.setTextSize( 16 );
-		//
-		// Random r = new Random();
-		// int dummySportTestValue = r.nextInt( 30 - 5 ) + 5;
-		//
-		// // result values
-		// TextView resultValues = new TextView( getActivity() );
-		// resultValues.setText( dummySportTestValue + "" );
-		// resultValues.setTextSize( 16 );
-		//
-		// tableRowValues.addView( dateHeading, 1 );
-		// tableRowValues.addView( resultHeading, 2 );
-		//
-		// table.addView( tableRowValues, 1 );
-
-		// // TableRow tableRow = (TableRow) getActivity().findViewById(
-		// // R.id.tableRowResult );
-		//
-		// // add heading
-		// TableRow row = new TableRow( getActivity() );
-		// // TableRow.LayoutParams lp = new TableRow.LayoutParams(
-		// // TableRow.LayoutParams.WRAP_CONTENT );
-		// // row.setLayoutParams( lp );
-		//
-		// TextView dateValue = new TextView( getActivity() );
-		// dateValue.setText( "Datum 2" );
-		// row.addView( dateValue );
-		//
-		// // TextView headingResult = new TextView( getActivity() );
-		// // headingDate.setText( "Ergebnis" );
-		// // row.addView( headingResult );
-		//
-		// table.addView( row );
-		//
-		// // for ( int i = 1; i < 3; i++ )
-		// // {
-		// //
-		// // TableRow rowValue = new TableRow( getActivity() );
-		// // TableRow.LayoutParams lpValue = new TableRow.LayoutParams(
-		// // TableRow.LayoutParams.WRAP_CONTENT );
-		// // rowValue.setLayoutParams( lpValue );
-		// //
-		// // TextView qty = new TextView( getActivity() );
-		// // qty.setText( "10" );
-		// // rowValue.addView( qty );
-		// //
-		// // table.addView( rowValue, i );
-		// // }
-
 	}
 }

@@ -8,6 +8,12 @@ import java.util.Date;
 
 import org.garret.perst.Persistent;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class UserModel extends Persistent {
 	public static final int intIndex = 1;
 

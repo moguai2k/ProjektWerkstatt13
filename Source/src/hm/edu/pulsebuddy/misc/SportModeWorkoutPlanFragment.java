@@ -14,6 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class SportModeWorkoutPlanFragment extends Fragment {
 	/**
 	 * The fragment argument representing the section number for this fragment.
@@ -40,7 +46,6 @@ public class SportModeWorkoutPlanFragment extends Fragment {
 		return view;
 	}
 
-	// TODO @Tore: Dummy Daten mit echten Daten ersetzten
 	public void createData() {
 
 		for (int j = 0; j < 6; j++) {

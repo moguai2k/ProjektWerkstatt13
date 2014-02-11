@@ -15,6 +15,12 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class SportModeWorkoutPlanAdapter extends BaseExpandableListAdapter {
 
 	private final SparseArray<SportModeWorkoutPlanData> groups;
@@ -23,14 +29,9 @@ public class SportModeWorkoutPlanAdapter extends BaseExpandableListAdapter {
 
 	public SportModeWorkoutPlanAdapter(Fragment act,
 			SparseArray<SportModeWorkoutPlanData> groups) {
-		// TODO "activity" verwenden anstatt weiter unten act.getAct...
 		activity = act.getActivity();
 		this.groups = groups;
 
-		// TODO @Josef: Problem ist das im original Code im Konstruktor kein
-		// Fragment übergeben wird sondern ein Activity jedoch handelt es sich
-		// bei
-		// ...WOrkoutPlanFragment um ein Fragment
 		inflater = (LayoutInflater) act.getActivity().getApplicationContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

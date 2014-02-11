@@ -22,402 +22,367 @@ import android.util.Log;
 /**
  * Service for managing connection and data communication with a GATT server
  * hosted on a given Bluetooth LE device.
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
  */
-public class BluetoothLeService extends Service
-{
-  private final static String TAG = "BLEService";
+public class BluetoothLeService extends Service {
+	private final static String TAG = "BLEService";
 
-  private BluetoothManager mBluetoothManager;
-  private BluetoothAdapter mBluetoothAdapter;
-  private String mBluetoothDeviceAddress;
-  private BluetoothDevice mBluetoothDevice;
-  private BluetoothGatt mBluetoothGatt;
+	private BluetoothManager mBluetoothManager;
+	private BluetoothAdapter mBluetoothAdapter;
+	private String mBluetoothDeviceAddress;
+	private BluetoothDevice mBluetoothDevice;
+	private BluetoothGatt mBluetoothGatt;
 
-  /* GATT characteristic for the heart rate. */
-  private BluetoothGattCharacteristic hrCharacteristic;
+	/* GATT characteristic for the heart rate. */
+	private BluetoothGattCharacteristic hrCharacteristic;
 
-  private static final int STATE_DISCONNECTED = 0;
-  private static final int STATE_CONNECTING = 1;
-  private static final int STATE_CONNECTED = 2;
+	private static final int STATE_DISCONNECTED = 0;
+	private static final int STATE_CONNECTING = 1;
+	private static final int STATE_CONNECTED = 2;
 
-  private int mConnectionState = STATE_DISCONNECTED;
+	private int mConnectionState = STATE_DISCONNECTED;
 
-  public final static String ACTION_GATT_CONNECTED = "hm.edu.pulsebuddy.ble.ACTION_GATT_CONNECTED";
-  public final static String ACTION_GATT_DISCONNECTED = "hm.edu.pulsebuddy.ble.ACTION_GATT_DISCONNECTED";
-  public final static String ACTION_GATT_SERVICES_DISCOVERED = "hm.edu.pulsebuddy.ble.ACTION_GATT_SERVICES_DISCOVERED";
-  public final static String ACTION_DATA_AVAILABLE = "hm.edu.pulsebuddy.ble.ACTION_DATA_AVAILABLE";
-  
-  public final static String HR_NOTIFICATION_SUCCESS = "hm.edu.pulsebuddy.ble.HR_NOTIFICATION_SUCCESS";
-  public final static String HR_NOTIFICATION_FAIL = "hm.edu.pulsebuddy.ble.HR_NOTIFICATION_FAIL";
-  
-  public final static String EXTRA_DATA = "hm.edu.pulsebuddy.ble.EXTRA_DATA";
+	public final static String ACTION_GATT_CONNECTED = "hm.edu.pulsebuddy.ble.ACTION_GATT_CONNECTED";
+	public final static String ACTION_GATT_DISCONNECTED = "hm.edu.pulsebuddy.ble.ACTION_GATT_DISCONNECTED";
+	public final static String ACTION_GATT_SERVICES_DISCOVERED = "hm.edu.pulsebuddy.ble.ACTION_GATT_SERVICES_DISCOVERED";
+	public final static String ACTION_DATA_AVAILABLE = "hm.edu.pulsebuddy.ble.ACTION_DATA_AVAILABLE";
 
-  /**
-   * Implements callback methods for GATT events that the app cares about. For
-   * example, connection change and services discovered.
-   */
-  private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback()
-  {
-    
-    @Override
-    public void onConnectionStateChange( BluetoothGatt gatt, int status,
-        int newState )
-    {
-      String intentAction;
-      
-      Log.d(TAG, "GATT onConnectionStateChange, new state " + newState );
-      
-      if ( newState == BluetoothProfile.STATE_CONNECTED )
-      {
-        intentAction = ACTION_GATT_CONNECTED;
-        mConnectionState = STATE_CONNECTED;
-        Log.i( TAG, "Connected to GATT server." );
-        broadcastUpdate( intentAction );
+	public final static String HR_NOTIFICATION_SUCCESS = "hm.edu.pulsebuddy.ble.HR_NOTIFICATION_SUCCESS";
+	public final static String HR_NOTIFICATION_FAIL = "hm.edu.pulsebuddy.ble.HR_NOTIFICATION_FAIL";
 
-        Log.i( TAG, "Starting service discovery" );
-        mBluetoothGatt.discoverServices();
-      }
-      else if ( newState == BluetoothProfile.STATE_DISCONNECTED )
-      {
-        intentAction = ACTION_GATT_DISCONNECTED;
-        mConnectionState = STATE_DISCONNECTED;
-        Log.i( TAG, "Disconnected from GATT server." );
-        broadcastUpdate( intentAction );
-      }
-    }
+	public final static String EXTRA_DATA = "hm.edu.pulsebuddy.ble.EXTRA_DATA";
 
-    @Override
-    public void onServicesDiscovered( BluetoothGatt gatt, int status )
-    {
-      if ( status == BluetoothGatt.GATT_SUCCESS )
-      {
-        Log.i( TAG, "Finished service discovery" );
+	/**
+	 * Implements callback methods for GATT events that the app cares about. For
+	 * example, connection change and services discovered.
+	 */
+	private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
 
-        BluetoothGattService service = mBluetoothGatt
-            .getService( DeviceControl.HR_SERVICE_UUID );
-        if ( service != null )
-        {
-          BluetoothGattCharacteristic hrChar = service
-              .getCharacteristic( DeviceControl.HR_CHAR_UUID );
-          if ( hrChar != null )
-          {
-            hrCharacteristic = hrChar;
-            setCharacteristicNotification( true );
-          }
-        }
-        /* After services are discovered. */
-        // getHeartRateService( gatt.getServices() );
-      }
-      else
-      {
-        Log.w( TAG, "onServicesDiscovered received: " + status );
-      }
-    }
+		@Override
+		public void onConnectionStateChange(BluetoothGatt gatt, int status,
+				int newState) {
+			String intentAction;
 
-    @Override
-    public void onCharacteristicRead( BluetoothGatt gatt,
-        BluetoothGattCharacteristic characteristic, int status )
-    {
-      if ( status == BluetoothGatt.GATT_SUCCESS )
-      {
-        broadcastUpdate( ACTION_DATA_AVAILABLE, characteristic );
-      }
-    }
+			Log.d(TAG, "GATT onConnectionStateChange, new state " + newState);
 
-    @Override
-    public void onCharacteristicChanged( BluetoothGatt gatt,
-        BluetoothGattCharacteristic characteristic )
-    {
-      broadcastUpdate( ACTION_DATA_AVAILABLE, characteristic );
-    }
-  };
+			if (newState == BluetoothProfile.STATE_CONNECTED) {
+				intentAction = ACTION_GATT_CONNECTED;
+				mConnectionState = STATE_CONNECTED;
+				Log.i(TAG, "Connected to GATT server.");
+				broadcastUpdate(intentAction);
 
-  /**
-   * Broadcast an update with a identifier String.
-   * 
-   * @param action
-   *          The action.
-   */
-  private void broadcastUpdate( final String action )
-  {
-    final Intent intent = new Intent( action );
-    sendBroadcast( intent );
-  }
+				Log.i(TAG, "Starting service discovery");
+				mBluetoothGatt.discoverServices();
+			} else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+				intentAction = ACTION_GATT_DISCONNECTED;
+				mConnectionState = STATE_DISCONNECTED;
+				Log.i(TAG, "Disconnected from GATT server.");
+				broadcastUpdate(intentAction);
+			}
+		}
 
-  /**
-   * Broadcast an update with a identifier String and a Gatt characteristic.
-   * Currently this only handles heart rates.
-   * 
-   * @param action
-   *          The action.
-   * @param characteristic
-   *          The Gatt characteristic.
-   */
-  private void broadcastUpdate( final String action,
-      final BluetoothGattCharacteristic characteristic )
-  {
-    final Intent intent = new Intent( action );
+		@Override
+		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+			if (status == BluetoothGatt.GATT_SUCCESS) {
+				Log.i(TAG, "Finished service discovery");
 
-    /* This is special handling for the Heart Rate Measurement profile. Data
-     * parsing is carried out as per profile specifications:
-     * http://developer.bluetooth
-     * .org/gatt/characteristics/Pages/CharacteristicViewer
-     * .aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml */
-    if ( DeviceControl.HR_CHAR_UUID.equals( characteristic.getUuid() ) )
-    {
-      int flag = characteristic.getProperties();
-      int format = -1;
-      if ( ( flag & 0x01 ) != 0 )
-      {
-        format = BluetoothGattCharacteristic.FORMAT_UINT16;
-        // Log.d( TAG, "Heart rate format UINT16." );
-      }
-      else
-      {
-        format = BluetoothGattCharacteristic.FORMAT_UINT8;
-        // Log.d( TAG, "Heart rate format UINT8." );
-      }
-      int heartRate = characteristic.getIntValue( format, 1 );
-      intent.putExtra( EXTRA_DATA, heartRate );
-    }
-    else
-    {
-      Log.e( TAG, "Format currently not supported: " + characteristic.getUuid() );
-      return;
-    }
-    /* Broadcast the intent. */
-    sendBroadcast( intent );
-  }
+				BluetoothGattService service = mBluetoothGatt
+						.getService(DeviceControl.HR_SERVICE_UUID);
+				if (service != null) {
+					BluetoothGattCharacteristic hrChar = service
+							.getCharacteristic(DeviceControl.HR_CHAR_UUID);
+					if (hrChar != null) {
+						hrCharacteristic = hrChar;
+						setCharacteristicNotification(true);
+					}
+				}
+				/* After services are discovered. */
+				// getHeartRateService( gatt.getServices() );
+			} else {
+				Log.w(TAG, "onServicesDiscovered received: " + status);
+			}
+		}
 
-  /**
-   * Local binder.
-   * 
-   * @author toffermann
-   * 
-   */
-  public class LocalBinder extends Binder
-  {
-    BluetoothLeService getService()
-    {
-      return BluetoothLeService.this;
-    }
-  }
+		@Override
+		public void onCharacteristicRead(BluetoothGatt gatt,
+				BluetoothGattCharacteristic characteristic, int status) {
+			if (status == BluetoothGatt.GATT_SUCCESS) {
+				broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+			}
+		}
 
-  @Override
-  public IBinder onBind( Intent intent )
-  {
-    return mBinder;
-  }
+		@Override
+		public void onCharacteristicChanged(BluetoothGatt gatt,
+				BluetoothGattCharacteristic characteristic) {
+			broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+		}
+	};
 
-  @Override
-  public boolean onUnbind( Intent intent )
-  {
-    /* After using a given device, you should make sure that
-     * BluetoothGatt.close() is called such that resources are cleaned up
-     * properly. In this particular example, close() is invoked when the UI is
-     * disconnected from the Service. */
-    close();
-    return super.onUnbind( intent );
-  }
+	/**
+	 * Broadcast an update with a identifier String.
+	 * 
+	 * @param action
+	 *            The action.
+	 */
+	private void broadcastUpdate(final String action) {
+		final Intent intent = new Intent(action);
+		sendBroadcast(intent);
+	}
 
-  private final IBinder mBinder = new LocalBinder();
+	/**
+	 * Broadcast an update with a identifier String and a Gatt characteristic.
+	 * Currently this only handles heart rates.
+	 * 
+	 * @param action
+	 *            The action.
+	 * @param characteristic
+	 *            The Gatt characteristic.
+	 */
+	private void broadcastUpdate(final String action,
+			final BluetoothGattCharacteristic characteristic) {
+		final Intent intent = new Intent(action);
 
-  /**
-   * Initializes a reference to the local Bluetooth adapter.
-   * 
-   * @return Return true if the initialization is successful.
-   */
-  public boolean initialize()
-  {
-    /* For API level 18 and above, get a reference to BluetoothAdapter through
-     * BluetoothManager. */
-    if ( mBluetoothManager == null )
-    {
-      mBluetoothManager = (BluetoothManager) getSystemService( Context.BLUETOOTH_SERVICE );
-      if ( mBluetoothManager == null )
-      {
-        Log.e( TAG, "Unable to initialize BluetoothManager." );
-        return false;
-      }
-    }
+		/*
+		 * This is special handling for the Heart Rate Measurement profile. Data
+		 * parsing is carried out as per profile specifications:
+		 * http://developer.bluetooth
+		 * .org/gatt/characteristics/Pages/CharacteristicViewer
+		 * .aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
+		 */
+		if (DeviceControl.HR_CHAR_UUID.equals(characteristic.getUuid())) {
+			int flag = characteristic.getProperties();
+			int format = -1;
+			if ((flag & 0x01) != 0) {
+				format = BluetoothGattCharacteristic.FORMAT_UINT16;
+				// Log.d( TAG, "Heart rate format UINT16." );
+			} else {
+				format = BluetoothGattCharacteristic.FORMAT_UINT8;
+				// Log.d( TAG, "Heart rate format UINT8." );
+			}
+			int heartRate = characteristic.getIntValue(format, 1);
+			intent.putExtra(EXTRA_DATA, heartRate);
+		} else {
+			Log.e(TAG,
+					"Format currently not supported: "
+							+ characteristic.getUuid());
+			return;
+		}
+		/* Broadcast the intent. */
+		sendBroadcast(intent);
+	}
 
-    mBluetoothAdapter = mBluetoothManager.getAdapter();
-    if ( mBluetoothAdapter == null )
-    {
-      Log.e( TAG, "Unable to obtain a BluetoothAdapter." );
-      return false;
-    }
+	/**
+	 * Local binder.
+	 * 
+	 * @author toffermann
+	 * 
+	 */
+	public class LocalBinder extends Binder {
+		BluetoothLeService getService() {
+			return BluetoothLeService.this;
+		}
+	}
 
-    Log.d( TAG, "Initialized BLE service." );
-    return true;
-  }
+	@Override
+	public IBinder onBind(Intent intent) {
+		return mBinder;
+	}
 
-  /**
-   * Connects to the GATT server hosted on the Bluetooth LE device.
-   * 
-   * @param address
-   *          The device address of the destination device.
-   * 
-   * @return Return true if the connection is initiated successfully. The
-   *         connection result is reported asynchronously through the
-   *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
-   *         callback.
-   */
-  public boolean connect( final String address )
-  {
-    if ( mBluetoothAdapter == null || address == null )
-    {
-      Log.w( TAG, "BluetoothAdapter not initialized or unspecified address." );
-      return false;
-    }
+	@Override
+	public boolean onUnbind(Intent intent) {
+		/*
+		 * After using a given device, you should make sure that
+		 * BluetoothGatt.close() is called such that resources are cleaned up
+		 * properly. In this particular example, close() is invoked when the UI
+		 * is disconnected from the Service.
+		 */
+		close();
+		return super.onUnbind(intent);
+	}
 
-    /* Previously connected device. Try to reconnect. */
-    if ( mBluetoothDeviceAddress != null
-        && address.equals( mBluetoothDeviceAddress ) && mBluetoothGatt != null )
-    {
-      Log.d( TAG, "Trying to use an existing mBluetoothGatt for connection." );
-      if ( mBluetoothGatt.connect() )
-      {
-        mConnectionState = STATE_CONNECTING;
-        return true;
-      }
-      else
-      {
-        return false;
-      }
-    }
+	private final IBinder mBinder = new LocalBinder();
 
-    final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice( address );
-    if ( device == null )
-    {
-      Log.w( TAG, "Device not found.  Unable to connect." );
-      return false;
-    }
-    Log.d(TAG, "Connecting to device address: " + address );
-    
-    mBluetoothGatt = device.connectGatt( this, false, mGattCallback );
-    mBluetoothDeviceAddress = address;
+	/**
+	 * Initializes a reference to the local Bluetooth adapter.
+	 * 
+	 * @return Return true if the initialization is successful.
+	 */
+	public boolean initialize() {
+		/*
+		 * For API level 18 and above, get a reference to BluetoothAdapter
+		 * through BluetoothManager.
+		 */
+		if (mBluetoothManager == null) {
+			mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+			if (mBluetoothManager == null) {
+				Log.e(TAG, "Unable to initialize BluetoothManager.");
+				return false;
+			}
+		}
 
-    /* Set the device */
-    mBluetoothDevice = device;
-    mConnectionState = STATE_CONNECTING;
+		mBluetoothAdapter = mBluetoothManager.getAdapter();
+		if (mBluetoothAdapter == null) {
+			Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
+			return false;
+		}
 
-    return true;
-  }
+		Log.d(TAG, "Initialized BLE service.");
+		return true;
+	}
 
-  /**
-   * Disconnects an existing connection or cancel a pending connection. The
-   * disconnection result is reported asynchronously through the
-   * {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
-   * callback.
-   */
-  public void disconnect()
-  {
-    if ( mBluetoothAdapter == null || mBluetoothGatt == null )
-    {
-      Log.w( TAG, "BluetoothAdapter not initialized" );
-      return;
-    }
-    mBluetoothGatt.disconnect();
-  }
+	/**
+	 * Connects to the GATT server hosted on the Bluetooth LE device.
+	 * 
+	 * @param address
+	 *            The device address of the destination device.
+	 * 
+	 * @return Return true if the connection is initiated successfully. The
+	 *         connection result is reported asynchronously through the
+	 *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
+	 *         callback.
+	 */
+	public boolean connect(final String address) {
+		if (mBluetoothAdapter == null || address == null) {
+			Log.w(TAG,
+					"BluetoothAdapter not initialized or unspecified address.");
+			return false;
+		}
 
-  /**
-   * After using a given BLE device, the app must call this method to ensure
-   * resources are released properly.
-   */
-  public void close()
-  {
-    if ( mBluetoothGatt == null )
-    {
-      return;
-    }
-    mBluetoothGatt.close();
-    mBluetoothGatt = null;
-  }
+		/* Previously connected device. Try to reconnect. */
+		if (mBluetoothDeviceAddress != null
+				&& address.equals(mBluetoothDeviceAddress)
+				&& mBluetoothGatt != null) {
+			Log.d(TAG,
+					"Trying to use an existing mBluetoothGatt for connection.");
+			if (mBluetoothGatt.connect()) {
+				mConnectionState = STATE_CONNECTING;
+				return true;
+			} else {
+				return false;
+			}
+		}
 
-  /**
-   * Request a read on a given {@code BluetoothGattCharacteristic}. The read
-   * result is reported asynchronously through the
-   * {@code BluetoothGattCallback#onCharacteristicRead(android.bluetooth.BluetoothGatt, android.bluetooth.BluetoothGattCharacteristic, int)}
-   * callback.
-   * 
-   * @param characteristic
-   *          The characteristic to read from.
-   */
-  public void readCharacteristic( BluetoothGattCharacteristic characteristic )
-  {
-    if ( mBluetoothAdapter == null || mBluetoothGatt == null )
-    {
-      Log.w( TAG, "BluetoothAdapter not initialized" );
-      return;
-    }
-    mBluetoothGatt.readCharacteristic( characteristic );
-  }
+		final BluetoothDevice device = mBluetoothAdapter
+				.getRemoteDevice(address);
+		if (device == null) {
+			Log.w(TAG, "Device not found.  Unable to connect.");
+			return false;
+		}
+		Log.d(TAG, "Connecting to device address: " + address);
 
-  /**
-   * Enable/disable the notification for the heart rate.
-   * 
-   * @param enable
-   *          True to enable, false to disable.
-   */
-  public void setCharacteristicNotification( boolean enable )
-  {
-    if ( hrCharacteristic != null && mBluetoothGatt != null )
-    {
-      Log.i( TAG, "HR notificaiton " + enable );
-      if ( enable )
-      {
-        BluetoothGattDescriptor descriptor = hrCharacteristic
-            .getDescriptor( UUID
-                .fromString( DeviceControl.CLIENT_CHARACTERISTIC_CONFIG ) );
+		mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+		mBluetoothDeviceAddress = address;
 
-        if ( descriptor != null )
-        {
-          Boolean success = descriptor
-              .setValue( BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE );
-          Log.i( TAG, "ENABLE_NOTIFICATION_VALUE success " + success );
-          success = mBluetoothGatt.writeDescriptor( descriptor );
-          Log.i( TAG, "Write descriptor success " + success );
-          if ( success )
-            broadcastUpdate( HR_NOTIFICATION_SUCCESS );
-          else
-            broadcastUpdate( HR_NOTIFICATION_FAIL );
-        }
-        else
-          Log.e( TAG, "Error with descriptor." );
+		/* Set the device */
+		mBluetoothDevice = device;
+		mConnectionState = STATE_CONNECTING;
 
-      }
-      mBluetoothGatt.setCharacteristicNotification( hrCharacteristic, enable );
-    }
-  }
+		return true;
+	}
 
-  /**
-   * Retrieves a list of supported GATT services on the connected device. This
-   * should be invoked only after {@code BluetoothGatt#discoverServices()}
-   * completes successfully.
-   * 
-   * @return A {@code List} of supported services.
-   */
-  public List<BluetoothGattService> getSupportedGattServices()
-  {
-    if ( mBluetoothGatt == null )
-    {
-      return null;
-    }
+	/**
+	 * Disconnects an existing connection or cancel a pending connection. The
+	 * disconnection result is reported asynchronously through the
+	 * {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
+	 * callback.
+	 */
+	public void disconnect() {
+		if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+			Log.w(TAG, "BluetoothAdapter not initialized");
+			return;
+		}
+		mBluetoothGatt.disconnect();
+	}
 
-    return mBluetoothGatt.getServices();
-  }
+	/**
+	 * After using a given BLE device, the app must call this method to ensure
+	 * resources are released properly.
+	 */
+	public void close() {
+		if (mBluetoothGatt == null) {
+			return;
+		}
+		mBluetoothGatt.close();
+		mBluetoothGatt = null;
+	}
 
-  /**
-   * Return the connected Bluetooth device.
-   * 
-   * @return The bluetooth device, null otherwise.
-   */
-  public BluetoothDevice getBluetoothDevice()
-  {
-    if ( mConnectionState == STATE_CONNECTED )
-      return mBluetoothDevice;
-    return null;
-  }
+	/**
+	 * Request a read on a given {@code BluetoothGattCharacteristic}. The read
+	 * result is reported asynchronously through the
+	 * {@code BluetoothGattCallback#onCharacteristicRead(android.bluetooth.BluetoothGatt, android.bluetooth.BluetoothGattCharacteristic, int)}
+	 * callback.
+	 * 
+	 * @param characteristic
+	 *            The characteristic to read from.
+	 */
+	public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
+		if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+			Log.w(TAG, "BluetoothAdapter not initialized");
+			return;
+		}
+		mBluetoothGatt.readCharacteristic(characteristic);
+	}
+
+	/**
+	 * Enable/disable the notification for the heart rate.
+	 * 
+	 * @param enable
+	 *            True to enable, false to disable.
+	 */
+	public void setCharacteristicNotification(boolean enable) {
+		if (hrCharacteristic != null && mBluetoothGatt != null) {
+			Log.i(TAG, "HR notificaiton " + enable);
+			if (enable) {
+				BluetoothGattDescriptor descriptor = hrCharacteristic
+						.getDescriptor(UUID
+								.fromString(DeviceControl.CLIENT_CHARACTERISTIC_CONFIG));
+
+				if (descriptor != null) {
+					Boolean success = descriptor
+							.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+					Log.i(TAG, "ENABLE_NOTIFICATION_VALUE success " + success);
+					success = mBluetoothGatt.writeDescriptor(descriptor);
+					Log.i(TAG, "Write descriptor success " + success);
+					if (success)
+						broadcastUpdate(HR_NOTIFICATION_SUCCESS);
+					else
+						broadcastUpdate(HR_NOTIFICATION_FAIL);
+				} else
+					Log.e(TAG, "Error with descriptor.");
+
+			}
+			mBluetoothGatt.setCharacteristicNotification(hrCharacteristic,
+					enable);
+		}
+	}
+
+	/**
+	 * Retrieves a list of supported GATT services on the connected device. This
+	 * should be invoked only after {@code BluetoothGatt#discoverServices()}
+	 * completes successfully.
+	 * 
+	 * @return A {@code List} of supported services.
+	 */
+	public List<BluetoothGattService> getSupportedGattServices() {
+		if (mBluetoothGatt == null) {
+			return null;
+		}
+
+		return mBluetoothGatt.getServices();
+	}
+
+	/**
+	 * Return the connected Bluetooth device.
+	 * 
+	 * @return The bluetooth device, null otherwise.
+	 */
+	public BluetoothDevice getBluetoothDevice() {
+		if (mConnectionState == STATE_CONNECTED)
+			return mBluetoothDevice;
+		return null;
+	}
 
 }

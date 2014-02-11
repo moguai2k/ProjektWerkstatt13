@@ -2,6 +2,12 @@ package hm.edu.pulsebuddy.math;
 
 import hm.edu.pulsebuddy.common.Gender;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class ConconiTest {
 	/**
 	 * 

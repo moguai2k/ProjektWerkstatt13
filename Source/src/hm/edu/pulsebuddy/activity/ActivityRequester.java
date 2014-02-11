@@ -22,6 +22,12 @@ import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailed
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.ActivityRecognitionClient;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class ActivityRequester implements ConnectionCallbacks,
 		OnConnectionFailedListener {
 	private static final String TAG = "activity.activityRequester";

@@ -11,8 +11,11 @@ import hm.edu.pulsebuddy.common.Gender;
  * WHO-BMI ------ getWHODescriptionForBMI( bmiValue )
  * 
  * DGI-BMI ------ getDGEDescriptionForBMI( bmiValue, userGender )
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
  */
-
 public class BMI {
 	/**
 	 * 

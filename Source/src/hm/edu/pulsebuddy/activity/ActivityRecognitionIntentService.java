@@ -1,8 +1,9 @@
 package hm.edu.pulsebuddy.activity;
 
+import hm.edu.pulsebuddy.data.models.ActivityModel;
+
 import java.util.Date;
 
-import hm.edu.pulsebuddy.data.models.ActivityModel;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -10,6 +11,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class ActivityRecognitionIntentService extends IntentService {
 	@SuppressWarnings("unused")
 	private static final String TAG = "activity.recognitionService";

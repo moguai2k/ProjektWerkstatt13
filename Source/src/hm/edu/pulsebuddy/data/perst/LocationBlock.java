@@ -4,6 +4,12 @@ import hm.edu.pulsebuddy.data.models.LocationModel;
 
 import org.garret.perst.TimeSeries;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class LocationBlock extends TimeSeries.Block {
 	private LocationModel[] locations;
 

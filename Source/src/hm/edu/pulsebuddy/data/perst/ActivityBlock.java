@@ -4,6 +4,12 @@ import hm.edu.pulsebuddy.data.models.ActivityModel;
 
 import org.garret.perst.TimeSeries;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class ActivityBlock extends TimeSeries.Block {
 	private ActivityModel[] activities;
 

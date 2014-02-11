@@ -5,6 +5,12 @@ import java.util.Date;
 
 import org.garret.perst.TimeSeries;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class ActivityModel implements Serializable, TimeSeries.Tick {
 	/**
 	 * UID

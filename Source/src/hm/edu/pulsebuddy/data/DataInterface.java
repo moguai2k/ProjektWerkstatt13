@@ -17,6 +17,12 @@ import java.util.List;
 
 import android.util.Log;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class DataInterface implements ActivityListener {
 	private static final String TAG = "data.interface";
 

@@ -7,8 +7,11 @@ import hm.edu.pulsebuddy.common.Gender;
  * 
  * getBRM( weight, height, age, Gender gender )
  * 
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
  */
-
 public class BMR {
 	/**
 	 * 

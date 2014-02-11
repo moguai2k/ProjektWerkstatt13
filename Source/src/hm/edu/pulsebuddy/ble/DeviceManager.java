@@ -2,6 +2,12 @@ package hm.edu.pulsebuddy.ble;
 
 import android.content.Context;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class DeviceManager {
 	private static DeviceControl deviceControl;
 

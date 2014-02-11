@@ -31,6 +31,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class MapsActivity extends Activity implements ActivityListener {
 	static final LatLng MUNICH = new LatLng(48.133, 11.566);
 	private GoogleMap map;

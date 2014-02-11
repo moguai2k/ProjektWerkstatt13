@@ -5,6 +5,10 @@ import hm.edu.pulsebuddy.data.models.LocationModel;
 /**
  * Utility class for the location services. Contains specific settings and and
  * constants.
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
  */
 public final class LocationUtils {
 

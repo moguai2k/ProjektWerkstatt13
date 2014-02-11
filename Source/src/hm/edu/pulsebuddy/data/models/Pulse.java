@@ -5,6 +5,12 @@ import java.util.Date;
 
 import org.garret.perst.TimeSeries;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class Pulse implements TimeSeries.Tick, Serializable {
 	/**
 	 * UID

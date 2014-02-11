@@ -23,12 +23,17 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYStepMode;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class PulsePlot implements PulseChangedListener {
 	private Redrawer redrawer;
 	private static final int SECONDS = 240;
 	private static final int PULSE = 160;
 	private XYPlot aprHistoryPlot = null;
-	// private MultitouchPlot aprHistoryPlot = null;
 	private SimpleXYSeries rollHistorySeries = null;
 	private TextView tv = null;
 	private PulseOptimizer dopt = null;
@@ -41,8 +46,6 @@ public class PulsePlot implements PulseChangedListener {
 	private double nextPulse = 0;
 
 	public PulsePlot(XYPlot aprHistoryPlot, TextView tv, Redrawer redrawer) {
-		// public PulsePlot(MultitouchPlot aprHistoryPlot, TextView tv, Redrawer
-		// redrawer) {
 		this.aprHistoryPlot = aprHistoryPlot;
 		this.tv = tv;
 		this.redrawer = redrawer;
@@ -58,6 +61,7 @@ public class PulsePlot implements PulseChangedListener {
 		rollHistorySeries = new SimpleXYSeries("Puls");
 		rollHistorySeries.useImplicitXVals();
 
+		// cosmetic
 		aprHistoryPlot.setDrawDomainOriginEnabled(false);
 		aprHistoryPlot.setBackgroundPaint(null);
 		aprHistoryPlot.getGraphWidget().setBackgroundPaint(null);
@@ -66,15 +70,7 @@ public class PulsePlot implements PulseChangedListener {
 		aprHistoryPlot.getGraphWidget().setDomainOriginLabelPaint(null);
 		aprHistoryPlot.getGraphWidget().setDomainGridLinePaint(null);
 		aprHistoryPlot.getGraphWidget().setDomainOriginLinePaint(null);
-		// aprHistoryPlot.getGraphWidget().setRangeOriginLinePaint( null );
-
-		// aprHistoryPlot.getGraphWidget().setTicksPerRangeLabel( 2 ); 1 ... 3
-		// ... 5
 		aprHistoryPlot.getGraphWidget().setRangeLabelWidth(50);
-
-		// aprHistoryPlot.getGraphWidget().setRangeLabelPaint(null);
-		// aprHistoryPlot.getGraphWidget().setRangeGridLinePaint(null);
-
 		aprHistoryPlot.getGraphWidget().getRangeOriginLinePaint() // lines
 				.setColor(Color.rgb(192, 192, 192));
 		aprHistoryPlot.getGraphWidget().getRangeOriginLabelPaint() // label/line
@@ -82,16 +78,13 @@ public class PulsePlot implements PulseChangedListener {
 				.setColor(Color.rgb(192, 192, 192));
 		aprHistoryPlot.getGraphWidget().getRangeLabelPaint() // labeles
 				.setColor(Color.rgb(192, 192, 192));
-
 		aprHistoryPlot.setRangeBoundaries(25, PULSE, BoundaryMode.FIXED);
 		aprHistoryPlot.setDomainBoundaries(0, SECONDS, BoundaryMode.FIXED);
-
 		LineAndPointFormatter lineAndPointFormatter = new LineAndPointFormatter(
 				Color.rgb(204, 0, 0), null, null, null);
 		Paint paint = lineAndPointFormatter.getLinePaint();
 		paint.setStrokeWidth(12);
 		lineAndPointFormatter.setLinePaint(paint);
-
 		aprHistoryPlot.addSeries(rollHistorySeries, lineAndPointFormatter);
 		aprHistoryPlot.setDomainStepMode(XYStepMode.INCREMENT_BY_VAL);
 		aprHistoryPlot.setDomainStepValue(SECONDS / 6);
@@ -99,14 +92,13 @@ public class PulsePlot implements PulseChangedListener {
 		aprHistoryPlot.setRangeStepValue(10.0d);
 		aprHistoryPlot.setRangeValueFormat(new DecimalFormat("#"));
 		aprHistoryPlot.setDomainValueFormat(new DecimalFormat("#"));
-
 		aprHistoryPlot.getDomainLabelWidget().pack();
 		aprHistoryPlot.setRangeLabel("Puls");
 		aprHistoryPlot.getRangeLabelWidget().pack();
-
 		aprHistoryPlot.getLayoutManager().remove(
 				aprHistoryPlot.getLegendWidget());
 
+		// start drawing
 		redrawer = new Redrawer(Arrays.asList(new Plot[] { aprHistoryPlot }),
 				100, false);
 		redrawer.start();

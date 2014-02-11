@@ -15,12 +15,15 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class CalculationActivity extends Activity {
 	private DataInterface di;
 	private UserModel user;
-	// TODO Josef, brauchen in Kalibrierung eine Angabe an Aktivit�t, siehe
-	// Technisches Konzept Grundumsatzenergie
-	// TODO Tore muss diese Activit�t in der DB speichern
 	final static double ENERGY_REQUIREMENTS_AS_STUDENT = 1.3;
 
 	ImageButton imageButtonAppetizer;
@@ -51,16 +54,12 @@ public class CalculationActivity extends Activity {
 		int bmiColor = BMI.getColorForBMI(bmi);
 		int bmiDescriptionLikeWHO = BMI.getWHODescriptionForBMI(bmi);
 		int bmiDescriptionLikeDGE = BMI.getDGEDescriptionForBMI(bmi,
-				user.getGender()); // TODO Josef noch nen zweiten BMI einbauen
-									// (Txtview)
-									// BMI nach DGE mit diesem wert hier. Ty.
+				user.getGender());
 
 		bmre = BMR.getBMRE(bmr, ENERGY_REQUIREMENTS_AS_STUDENT);
-		
+
 		// setBasalMetabolismCalorie( bmr );
-		setCurrentCalorie(0); // TODO Tore: user.getCalories brauchen wir hier
-								// TODO Tore: speichern pro klick muss dann auch
-								// ren
+		setCurrentCalorie(0);
 
 		setBMIValue(bmi);
 		setBMIDescription(bmiDescriptionLikeWHO);

@@ -1,8 +1,14 @@
 package hm.edu.pulsebuddy.math;
 
-import android.util.Log;
 import hm.edu.pulsebuddy.R;
+import android.util.Log;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class CalorieCalc {
 
 	public void addCalories(int calories) {
@@ -34,7 +40,7 @@ public class CalorieCalc {
 	}
 
 	public static int getColorForCalories(double bmre, double current) {
-		Log.d("bmre", bmre +"   "+current);
+		Log.d("bmre", bmre + "   " + current);
 		if (bmre + 750 < (double) current) {
 			return R.color.red;
 		} else if (bmre > (double) current) {

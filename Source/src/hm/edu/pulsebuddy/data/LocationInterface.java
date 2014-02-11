@@ -13,6 +13,12 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class LocationInterface implements OnSharedPreferenceChangeListener {
 	private static final String TAG = "data.location";
 

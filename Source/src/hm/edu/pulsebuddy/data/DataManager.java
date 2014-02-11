@@ -2,6 +2,12 @@ package hm.edu.pulsebuddy.data;
 
 import android.content.Context;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class DataManager {
 	private static DataHandler _instance;
 	private static DataInterface _dataInterface;

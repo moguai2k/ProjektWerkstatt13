@@ -18,6 +18,12 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class DataHandler implements OnSharedPreferenceChangeListener,
 		ActivityChangedListener {
 	private final static String TAG = "data.handler";

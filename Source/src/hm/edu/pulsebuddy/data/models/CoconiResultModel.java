@@ -4,6 +4,12 @@ import java.util.Date;
 
 import org.garret.perst.Persistent;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class CoconiResultModel extends Persistent {
 	public int _id;
 

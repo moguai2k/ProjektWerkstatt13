@@ -8,7 +8,6 @@ import hm.edu.pulsebuddy.data.DataHandler;
 import hm.edu.pulsebuddy.data.DataInterface;
 import hm.edu.pulsebuddy.data.DataManager;
 import hm.edu.pulsebuddy.graph.DaymodeActivity;
-import hm.edu.pulsebuddy.graph.GraphDayActivity;
 import hm.edu.pulsebuddy.graph.PulsePlot;
 import hm.edu.pulsebuddy.misc.CalculationActivity;
 import hm.edu.pulsebuddy.misc.CalibrationActivity;
@@ -38,6 +37,12 @@ import android.widget.Toast;
 import com.androidplot.util.Redrawer;
 import com.androidplot.xy.XYPlot;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class MainActivity extends Activity {
 
 	private final static String TAG = BluetoothLeService.class.getSimpleName();
@@ -56,8 +61,6 @@ public class MainActivity extends Activity {
 
 	private DataHandler ds = null;
 	private DataInterface di = null;
-
-	@SuppressWarnings("unused")
 	private DeviceControl dc = null;
 
 	@Override
@@ -65,7 +68,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-		// ThreadControl tControl = new ThreadControl();
 
 		mMenuTitles = getResources().getStringArray(R.array.menu_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -95,12 +97,6 @@ public class MainActivity extends Activity {
 				case 1:
 					Intent sportMode = new Intent(MainActivity.this,
 							SportModeActivity.class);
-
-					// TODO @Team: Fall unterscheidung notwendig: Falls sport
-					// test
-					// bereits durchgefühgt wurde dann zum Trainingsplan Tab
-					// springen
-					// falls nicht dann zum Sport Test Tab (erster Tab) springen
 
 					startActivity(sportMode);
 					mDrawerLayout.closeDrawers();
@@ -157,12 +153,6 @@ public class MainActivity extends Activity {
 
 		/* Data interface. */
 		di = ds.getDataInterface();
-
-		// XYPlot aprHistoryPlot = (XYPlot) findViewById( R.id.aprHistoryPlot );
-		// MultitouchPlot aprHistoryPlot = (MultitouchPlot)
-		// findViewById(R.id.aprHistoryPlot);
-		// TextView tv = (TextView) findViewById( R.id.currentPulse );
-		// mainPlot = new PulsePlot( aprHistoryPlot, tv, redrawer );
 	}
 
 	@Override
@@ -229,8 +219,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onPause() {
 		if (redrawer != null) {
-			// redrawer.pause();
-			redrawer.finish();
+			redrawer.finish(); //!
 			redrawer = null;
 		}
 		mainPlot.setResume(false);

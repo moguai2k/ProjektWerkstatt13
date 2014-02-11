@@ -4,6 +4,12 @@ import hm.edu.pulsebuddy.data.models.Pulse;
 
 import org.garret.perst.TimeSeries;
 
+/**
+ * 
+ * @author Christoph Friegel
+ * @author Tore Offermann
+ * 
+ */
 public class PulseBlock extends TimeSeries.Block {
 	private Pulse[] pulses;
 

@@ -11,7 +11,7 @@ public class StorageLogic {
 	private Context context;
 
 	/* Pulse part. */
-	private int pulseOffsetToSave = 5;
+	private int pulseOffsetToSave = 2;
 	private int lastPulseValue;
 
 	/* Activity part */
